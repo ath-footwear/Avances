@@ -184,12 +184,13 @@ try{
                                         }
                                     %>
                                 </select>
-                            </div>  
-                        </div>
-                        <div class="row"><br>
-                            <div class="col-sm-2">
+                            </div>
+                                <div class="col-sm-2">
                                 <label class="ln">Lote</label><input class="form-control" type="text" name="lote" id="lote" onchange="salto()" maxlength="6" required value="<%=pro.getLote()%>">
                             </div>
+                        </div>
+                        <div class="row"><br>
+                            
                             <div class="col-sm-2">
                                 <label class="ln">Estilo</label><input class="form-control" type="text" name="estilo" id="estilo" onchange="salto1()" maxlength="6" required value="<%=pro.getEstilo()%>">
                             </div>
@@ -202,7 +203,7 @@ try{
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-8">
-                                        <input type="text" class="form-control" id="corrida" name="corrida" onchange="salto7()" maxlength="2" required value="<%=pro.getCorrida()%>"><br>
+                                        <input type="text" class="form-control" id="corrida" name="corrida" onchange="salto31()" maxlength="2" required value="<%=pro.getCorrida()%>"><br>
                                     </div>
                                     <div class="col-xs-4">
                                         <select class="form-control" id="corri" name="corri" onclick="salto3()">
@@ -213,6 +214,9 @@ try{
                                         </select>
                                     </div>
                                 </div>
+                            </div>
+                                    <div class="col-sm-2">
+                                <label class="ln">Suela</label><input class="form-control" type="text" name="suela" id="suela" onchange="salto7()" maxlength="5" required value="">
                             </div>
                             <div class="col-sm-4">
                                 <div class="row">
@@ -286,6 +290,9 @@ try{
                 document.getElementById("corrida").value = $('#corri').val();
                 document.forma1.corrida.focus();
             }
+             function salto31() {
+                document.forma1.suela.focus();
+            }
             function salto4() {
                 document.forma1.mes.focus();
                 validar4();
@@ -299,7 +306,7 @@ try{
             }
             function salto7() {
                 document.forma1.comb.focus();
-                validar5();
+                //validar5();
             }
             function prog() {
                 if (confirm("¿Realmente desea guardar nueva Lote?")) {
@@ -309,10 +316,11 @@ try{
                     var pares = $('#pares').val();
                     var corrida = $('#corrida').val();
                     var combinacion = $('#combinacion').val();
+                    var suela=$('#suela').val();
                     var mes = $('#mes').val();
                     var fechae = $('#fechae').val();
                     var uso = "nuevo";
-
+                    combinacion=suela+'-'+combinacion;
                     $.ajax({
                         type: 'post',
                         data: {f: programa, f1: lote, f2: estilo, f3: pares, f4: corrida, f5: combinacion, f6: mes, f7: fechae, uso: uso},

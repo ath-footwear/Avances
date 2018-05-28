@@ -102,7 +102,7 @@
                         <div align="center"> <br><button class="btn btn-success ln" id="boton" onclick="nprograma()">Aceptar</button> 
                             <button class="btn btn-success ln" id="boton2" onclick="busqueda()">Historial de Lotes</button>
                         <button class="btn btn-success ln" id="boton3" onclick="lotes()">Generar reporte</button></div>
-                         
+                        <button class="btn btn-success ln" id="boton4" onclick="prea()">Reporte preacabado</button></div> 
                     </div>
                 </div>
                    <div id="respuesta" class="row deep-sm"></div>
@@ -147,6 +147,12 @@
             var mes =$('#mes').val();
             var year =$('#year').val();
             window.location="programadetallado.jsp?prog="+prog+"&mes="+mes+"&year="+year;
+        }
+        function prea(){
+            var prog =$('#lote').val();
+            var mes =$('#mes').val();
+            var year =$('#year').val();
+            window.location="programapreacabado.jsp?prog="+prog+"&mes="+mes+"&year="+year;
         }
         function busqueda(){
              var programa = '0';

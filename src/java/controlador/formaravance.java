@@ -87,6 +87,17 @@ public class formaravance extends HttpServlet {
     }
 //Aqui me quede0000
     private void Autoupdate_Stoplote(ArrayList<String> arr, int k, int a,String fecha, Avances avan, String banda, String charmaquila) throws SQLException, ClassNotFoundException{
+       k+=3;
+        for(int i =k-3;i<k;i++){
+            //System.out.println(arr.get(i)+"-"+a+"-"+k);
+           if(avan.buscardepa(arr, i, a).equals("0")){
+               avan.Autoupdate_lotes(a, fecha, arr, i,banda,charmaquila);
+              i+=2; 
+           }else i+=2;
+        }
+        avan.modiavancestatus(arr, k-3, String.valueOf(a), fecha, banda, charmaquila);
+    }
+        private void Autoupdate_Stoplote_v2(ArrayList<String> arr, int k, int a,String fecha, Avances avan, String banda, String charmaquila) throws SQLException, ClassNotFoundException{
         k+=3;
         for(int i =0;i<k;i++){
             //System.out.println(arr.get(i)+"-"+a+"-"+k);
@@ -226,7 +237,8 @@ public class formaravance extends HttpServlet {
                                     } else {
                                         av.loglote(String.valueOf(pr.getLote()), String.valueOf(pr.getPrograma()), fechac, (usuario + banda), a);
                                        if(autofill.equals("1")){
-                                       Autoupdate_Stoplote(array,k,Integer.parseInt(a),fechac,av,banda,charmaquila);
+                                       Autoupdate_Stoplote(array,k,Integer.parseInt(a),fechac,av,banda,charmaquila);// solomodifica el departamento quien solicitoel avance
+                                       //Autoupdate_Stoplote_v2(array,k,Integer.parseInt(a),fechac,av,banda,charmaquila); este segundo metodo rellena todos los depas anteriores.
                                        }
                                         out.println("<label style=color:red>Falta Captura de Inspeccion de calidad</label>");
                                     }
