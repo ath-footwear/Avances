@@ -216,7 +216,7 @@ try{
                                 </div>
                             </div>
                                     <div class="col-sm-2">
-                                <label class="ln">Suela</label><input class="form-control" type="text" name="suela" id="suela" onchange="salto7()" maxlength="5" required value="">
+                                <label class="ln">Suela</label><input class="form-control" type="text" name="suela" id="suela" onchange="salto7()" maxlength="15" required value="">
                             </div>
                             <div class="col-sm-4">
                                 <div class="row">
@@ -400,7 +400,9 @@ try{
                     var mes = $('#mes').val();
                     var fechae = $('#fechae').val();
                     var uso = "modificar";
+                    var suela =$('#suela').val();
                     var idprod = $('#idprod').val();
+                    combinacion=suela+'-'+combinacion;
                     $.ajax({
                         type: 'post',
                         data: {f: programa, f1: lote, f2: estilo, f3: pares, f4: corrida, f5: combinacion, f6: mes, f7: fechae, uso: uso, idprod: idprod},

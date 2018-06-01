@@ -33,17 +33,26 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select a.fechaprea,a.lote,p.estilo,p.prog,p.combinacion,
+		<![CDATA[select a.fechaprea,a.lote,p.estilo,p.prog,SUBSTRING(p.combinacion,0,CHARINDEX('-',p.combinacion)) as suela,
+p.corrida,p.npares,sum(npares) as pares,
 estado= case when a.preacabado = 1 then 'COMPLETO' else 'N/A' end
  from programa p join avance a on a.id_prog=p.id_prog
-where p.prog=$P{program} and p.mes=$P{mes} and years =$P{years}]]>
+where p.prog=$P{program} and p.mes=$P{mes} and years =$P{years}
+group by p.combinacion,a.fechaprea,p.corrida,a.lote,p.estilo,p.prog,p.npares,a.preacabado
+order by suela]]>
 	</queryString>
 	<field name="fechaprea" class="java.lang.String"/>
 	<field name="lote" class="java.lang.String"/>
 	<field name="estilo" class="java.lang.Integer"/>
 	<field name="prog" class="java.lang.String"/>
-	<field name="combinacion" class="java.lang.String"/>
+	<field name="suela" class="java.lang.String"/>
+	<field name="corrida" class="java.lang.String"/>
+	<field name="npares" class="java.lang.Integer"/>
+	<field name="pares" class="java.lang.Integer"/>
 	<field name="estado" class="java.lang.String"/>
+	<variable name="pares_1" class="java.lang.Integer" resetType="Column" calculation="Sum">
+		<variableExpression><![CDATA[$F{pares}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -69,7 +78,10 @@ where p.prog=$P{program} and p.mes=$P{mes} and years =$P{years}]]>
 				<imageExpression><![CDATA["C:\\Users\\gateway1\\Documents\\NetBeansProjects\\Avances\\web\\images\\AF.jpg"]]></imageExpression>
 			</image>
 			<textField>
-				<reportElement x="417" y="55" width="100" height="20" uuid="fd875ae9-791f-4851-8bd7-8370701ae486"/>
+				<reportElement x="417" y="45" width="100" height="30" uuid="fd875ae9-791f-4851-8bd7-8370701ae486"/>
+				<textElement>
+					<font size="18" isBold="true"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{prog}]]></textFieldExpression>
 			</textField>
 		</band>
@@ -90,21 +102,21 @@ where p.prog=$P{program} and p.mes=$P{mes} and years =$P{years}]]>
 				<text><![CDATA[Fecha]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="127" y="1" width="100" height="20" uuid="d49f91db-9ffa-4b80-bcaa-1a455ff7a790"/>
+				<reportElement x="108" y="1" width="77" height="20" uuid="d49f91db-9ffa-4b80-bcaa-1a455ff7a790"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Lote]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="250" y="1" width="100" height="20" uuid="cb25e09f-b700-4e16-9d0c-60a047be928c"/>
+				<reportElement x="185" y="1" width="78" height="20" uuid="cb25e09f-b700-4e16-9d0c-60a047be928c"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Estilo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="432" y="1" width="100" height="20" uuid="ba59507d-3c26-4bd9-9262-78be9a1e8731"/>
+				<reportElement x="455" y="1" width="100" height="20" uuid="ba59507d-3c26-4bd9-9262-78be9a1e8731"/>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
@@ -115,7 +127,21 @@ where p.prog=$P{program} and p.mes=$P{mes} and years =$P{years}]]>
 				<textElement textAlignment="Center">
 					<font size="12" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Combinacion]]></text>
+				<text><![CDATA[Suela]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="2" width="47" height="18" uuid="d53845de-d974-4f80-8faa-e2b2da6f4272"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Corrida]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="307" y="1" width="48" height="18" uuid="9057e5a9-35a5-469f-b63d-c6bedf85bea6"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Pares]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -132,21 +158,14 @@ where p.prog=$P{program} and p.mes=$P{mes} and years =$P{years}]]>
 				<textFieldExpression><![CDATA[$F{fechaprea}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="127" y="0" width="100" height="11" uuid="0c1106fd-1b2f-456e-ae41-d8877a9a0a71"/>
+				<reportElement x="108" y="0" width="77" height="11" uuid="0c1106fd-1b2f-456e-ae41-d8877a9a0a71"/>
 				<textElement textAlignment="Center">
 					<font size="7"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{lote}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="250" y="0" width="100" height="11" uuid="f06255f7-d762-4077-80e9-4d8fea121e39"/>
-				<textElement textAlignment="Center">
-					<font size="7"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{estilo}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="432" y="0" width="100" height="11" uuid="9cdb4a6c-083d-4c28-bd34-e15082f63772"/>
+				<reportElement x="455" y="0" width="100" height="11" uuid="9cdb4a6c-083d-4c28-bd34-e15082f63772"/>
 				<textElement textAlignment="Center">
 					<font size="7"/>
 				</textElement>
@@ -157,21 +176,56 @@ where p.prog=$P{program} and p.mes=$P{mes} and years =$P{years}]]>
 				<textElement textAlignment="Center">
 					<font size="8"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{combinacion}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{suela}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="185" y="1" width="78" height="11" uuid="f06255f7-d762-4077-80e9-4d8fea121e39"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{estilo}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="260" y="0" width="47" height="11" uuid="909d37cd-551a-42fa-892f-5a06b47c04e5"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{corrida}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="307" y="0" width="48" height="13" uuid="603c23dd-ff18-4d70-9abc-8ee265541828"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{npares}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
 	<pageFooter>
-		<band height="23" splitType="Stretch">
+		<band height="15" splitType="Stretch">
 			<textField>
-				<reportElement x="227" y="0" width="80" height="20" uuid="72789535-40b2-4412-8158-2908fcd03afb"/>
+				<reportElement x="227" y="0" width="80" height="15" uuid="72789535-40b2-4412-8158-2908fcd03afb"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement x="307" y="0" width="40" height="20" uuid="86d8af75-f391-4e58-843a-00eb1408f66d"/>
+				<reportElement x="307" y="0" width="40" height="15" uuid="86d8af75-f391-4e58-843a-00eb1408f66d"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>
+	<summary>
+		<band height="16">
+			<textField>
+				<reportElement x="517" y="0" width="38" height="14" uuid="3c479583-6a41-4295-a9ba-855bba32d8ff"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA[$V{pares_1}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="451" y="0" width="66" height="14" uuid="1fcade39-3ed8-47c2-808a-70f891e5c30f"/>
+				<textElement textAlignment="Right"/>
+				<text><![CDATA[Total Pares:]]></text>
+			</staticText>
+		</band>
+	</summary>
 </jasperReport>
