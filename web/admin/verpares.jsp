@@ -8,13 +8,13 @@
 <%@page import="java.sql.Connection"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Calendar"%>
-<% HttpSession objSesion = request.getSession(true);
+<% HttpSession objSesion = request.getSession(false);
 //i_d
+try{
     boolean estado;
     String usuario = (String) objSesion.getAttribute("usuario");
     String tipos = (String) objSesion.getAttribute("tipo");
     String ids = String.valueOf(objSesion.getAttribute("i_d"));
-
     if (usuario != null && tipos != null && tipos.equals("ADMIN")) {
 
     } else {
@@ -24,9 +24,22 @@
     int año = fecha.get(Calendar.YEAR);
     int mes = fecha.get(Calendar.MONTH) + 1;
     int dia = fecha.get(Calendar.DAY_OF_MONTH);
-    String fechac = dia + "-" + mes + "-" + año;
-    String fechaca = año + "-" + (mes) + "-" + (dia);
-
+    String fechac = "" ;
+    String fechaca= "";
+if(dia<10){
+         fechac = "0" + dia;    
+         fechaca ="0" + (dia - 1);
+    }else{
+         fechac  = dia+"-";    
+         fechaca = dia+"-";
+    }
+        if(mes<10){
+     fechac =fechac + "-0" + mes+"-"+año;    
+     fechaca = fechaca+ "-0" + (mes - 1)+"-"+año;
+    }else {
+        fechac =fechac + "-" + mes+"-"+año;    
+     fechaca = fechaca+ "-" + (mes - 1)+"-"+año ;
+    }
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -105,7 +118,7 @@
                         <div class="col-sm-offset-3" >
                             <form name="forma" >
                                 <div class="col-sm-3" align="center">
-                                    <label class="ln">Inicial</label><input class="form-control input-sm chat-input ln" type="text" name="f1" id="f1" value="<%=fechac%>" onchange="okas()" maxlength="10"  required/>
+                                    <label class="ln">Inicial</label><input class="form-control input-sm chat-input ln" type="text" name="f1" id="f1" value="<%=fechaca%>" onchange="okas()" maxlength="10"  required/>
                                 </div>
                                 <div class="col-sm-2">
                                     <br>
@@ -299,8 +312,10 @@
         </div>
     </div>
         </div>
-                
-        
-
     </body>
 </html>
+<%
+}catch(Exception e){
+    out.print("location = ../index.");
+}
+%>

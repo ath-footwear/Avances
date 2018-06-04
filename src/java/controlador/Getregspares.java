@@ -113,7 +113,7 @@ public class Getregspares extends HttpServlet {
                     }
                     depa = avan.depaload(depa);
 
-                    System.out.println("mmmm " + arr.size() + "/ banda " + banda.size());
+                   // System.out.println("mmmm " + arr.size() + "/ banda " + banda.size());
                     while (con < 9) {
                        // System.out.println("mmmmta " + con);
                         if (depa.get(con).equals("montado")) {
@@ -138,9 +138,9 @@ public class Getregspares extends HttpServlet {
                         con++;
                     }
                     
-                    System.out.println("hecho e.e");
+                    //System.out.println("hecho e.e");
                 }else if(uso.equals("detalle")){
-                    System.out.println("Detalle");
+                    //System.out.println("Detalle");
                     int cont =0;
                     String maquila = request.getParameter("maq");
                 String dep = request.getParameter("dep");

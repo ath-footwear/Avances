@@ -8,7 +8,7 @@
 <%@page import="java.sql.Connection"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.Calendar"%>
-<% HttpSession objSesion = request.getSession(true);
+<% HttpSession objSesion = request.getSession(false);
 //i_d
     boolean estado;
     String usuario = (String) objSesion.getAttribute("usuario");
@@ -24,8 +24,22 @@
     int año = fecha.get(Calendar.YEAR);
     int mes = fecha.get(Calendar.MONTH) + 1;
     int dia = fecha.get(Calendar.DAY_OF_MONTH);
-    String fechac = dia + "-" + mes + "-" + año;
-    String fechaca = año + "-" + (mes) + "-" + (dia);
+    String fechac = "" ;
+    String fechaca= "";
+    if(dia<10){
+         fechac = "0" + dia;    
+         fechaca ="0" + (dia - 1);
+    }else{
+         fechac  = dia+"-";    
+         fechaca = dia+"-";
+    }
+        if(mes<10){
+     fechac =fechac + "-0" + mes+"-"+año;    
+     fechaca = fechaca+ "-0" + (mes - 1)+"-"+año;
+    }else {
+        fechac =fechac + "-" + mes+"-"+año;    
+     fechaca = fechaca+ "-" + (mes - 1)+"-"+año ;
+    }
 
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -287,8 +301,5 @@
         </div>
     </div>
         </div>
-                
-        
-
     </body>
 </html>
