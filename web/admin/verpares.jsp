@@ -30,8 +30,8 @@ if(dia<10){
          fechac = "0" + dia;    
          fechaca ="0" + (dia - 1);
     }else{
-         fechac  = dia+"-";    
-         fechaca = dia+"-";
+         fechac  = dia+"";    
+         fechaca = dia+"";
     }
         if(mes<10){
      fechac =fechac + "-0" + mes+"-"+año;    

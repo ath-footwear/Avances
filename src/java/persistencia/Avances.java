@@ -605,7 +605,7 @@ public String buscardepa(ArrayList<String> arr,int i,int a) throws ClassNotFound
          Statement st;
         ResultSet rs;
         int id=0;
-        String query = "SELECT max(id_prog) as id_prog FROM programa where mes="+mes+" and statuto != 'COMPLETO' and lote="+lote+" and years="+year;
+        String query = "SELECT max(id_prog) as id_prog FROM programa where mes="+mes+" and lote="+lote+" and years="+year;
         abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);

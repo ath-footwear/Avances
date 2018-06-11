@@ -224,7 +224,7 @@ public class formaravance extends HttpServlet {
                                 if (usuario.equals("preacabado")) {//solo si el usuario es preacabado
                                     if (av.checkmontado(array, k, a)) {// verifica avance en montado
                                         av.loglote(String.valueOf(pr.getLote()), String.valueOf(pr.getPrograma()), fechac, usuario + banda, a);
-                                        out.println("<label style=color:red>No se puede realizar avance de preacabado si ya se tiene montado, Contacte a un administrador</label>");
+                                       // out.println("<label style=color:red>No se puede realizar avance de preacabado si ya se tiene montado, Contacte a un administrador</label>");
                                     } else {
                                         av.avancespreaca(a, fechac, charmaquila, array, k);
                                         out.println("<label style=color:green>Avance Completo Exitosamente:)</label>");
@@ -253,7 +253,7 @@ public class formaravance extends HttpServlet {
                                 }
                             } else {
                                 av.loglote(String.valueOf(pr.getLote()), String.valueOf(pr.getPrograma()), fechac, usuario + banda, a);
-                                out.println("<label style=color:red>Falta captura del departamento anterior</label>");
+                                //out.println("<label style=color:red>Falta captura del departamento anterior</label>");
                                 if(autofill.equals("1")){
                                        Autoupdate_Stoplote(array,k,Integer.parseInt(a),fechac,av,banda,charmaquila);
                                 }
@@ -366,7 +366,7 @@ public class formaravance extends HttpServlet {
                                 if(autofill.equals("1")){
                                        Autoupdate_Stoplote(array,k,Integer.parseInt(a),fechac,av,banda,charmaquila);
                                 }
-                                out.println("<label>Falta captura del departamento anterior</label>");
+                                //out.println("<label>Falta captura del departamento anterior</label>");
                                 }
                             }
                         } else {
