@@ -360,7 +360,7 @@ public class formaravance extends HttpServlet {
                                 }
                             } else {
                                 av.loglote(String.valueOf(pr.getLote()), String.valueOf(pr.getPrograma()), fechac, usuario + banda, a);
-                                if(tipos.equals("INTERMEDIO") && (charmaquila.equals("E")||charmaquila.equals("C")) && k<=6){
+                                if(tipos.equals("INTERMEDIO") && (charmaquila.equals("P")) && k<=6){
                                    out.println("<label>Falta captura de corte o precorte de PLANTA, revisalo</label>"); 
                                 }else{
                                 if(autofill.equals("1")){

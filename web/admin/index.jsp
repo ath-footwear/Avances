@@ -82,7 +82,8 @@
             </nav>
             <div class="container" align="center">
                 <div class="row">
-                     <div class="col-xs-6 tablasize" style="overflow: auto;">
+                    <div class="col-md-12">
+                        <div class="col-md-5 tablasize" style="overflow: auto;">
                     <%
                     if(list.isEmpty()){
         System.out.println("vacio");
@@ -101,14 +102,15 @@
     }
                     %>
                 </div>
-                <div class=" col-xs-6" >
+                <div class=" col-xs-7" >
                     <%
                     if(usuario.equals("leon")){
                     out.println("<label class=l1>Origen:&nbsp;&nbsp;&nbsp;"+usuario.toUpperCase()+"</label>");
                     }else if(tipos.equals("ADMIN")){
                     %>
-                    <div class="col-sm-7" align="center" id="avancemaquilas">
-                    <div class="col-sm-offset-8" align="center">
+                    <div class="col-md-12 espacio-md-down" style="" align="center" id="avancemaquilas">
+                        <div class="col-md-9"> 
+                        <div class="col-md-offset-3" align="center">
                         <label class="l1">Maquila: </label> <select class="btn form-control" style="color:black" name="maquila" id="maquila" onchange="salto()">
                                             <%
                                             for(int i =0;i<array.size();i++){
@@ -128,8 +130,10 @@
                                             out.print("<option>montado</option>");
                                             out.print("<option>prodt</option>");
                                             %>
-                                        </select>            
-                            </div></div>
+                                        </select><br>            
+                            </div>
+                        </div>
+                    </div>
                     <%
                         
                     }else{
@@ -175,6 +179,8 @@
                      <div id="llenado"></div>
                      <div id="llena"></div>
                 </div>    
+                    </div>
+                     
                 </div> 
             </div>
         </div>
