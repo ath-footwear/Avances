@@ -80,7 +80,7 @@
                                 <label class="ln">Lote</label><input class="form-control" type="text" name="lote" id="lote" onchange="jumpto()" maxlength="6" value=""><br>
                         </div>
                         <div class="col-sm-offset-5 col-sm-2">
-                                <select id="mes" name="mes" onclick="jumpto1()" class="form-control" value="">
+                                <select id="mes" name="mes" onchange="jumpto1()" class="form-control" value="">
                                     <%
                                         for (int i = 1; i <= 12; i++) {
                                             if (i == mes) {
