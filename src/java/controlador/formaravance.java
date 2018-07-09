@@ -224,7 +224,7 @@ public class formaravance extends HttpServlet {
                                 if (usuario.equals("preacabado")) {//solo si el usuario es preacabado
                                     if (av.checkmontado(array, k, a)) {// verifica avance en montado
                                         av.loglote(String.valueOf(pr.getLote()), String.valueOf(pr.getPrograma()), fechac, usuario + banda, a);
-                                       // out.println("<label style=color:red>No se puede realizar avance de preacabado si ya se tiene montado, Contacte a un administrador</label>");
+                                        out.println("<label style=color:red>No se puede realizar avance de preacabado si ya se tiene montado, Contacte a un administrador</label>");
                                     } else {
                                         av.avancespreaca(a, fechac, charmaquila, array, k);
                                         out.println("<label style=color:green>Avance Completo Exitosamente:)</label>");
@@ -252,11 +252,13 @@ public class formaravance extends HttpServlet {
                                     }
                                 }
                             } else {
+                                
                                 av.loglote(String.valueOf(pr.getLote()), String.valueOf(pr.getPrograma()), fechac, usuario + banda, a);
-                                //out.println("<label style=color:red>Falta captura del departamento anterior</label>");
-                                if(autofill.equals("1")){
+                                
+                                if(autofill.equals("1") || usuario.equals("deshebrado") || usuario.equals("ojillado") ||usuario.equals("inspeccion") ){
                                        Autoupdate_Stoplote(array,k,Integer.parseInt(a),fechac,av,banda,charmaquila);
-                                }
+                                       out.println("<label style=color:green>Avance Completo</label>");
+                                }else out.println("<label style=color:red>Falta captura del departamento anterior</label>");
                             }
                         } else {
                             out.println("<label>Ya existe Avance de este departamento</label>");
@@ -293,7 +295,7 @@ public class formaravance extends HttpServlet {
             try {
                 ArrayList<String> loadprog = new ArrayList<>();
                 Avances av = new Avances();
-                String autofill = av.check_autofill();
+                String autofill = av.check_autofill_m();
                 charmaquila = String.valueOf(maquilas.charAt(0));
                 // carga de datos sobre listas
                 array = alldepcharge(array);

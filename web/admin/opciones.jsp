@@ -28,6 +28,7 @@
     int mes = fecha.get(Calendar.MONTH) + 1;
     Avances bd = new Avances();
     String autofill=bd.check_autofill();
+    String autofillm=bd.check_autofill_m();
     // estado = bd.alerta();
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -93,6 +94,17 @@
                             }else out.print("<input type=\"checkbox\" name=\"auto_fill\" id=\"auto_fill\" onchange=\"autofill()\"/>"); 
                             %></div> 
                     </div>
+                    <div class="row" align="center">
+                        <div class="col-sm-offset-4 col-sm-2">
+                            <label class="ln">auto-rellenado personal:</label>
+                        </div>
+                        <div class="col-sm-1" id="fillstatus">
+                            <%
+                            if(autofillm.equals("1")){
+                                  out.print("<input type=\"checkbox\" name=\"auto_fill_m\" id=\"auto_fill_m\" onchange=\"autofillm()\" checked=\"checked\"/ >");
+                            }else out.print("<input type=\"checkbox\" name=\"auto_fill_m\" id=\"auto_fill_m\" onchange=\"autofillm()\"/>"); 
+                            %></div> 
+                    </div>
                     <br>
                 </div>
                    <div id="respuesta" class="row deep-sm"></div>
@@ -122,6 +134,30 @@
                     url: '../Getregs',
                     success: function (result) {
                         $('#auto_fill').html(result);
+                        // document.location.reload();
+                        //document.forma1.lote.focus();
+                    }
+                });
+        }        
+        function autofillm(){
+        var programa = '0';
+                var lote = '0';
+                var estilo = '0';
+                var pares = '0';
+                var corrida = '0';
+                var combinacion = '0';
+                var mes ='0';    
+        var autofill;
+            if(document.getElementById("auto_fill_m").checked==true){
+                autofill="1";
+            }else autofill="0";
+            var uso ="autofillm";
+            $.ajax({
+                    type: 'post',
+                    data: {f: programa, f1: lote, f2: estilo, f3: pares, f4: corrida, f5: combinacion, f6: mes,uso: uso,autofill:autofill},
+                    url: '../Getregs',
+                    success: function (result) {
+                        $('#auto_fill_m').html(result);
                         // document.location.reload();
                         //document.forma1.lote.focus();
                     }

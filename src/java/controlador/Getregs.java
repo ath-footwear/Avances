@@ -284,6 +284,13 @@ private String codigo(String estilo){
                 if(status.equals("1")){
                     out.print("<input type=\"checkbox\" name=\"auto_fill\" id=\"auto_fill\" onchange=\"autofill()\"/ >");
                 }else out.print("<input type=\"checkbox\" name=\"auto_fill\" id=\"auto_fill\" onchange=\"autofill()\" checked=\"checked\"/>");
+            }else if(uso.equals("autofillm")){
+                String status = request.getParameter("autofill");
+                Avances a = new Avances();
+                a.modiautofillstatus_m(status);
+                if(status.equals("1")){
+                    out.print("<input type=\"checkbox\" name=\"auto_fill\" id=\"auto_fill_m\" onchange=\"autofillm()\"/ >");
+                }else out.print("<input type=\"checkbox\" name=\"auto_fill\" id=\"auto_fill_m\" onchange=\"autofillm()\" checked=\"checked\"/>");
             }else{
             response.sendRedirect("index.jsp");
             }

@@ -70,6 +70,22 @@ public class Avances {
         smt.close();
         return ids;
     }
+        public String check_autofill_m() throws ClassNotFoundException, SQLException {
+        String ids="0";
+        String query = "select switch_autosolucionador_m from opciones";
+        //System.out.println(query);
+        Statement smt;
+        ResultSet df;
+        abrir();
+        smt = conexion.createStatement();
+        df = smt.executeQuery(query);
+        while (df.next()) {
+            ids=df.getString("switch_autosolucionador_m");
+        }
+        df.close();
+        smt.close();
+        return ids;
+    }
         public void modiautofillstatus(String status){
     PreparedStatement st = null;
         try{//modificar status de programa
@@ -90,6 +106,26 @@ public class Avances {
             }
     }
     }//
+    public void modiautofillstatus_m(String status){
+    PreparedStatement st = null;
+        try{//modificar status de programa
+             abrir();
+            conexion.setAutoCommit(false);
+            String s = "update opciones set switch_autosolucionador_m='"+status+"'";
+            //System.out.println(s);
+            st = conexion.prepareStatement(s);
+            st.executeUpdate();
+            conexion.commit();
+            st.close();
+    }catch(Exception e){
+        Logger.getLogger(Avances.class.getName()).log(Level.SEVERE, null, e);
+            try {
+                conexion.rollback();
+            } catch (Exception o) {
+                System.out.println(o.getMessage());
+            }
+    }
+    }
 public String buscardepa(ArrayList<String> arr,int i,int a) throws ClassNotFoundException, SQLException {
         String ids="0";
         String query = "select "+arr.get(i)+" from avance where id_prog="+a;
@@ -1213,6 +1249,31 @@ private String codigo(String estilo){
     return cod;
 }
     public void Autoupdate_lotes(int a, String fecha, ArrayList<String> arr, int i,String banda,String charmaquila) throws SQLException{
+    PreparedStatement st = null;
+    String s="";   
+    try {// realizar avances
+            abrir();
+            conexion.setAutoCommit(false);
+            if(arr.get(i).equals("montado")){
+            s = "update avance set "+arr.get(i)+"="+banda+","+arr.get(i+1)+"='"+fecha+"',"+arr.get(i+2)+"='"+charmaquila+"' where id_prog="+a;
+            }else{
+            s = "update avance set "+arr.get(i)+"=1,"+arr.get(i+1)+"='"+fecha+"',"+arr.get(i+2)+"='"+charmaquila+"' where id_prog="+a;
+            }
+            st = conexion.prepareStatement(s);
+            st.executeUpdate();
+             conexion.commit();
+            //System.out.println(s); 
+           st.close();
+        } catch (Exception e) {
+            Logger.getLogger(Avances.class.getName()).log(Level.SEVERE, null, e);
+            try {
+                conexion.rollback();
+            } catch (Exception o) {
+                System.out.println(o.getMessage());
+            }
+        }    
+    }
+        public void Autoupdate_lotes_m(int a, String fecha, ArrayList<String> arr, int i,String banda,String charmaquila) throws SQLException{
     PreparedStatement st = null;
     String s="";   
     try {// realizar avances
