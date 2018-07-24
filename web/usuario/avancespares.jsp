@@ -1,6 +1,4 @@
 <%-- 
-    Document   : depcosto
-    Created on : Sep 15, 2017, 9:51:16 AM
     Author     : gateway1
 --%>
 

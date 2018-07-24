@@ -20,7 +20,8 @@
     <body>
 
         <% HttpSession objSesion = request.getSession(true);
-//i_d
+Avances db = new Avances();
+ try { 
             boolean estado;
             String usuario = (String) objSesion.getAttribute("usuario");
             String tipos = (String) objSesion.getAttribute("tipo");
@@ -39,9 +40,7 @@
             Pattern pat = Pattern.compile(patt);
             Matcher match = pat.matcher(f1);
             if (match.matches()) {
-                 Avances db = new Avances();
                    db.abrir();
-               try { 
               // reporte detallado de un progama
                  File reportfile = new File(application.getRealPath("usuario/programa_lote.jasper"));
                     Map para = new HashMap();
@@ -55,10 +54,14 @@
                     outputstream.write(bytes, 0, bytes.length);
                     outputstream.flush();
                     outputstream.close();
-                } catch (Exception e) {
+                
+            } else {
+                System.out.println("NO ES FECHA");
+               // response.sendRedirect("index.jsp");
+            }
+} catch (Exception e) {
                     e.printStackTrace();
-                    
-                  //  response.sendRedirect("verpares.jsp");
+                     response.sendRedirect("verpares.jsp");
                     
                 } finally {
                     if (db.getConexion() != null) {
@@ -66,11 +69,6 @@
                        // response.sendRedirect("verpares.jsp");
                     }
                 }
-            } else {
-                System.out.println("NO ES FECHA");
-               // response.sendRedirect("index.jsp");
-            }
-
         %>
     </body>
 
