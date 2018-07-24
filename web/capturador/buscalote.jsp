@@ -9,6 +9,7 @@
 <%@page import="persistencia.Avances"%>
 <% HttpSession objSesion = request.getSession(true);
 //i_d
+   try{
     boolean estado;
     String usuario = (String) objSesion.getAttribute("usuario");
     String tipos = (String) objSesion.getAttribute("tipo");
@@ -171,3 +172,10 @@
     </script>
 </body>
 </html>
+<%
+  }catch(Exception e){
+out.println("<script type=\"text/javascript\">");
+                    out.println("location='../index.jsp';");
+                    out.println("</script>");
+        }
+%>

@@ -130,7 +130,7 @@ public class Validar extends HttpServlet {
                         // capturista
                         ArrayList<String> array= new ArrayList<>();
                         System.out.println("capturista");
-                       // objSesion.setMaxInactiveInterval(interv+860);
+                        objSesion.setMaxInactiveInterval(interv+10000);
                         objSesion.setAttribute("usuario", nombre);
                         objSesion.setAttribute("tipo", tipo);
                         objSesion.setAttribute("i_d", u.getId_usuario());
