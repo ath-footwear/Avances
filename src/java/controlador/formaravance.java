@@ -240,7 +240,7 @@ public class formaravance extends HttpServlet {
                                        Autoupdate_Stoplote(array,k,Integer.parseInt(a),fechac,av,banda,charmaquila);// solomodifica el departamento quien solicitoel avance
                                        //Autoupdate_Stoplote_v2(array,k,Integer.parseInt(a),fechac,av,banda,charmaquila); este segundo metodo rellena todos los depas anteriores.
                                        }
-                                        out.println("<label style=color:red>Falta Captura de Inspeccion de calidad</label>");
+                                        out.println("<label style=color:red>Falta Captura de Inspeccion de calidad o Preacabado</label>");
                                     }
                                 } else {
                                     av.avances(a, fechac, charmaquila, array, k, (array.size() - 1), fechac);
@@ -252,7 +252,6 @@ public class formaravance extends HttpServlet {
                                     }
                                 }
                             } else {
-                                
                                 av.loglote(String.valueOf(pr.getLote()), String.valueOf(pr.getPrograma()), fechac, usuario + banda, a);
                                 
                                 if(autofill.equals("1") || usuario.equals("deshebrado") || usuario.equals("ojillado") ||usuario.equals("inspeccion") ){

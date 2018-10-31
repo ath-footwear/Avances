@@ -862,6 +862,34 @@ public String buscardepa(ArrayList<String> arr,int i,int a) throws ClassNotFound
         cerrar();
         return arr;
     }
+    
+        public ArrayList<String> getallprogest(ArrayList<String> arr,String estilo,String years,String mes) throws ClassNotFoundException, SQLException {
+        int prog=0;
+        Statement st;
+        ResultSet rs;
+        String query = "select estilo,prog,lote,npares,combinacion,corrida,mes,statuto,years from programa where estilo ="+Integer.parseInt(estilo)+" and years ="+Integer.parseInt(years)+" and mes ="+Integer.parseInt(mes)+" order by corrida DESC";
+        //System.out.println(query);
+        abrir();
+        st = conexion.createStatement();
+        rs = st.executeQuery(query);
+        
+        while(rs.next()){
+        arr.add(rs.getString("prog"));
+        arr.add(rs.getString("lote"));
+        arr.add(rs.getString("estilo"));
+        arr.add(rs.getString("npares"));
+        arr.add(rs.getString("combinacion"));
+        arr.add(rs.getString("corrida"));
+        arr.add(rs.getString("mes"));
+        arr.add(rs.getString("statuto"));
+        arr.add(rs.getString("years"));
+        }
+        
+        rs.close();
+        st.close();
+        cerrar();
+        return arr;
+    }
    // Fin busquedas
 
     //insercion de datos a la bd

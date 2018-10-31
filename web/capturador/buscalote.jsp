@@ -100,6 +100,7 @@
                     <br><div class="row">
                         <div align="center"> <br><button class="btn btn-success ln" id="boton" onclick="nprograma()">Aceptar</button> 
                             <button class="btn btn-success ln" id="boton2" onclick="busqueda()">Historial de Lotes</button>
+                            <button class="btn btn-success ln" id="boton2" onclick="busquedaest()">Busqueda por estilo</button>
                             <button class="btn btn-success ln" id="boton3" onclick="lotes()">Generar reporte</button></div>
                     </div>
                 </div>
@@ -156,6 +157,27 @@
                 $.ajax({
                     type: 'post',
                     data: {f: programa, f1: lote, f2: estilo, f3: pares, f4: corrida, f5: combinacion, f6: mes, uso: uso},
+                    url: '../Getregs',
+                    success: function (result) {
+                        $('#respuesta').html(result);
+                        // document.location.reload();
+                        //document.forma1.lote.focus();
+                    }
+                });
+            }
+                    function busquedaest(){
+             var programa = '0';
+                var lote = $('#lote').val();
+                var estilo = '0';
+                var pares = '0';
+                var corrida = '0';
+                var combinacion = '0';
+                var year =$("#year").val();
+                var mes=$("#mes").val();
+                var uso = "buscarest";
+                $.ajax({
+                    type: 'post',
+                    data: {f: programa, f1: lote, f2: estilo, f3: pares, f4: corrida, f5: combinacion, f6: year, uso: uso,mes:mes},
                     url: '../Getregs',
                     success: function (result) {
                         $('#respuesta').html(result);

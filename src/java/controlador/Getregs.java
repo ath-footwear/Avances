@@ -232,6 +232,56 @@ private String codigo(String estilo){
                     
                 }
                 
+            }else if(uso.equals("buscarest")){//busqueda de lote
+                 String mes =request.getParameter("mes");
+                ArrayList<String> array = new ArrayList<>();
+                Avances a = new Avances(); 
+                int cont =0;
+                if(explote(f2)){
+                    //objSesion.setAttribute("cap",a.getprog(Integer.parseInt(f1),Integer.parseInt(f6)));
+                    array=a.getallprogest(array, f1,f6,mes);
+                    if(array.isEmpty()){
+                        System.out.print("Vacio");
+                   }else{
+                        //System.out.print("prog total"+array.size());
+                    for(int i =0;i<(array.size());i++){
+                        //System.out.print("i="+i+"arr="+array.get(i));
+                        if(cont==8){
+                           
+                          out.print("<div class=container><div class=row  fondos jumbis align=center><div align=center class=row ><div class=col-sm-2 > "
+                        + "</div></div><div class=row>"
+                        + "<div class=\"col-sm-1 espacio-md-down\">\n"
+                        + "<label class=\"ln\">Prog</label><br><label class=ln form-control>"+array.get(i-8)+"</label>\n"
+                        + "</div>\n"        
+                        + "<div class=\"col-sm-1 espacio-md-down\">\n"
+                        + "<label class=\"ln\">Lote</label><br><label class=ln form-control>"+array.get(i-7)+"</label>\n"
+                        + "</div>\n"
+                        + "<div class=\"col-sm-1 \">\n"
+                        + "<label class=\"ln\">Estilo</label><br><label class=ln>"+array.get(i-6)+"</label>\n"
+                        + "</div>\n"
+                        + "<div class=\"col-sm-2\">\n"
+                        + "<label class=\"ln\">Combinacion</label><br><label class=ln>"+array.get(i-4)+"</label>\n"
+                        + "</div>\n"
+                        + "<div class=\"col-sm-2 \">\n"
+                        + "<label class=\"ln\">Corrida</label><br><label class=ln>"+array.get(i-3)+"</label>\n"
+                        + "</div>\n"
+                        + "<div class=\"col-sm-1 \">\n"
+                        + "<label class=\"ln\">mes</label><br><label class=ln>"+array.get(i-2)+"</label><br><br>\n"
+                        + "</div>\n"
+                        + "<div class=\"col-sm-2\">\n"
+                        + "<label class=\"ln\">Año</label><br><label class=ln>"+array.get(i)+"</label><br><br>\n"
+                        + "</div>\n"
+                        + "</div>\n"
+                        + "</div></div>");
+                        cont=0;
+                        }else{
+                        cont++;
+                        }
+                    }
+                    }
+                    
+                }
+                
             }else if(uso.equals("modificar")){
                 System.out.print("Modificar "+f+" ");
                 if(regularexp(f,f1,f2,f3,f4,f5)){

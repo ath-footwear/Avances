@@ -107,7 +107,7 @@ try{
             }
             function validar4() {
                 var valor3 = $("#combinacion").val();
-                if (!(/^[\a-z\d\ ]+$/i.test(valor3))) {
+                if (!(/^[\a-z\d\.\ ]+$/i.test(valor3))) {
                     alert("datos erroneos verifique nuevamente");
                     document.forma1.combinacion.focus();
                     document.getElementById("combinacion").value = "";
