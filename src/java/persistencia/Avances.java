@@ -902,6 +902,7 @@ public String buscardepa(ArrayList<String> arr,int i,int a) throws ClassNotFound
             String s = "insert into programa(prog,lote,estilo,npares,combinacion,corrida,mes,fechaentrega,statuto,codigo,ultima_fecha,years) values(" + p.getPrograma() + "," + p.getLote() + "," + p.getEstilo() + "," + p.getPares() + ",'" + p.getCombinacion() + "','" + p.getCorrida() + "'," + p.getMes() + ",'" + p.getFechae() + "','NO TERMINADO','" + p.getCodigo() + "','"+p.getFecha()+"',"+p.getYear()+")";
             st = conexion.prepareStatement(s);
             st.executeUpdate();
+            System.out.println(s);
             //-----------------------------------
             Statement sts;
         ResultSet rs;

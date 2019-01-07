@@ -104,7 +104,7 @@ private String codigo(String estilo){
 
         String usuario = (String) objSesion.getAttribute("usuario");
         String tiposs = (String) objSesion.getAttribute("tipo");
-        System.out.println(tiposs);
+        //System.out.println(tiposs);
         if (usuario != null && tiposs != null ) {
             if(tiposs.equals("INTERMEDIO") || tiposs.equals("USUARIO") || tiposs.equals("ADMIN")){
             }else{
@@ -145,7 +145,7 @@ private String codigo(String estilo){
                 p.setMes(Integer.parseInt(f6));
                 p.setFecha(fechac);
                 p.setCodigo(codigo(f1));
-                p.setYear(year);
+                p.setYear(año);
                 
                     if(a.checkprograma(p)){
                         out.print("<div class=container-fluid><div class=container><label class=ln>Registro repetido, Favor de modificar el registro anterior</label></div></div>");
