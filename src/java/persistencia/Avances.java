@@ -517,7 +517,6 @@ public String buscardepa(ArrayList<String> arr,int i,int a) throws ClassNotFound
         }else{
         query = "SELECT max(id_prog) as id_prog FROM programa where statuto != 'COMPLETO' and convert(int,codigo)=" + Integer.parseInt(ids);
         }
-        
         abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
@@ -1054,7 +1053,7 @@ public String buscardepa(ArrayList<String> arr,int i,int a) throws ClassNotFound
              abrir();
             conexion.setAutoCommit(false);
             String s="";
-            if(arr.get(k).equals("montado")){
+            if(arr.get(k).equals("montado")){// si es montado añadira la banda ademas de la maquila
                 s = "update programa set statuto='"+arr.get(k).toUpperCase()+""+banda+" "+maqbanda+"', ultima_fecha='"+fechas+"' where id_prog="+a;
             }else s = "update programa set statuto='"+arr.get(k).toUpperCase()+" "+maqbanda+"', ultima_fecha='"+fechas+"' where id_prog="+a;
             st = conexion.prepareStatement(s);

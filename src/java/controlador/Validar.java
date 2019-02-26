@@ -34,17 +34,17 @@ public class Validar extends HttpServlet {
 
         HttpSession objSesion = request.getSession(true);
         try {
-        String nombre = request.getParameter("nombrelog");
+        String nombre = request.getParameter("nombrelog");//obtencion de datos del formulario
         String contrasena = request.getParameter("contrasenalog");
         //System.out.println("," + nombre + "," + contrasena + ",");
-        boolean flag=false;
+        boolean flag=false;//recogera el resultado del proceso para verificar los campos.
         char arr[];
         char arr1[];
         int interv =180;
          PrintWriter out = response.getWriter();
         //control de acceso
         //System.out.println("," + nombre + "," + contrasena + ",");
-        if (nombre.equals(null) || contrasena.equals(null) || nombre.equals("") || contrasena.equals("")) {
+        if (nombre.equals(null) || contrasena.equals(null) || nombre.equals("") || contrasena.equals("")) { // verificar caracteres remplazar 
                 out.println("<script type=\"text/javascript\">");
                 out.println("location='index.jsp';");
                 out.println("</script>");
@@ -55,7 +55,6 @@ public class Validar extends HttpServlet {
             for (int i = 0; i < arr.length; i++) {
                 if (arr[i] == '|' || arr[i] == '\'' || arr[i] == '\"' || arr[i] == '=' || arr[i] == '!') {
                     flag=true;
-                    
                 out.println("<script type=\"text/javascript\">");
                 out.println("location='index.jsp';");
                 out.println("</script>");
@@ -72,42 +71,38 @@ public class Validar extends HttpServlet {
                 }
             }
         }
-        if(flag){
+        if(flag){// si es verdad regresa a la pagina de inicio 
                 out.println("<script type=\"text/javascript\">");
                 out.println("location='index.jsp';");
                 out.println("</script>");
-        }else{
+        }else{// si no se revisara campos en bd
         String tipo = "";
         // Definir variable de referencia a un objeto de tipo Usuario
         Usuario u = new Usuario();
         // Consultar Base de datos
         Avances a = new Avances();
-        
-            u = a.buscar(nombre, contrasena);
-            System.out.println(u.getTipo());
-            
-            if (u.getTipo().equals("n")) {                
-                out.println("<script type=\"text/javascript\">");
+            u = a.buscar(nombre, contrasena);// verificar campos en bd.
+            if (u.getTipo().equals("n")) {//si no existe o se equivoco en alguno de los campos                 
+                out.println("<script type=\"text/javascript\">");// regresa a la pantalla de inicio con un msj.
                 out.println("alert('Usuario o contrasena incorrectos');");
                 out.println("location='index.jsp';");
                 out.println("</script>");
             } else {
                 tipo = u.getTipo();
-                //System.out.println("e.e"+tipo);
-                switch (tipo) {
+                switch (tipo) {// si es administrador
                     case "ADMIN":
                         objSesion.setMaxInactiveInterval(interv+1000);
-                        objSesion.setAttribute("usuario", nombre);
+                        objSesion.setAttribute("usuario", nombre);// asignar sesiones con su objeto.
                         objSesion.setAttribute("tipo", tipo);
                         objSesion.setAttribute("i_d", u.getId_usuario());
                         request.setAttribute("usuario1", u);
-                        response.sendRedirect("admin/index.jsp");
+                        response.sendRedirect("admin/index.jsp");// redirecciona pagina de inicio por tipo de usuario
                         break;
                     case "BASICO":
                     case "MEDIOBASICO":
                     case "PREINTERMEDIO":
                         //usuarios de planta
-                        System.out.println(tipo+"/Planta");
+                        //System.out.println(tipo+"/Planta");
                         objSesion.setMaxInactiveInterval(interv);
                         objSesion.setAttribute("usuario", nombre);
                         objSesion.setAttribute("tipo", tipo);
@@ -122,15 +117,13 @@ public class Validar extends HttpServlet {
                         objSesion.setAttribute("tipo", tipo);
                         objSesion.setAttribute("i_d", u.getId_usuario());
                         objSesion.setAttribute("cap",array1);
-                        System.out.println(tipo + "pana");
                         request.setAttribute("usuario1", u);
                         response.sendRedirect("usuario/index.jsp");
                         break;
                     default:
                         // capturista
                         ArrayList<String> array= new ArrayList<>();
-                        System.out.println("capturista");
-                        objSesion.setMaxInactiveInterval(interv+10000);
+                        objSesion.setMaxInactiveInterval(interv+100000);
                         objSesion.setAttribute("usuario", nombre);
                         objSesion.setAttribute("tipo", tipo);
                         objSesion.setAttribute("i_d", u.getId_usuario());
