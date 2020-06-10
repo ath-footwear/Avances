@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ad0a8a3b-c8a6-4df7-8c78-0e51f5591e36">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="f1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="f2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select ISNULL(npares , 0) as pares,estilo,a.lote,ultima_fecha,combinacion,years,p.prog from programa p join avance a on a.id_prog = p.id_prog
+where fechaoji between $P{f1} and $P{f2}]]>
+	</queryString>
+	<field name="pares" class="java.lang.Integer"/>
+	<field name="estilo" class="java.lang.Integer"/>
+	<field name="lote" class="java.lang.String"/>
+	<field name="ultima_fecha" class="java.lang.String"/>
+	<field name="combinacion" class="java.lang.String"/>
+	<field name="years" class="java.lang.Integer"/>
+	<field name="prog" class="java.lang.String"/>
+	<variable name="ojillado" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{pares}]]></variableExpression>
+	</variable>
+	<variable name="total" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{pares}]]></variableExpression>
+	</variable>
+	<columnHeader>
+		<band height="18">
+			<staticText>
+				<reportElement x="158" y="0" width="89" height="16" uuid="3fb75863-c2d7-4b6e-92ae-f3f50eb0e6c5"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Estilo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="247" y="0" width="187" height="16" uuid="d20f64c1-91a1-4151-8f18-2f04aefddb19"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Combinacion]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="89" height="16" uuid="3589b79e-ce85-472e-a95d-ffa2d9e88a83"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[lote]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="434" y="0" width="68" height="16" uuid="565a2794-2d00-4cfe-abe7-f309fa373cce"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[N Pares]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="502" y="0" width="72" height="16" uuid="eddbdc98-9671-4be8-a122-41641415e306"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="89" y="0" width="69" height="16" uuid="f6a126fd-13e0-459f-82b8-1d292542e532"/>
+				<textElement textAlignment="Center">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Programa]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="14" splitType="Stretch">
+			<textField>
+				<reportElement x="502" y="0" width="72" height="12" uuid="4b9637a9-a0cb-47fc-9825-25cff4ceb34d"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{ultima_fecha}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="89" y="0" width="69" height="12" uuid="383fc57e-0741-4222-bf62-bdba9cb187be"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{prog}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="247" y="0" width="187" height="12" uuid="46d7c72e-714f-4024-9bc6-d515ab70f2ec"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{combinacion}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="434" y="0" width="68" height="12" uuid="76c8f3e3-3b02-4280-b726-8f1ba8b835b3"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pares}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="0" y="0" width="89" height="12" uuid="952389d2-d04c-41d0-ae56-bdd27c1ab36a"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lote}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="158" y="0" width="89" height="12" uuid="963f5fb6-903b-40fb-bdb6-24d3f409972f"/>
+				<textElement textAlignment="Center">
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{estilo}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<summary>
+		<band height="38">
+			<textField pattern="#,##0">
+				<reportElement x="424" y="18" width="78" height="20" uuid="fb2e5544-2390-44fa-8d10-4f1e8d5d4eef"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="324" y="18" width="100" height="20" uuid="554c4e0c-fbd8-4b59-bb24-de6b4323e5c3"/>
+				<textElement textAlignment="Right">
+					<font size="12" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
+			</staticText>
+		</band>
+	</summary>
+</jasperReport>

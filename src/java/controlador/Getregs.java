@@ -129,7 +129,6 @@ private String codigo(String estilo){
            // System.out.println("Inicio "+f+" uso " +uso);
                 ArrayList<String> lista;
                  lista = (ArrayList<String>) objSesion.getAttribute("cap");
-            
             // verificar que accion hara el servlet
             if (uso.equals("nuevo")) {// nuevo programa
                 ArrayList<String> listas= new ArrayList<>();
@@ -146,7 +145,6 @@ private String codigo(String estilo){
                 p.setFecha(fechac);
                 p.setCodigo(codigo(f1));
                 p.setYear(año);
-                
                     if(a.checkprograma(p)){
                         out.print("<div class=container-fluid><div class=container><label class=ln>Registro repetido, Favor de modificar el registro anterior</label></div></div>");
                     }else{

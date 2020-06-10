@@ -16,7 +16,7 @@
 	<field name="pares" class="java.lang.Integer"/>
 	<detail>
 		<band height="12" splitType="Stretch">
-			<textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
 				<reportElement x="58" y="0" width="75" height="11" uuid="3be7e454-d924-47cb-ab45-e167b854299d"/>
 				<textElement>
 					<font size="8"/>

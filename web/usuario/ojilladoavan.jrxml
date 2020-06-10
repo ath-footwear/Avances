@@ -10,13 +10,16 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select sum(npares) as pares from programa p join avance a on a.id_prog = p.id_prog
+		<![CDATA[select ISNULL(sum(npares) , 0) as pares from programa p join avance a on a.id_prog = p.id_prog
 where fechaoji between $P{f1} and $P{f2}]]>
 	</queryString>
 	<field name="pares" class="java.lang.Integer"/>
+	<variable name="ojillado" class="java.lang.Integer" calculation="Sum">
+		<variableExpression><![CDATA[$F{pares}]]></variableExpression>
+	</variable>
 	<detail>
 		<band height="22" splitType="Stretch">
-			<textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
 				<reportElement x="0" y="0" width="100" height="20" uuid="3be7e454-d924-47cb-ab45-e167b854299d"/>
 				<textFieldExpression><![CDATA[$F{pares}]]></textFieldExpression>
 			</textField>

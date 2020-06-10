@@ -58,6 +58,7 @@
                     <li ><a class="navbar-brand" href="index.jsp"><img src="../images/home.png" class="" width="25"></a></li>
                     <li class="ln"><a href="buscalote.jsp">Reporte Programa</a></li>
                     <li class="ln active"><a  href="">Avance General</a></li>
+                    <li class="ln"><a href="verpares.jsp">Ver Pares</a></li>
                     <li class="ln"><a href="../Cierresesion">Salir</a></li>
                 </ul>
                 <div style="float:right" class="nav nav-pills">

@@ -1,6 +1,4 @@
 <%-- 
-    Document   : depcosto
-    Created on : Sep 15, 2017, 9:51:16 AM
     Author     : gateway1
 --%>
 
@@ -27,7 +25,7 @@
             String tipos = (String) objSesion.getAttribute("tipo");
             String ids = String.valueOf(objSesion.getAttribute("i_d"));
 
-            if (usuario != null && tipos != null && tipos.equals("ADMIN")) {
+            if (usuario != null && tipos != null && (tipos.equals("USUARIO")||tipos.equals("ADMIN"))) {
 
             } else {
                 response.sendRedirect("../index.jsp");
@@ -35,6 +33,7 @@
             String f1 = request.getParameter("f1");
             String f2 = request.getParameter("f2");
             String maq= request.getParameter("maq").toUpperCase();
+            String det=request.getParameter("det");
             String maquila=maq;
             String patt = "\\d{1,2}\\-\\d{1,2}\\-\\d{4}";
             Pattern pat = Pattern.compile(patt);
@@ -46,9 +45,8 @@
                     System.out.println(db.getConexion());
                     
                 if(maq.equals("TODOS")){// reporte para elegir todos los pares
-                 File reportfile = new File(application.getRealPath("usuario/avancespares.jasper"));
+                 File reportfile = new File(application.getRealPath("usuario/avancespares"+det+".jasper"));
                     Map para = new HashMap();
-                    System.out.println(db.getConexion() + "/" + f1 + "/+/" + f2);
                     para.put("f1", new String(f1));
                     para.put("f2", new String(f2));
                     byte[] bytes = JasperRunManager.runReportToPdf(reportfile.getPath(), para, db.getConexion());
@@ -59,7 +57,7 @@
                     outputstream.flush();
                     outputstream.close();
                 }else{// reporte para repote enespecifico
-                 File reportfile = new File(application.getRealPath("usuario/reports/avancespares.jasper"));
+                 File reportfile = new File(application.getRealPath("usuario/avancespares.jasper"));
                     Map para = new HashMap();
                     System.out.println(db.getConexion() + "/" + f1 + "/+/" + f2+"/+ maq/"+maq.charAt(0));
                     maq=String.valueOf(maq.charAt(0));

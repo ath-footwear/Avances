@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="612" pageHeight="792" columnWidth="612" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="ad0a8a3b-c8a6-4df7-8c78-0e51f5591e36">
+	<property name="ireport.zoom" value="1.464100000000001"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="f1" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="f2" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="SUBREPORT_DIR" class="java.lang.String" isForPrompting="false">
+		<defaultValueExpression><![CDATA["C:\\Users\\GATEWAY1-\\Documents\\NetBeansProjects\\Avances\\web\\usuario\\"]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[select a.montado,ISNULL(sum(npares) , 0) as 'pares' from programa p join avance a on a.id_prog = p.id_prog where a.montado !=0 and a.fechamont between $P{f1} and $P{f2} group by a.montado order by a.montado]]>
+	</queryString>
+	<field name="montado" class="java.lang.Integer"/>
+	<field name="pares" class="java.lang.Integer"/>
+	<detail>
+		<band height="23" splitType="Stretch">
+			<textField pattern="#,##0" isBlankWhenNull="true">
+				<reportElement x="58" y="0" width="75" height="15" uuid="3be7e454-d924-47cb-ab45-e167b854299d"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pares}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="31" y="0" width="18" height="15" uuid="effa4db4-a4f0-4184-9da0-516d3a52d50c"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{montado}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="49" y="0" width="9" height="15" uuid="97ddfcab-59ab-46a9-a672-7dc089de773d"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="0" y="0" width="31" height="15" uuid="c6be812e-568f-483f-bc34-b15919f8a715"/>
+				<textElement>
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Banda]]></text>
+			</staticText>
+			<subreport>
+				<reportElement x="12" y="15" width="581" height="8" uuid="167c5662-b34c-4a05-9b87-3cc1c7ba2505"/>
+				<subreportParameter name="f1">
+					<subreportParameterExpression><![CDATA[$P{f1}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="f2">
+					<subreportParameterExpression><![CDATA[$P{f2}]]></subreportParameterExpression>
+				</subreportParameter>
+				<subreportParameter name="banda">
+					<subreportParameterExpression><![CDATA[$F{montado}]]></subreportParameterExpression>
+				</subreportParameter>
+				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
+				<subreportExpression><![CDATA["C:\\af\\Avances\\Reportes\\montadoavandet.jasper"]]></subreportExpression>
+			</subreport>
+		</band>
+	</detail>
+</jasperReport>

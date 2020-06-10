@@ -15,18 +15,17 @@
     String ids = String.valueOf(objSesion.getAttribute("i_d"));
 
     //out.print(carrito.size());
-    // out.println("" + tipos+"/"+ids);
     if (usuario != null && tipos != null) {
-        if(tipos.equals("USUARIO")){
-        }else
+        if (tipos.equals("USUARIO")) {
+        } else {
             response.sendRedirect("../index.jsp");
+        }
     } else {
         response.sendRedirect("../index.jsp");
     }
-     Calendar fecha = Calendar.getInstance();
+    Calendar fecha = Calendar.getInstance();
     int year = fecha.get(Calendar.YEAR);
     int mes = fecha.get(Calendar.MONTH) + 1;
-    
     Avances bd = new Avances();
     // estado = bd.alerta();
 %>
@@ -34,7 +33,7 @@
 <!DOCTYPE html>
 <html >
     <head>
-        
+
         <meta http-equiv="refresh" content="800">
         <link rel="icon"  href="../images/aff.png" sizes="32x32"/>
         <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
@@ -50,7 +49,6 @@
         <script type="text/javascript" src="../js/jquery-3.1.1.min.js"></script>
         <script type="text/javascript" src="../js/bootstrap.min.js"></script>
         <script>
-           
             $(document).ready(function () {
                 document.getElementById("lote").focus();
             });
@@ -59,15 +57,15 @@
     </head>
     <body class="body1">
         <div class="container-fluid">
-                <nav class="navbar navbar-default">
-                
+            <nav class="navbar navbar-default">
+
                 <ul class="nav navbar-nav nav-pills">
                     <a class="navbar-brand" href=""><img src="../images/home.png" class="" width="25"></a>
                     <li class="ln"><a href="lote_detenido.jsp">Lotes detenidos</a></li>
                     <li class="ln"><a href="verpares.jsp">Ver Pares</a></li>                 
                     <li class="ln"><a href="../Cierresesion">Salir</a></li>
                 </ul>
-                    <div style="float:right" class="nav nav-pills">
+                <div style="float:right" class="nav nav-pills">
                     <li > <label class="ln">Online: <%=usuario%></label></li>
                 </div>
             </nav>
@@ -77,109 +75,109 @@
                     <label class="ln-ln fuera">Busquedas</label><br>
                     <div class="row" align="center">
                         <div class="col-sm-offset-5 col-sm-2">
-                                <label class="ln">Lote</label><input class="form-control" type="text" name="lote" id="lote" onchange="jumpto()" maxlength="6" value=""><br>
+                            <label class="ln">Lote</label><input class="form-control" type="text" name="lote" id="lote" onchange="jumpto()" maxlength="6" value=""><br>
                         </div>
                         <div class="col-sm-offset-5 col-sm-2">
-                                <select id="mes" name="mes" onchange="jumpto1()" class="form-control" value="">
-                                    <%
-                                        for (int i = 1; i <= 12; i++) {
-                                            if (i == mes) {
-                                                out.print("<option selected>" + i + "</option>");
-                                            } else {
-                                                out.print("<option>" + i + "</option>");
-                                            }
-
+                            <select id="mes" name="mes" onchange="jumpto1()" class="form-control" value="">
+                                <%
+                                    for (int i = 1; i <= 12; i++) {
+                                        if (i == mes) {
+                                            out.print("<option selected>" + i + "</option>");
+                                        } else {
+                                            out.print("<option>" + i + "</option>");
                                         }
-                                    %>
-                                </select>
+
+                                    }
+                                %>
+                            </select>
                         </div>
                         <div class="col-sm-offset-5 col-sm-2">
                             <label class="ln">Año</label><input class="form-control" type="text" name="year" id="year" onchange="saltok()" maxlength="4" value="<%=year%>"><br>
                         </div>        
-                                
+
                     </div>
                     <br><div class="row">
                         <div align="center"> <br><button class="btn btn-success ln" id="boton" onclick="nprograma()">Aceptar</button> 
                             <button class="btn btn-success ln" id="boton2" onclick="busqueda()">Historial de Lotes</button>
-                        <button class="btn btn-success ln" id="boton3" onclick="lotes()">Generar reporte</button></div>
+                            <button class="btn btn-success ln" id="boton3" onclick="lotes()">Generar reporte</button></div>
                         <button class="btn btn-success ln" id="boton4" onclick="prea()">Reporte preacabado</button></div> 
-                    </div>
                 </div>
-                   <div id="respuesta" class="row deep-sm"></div>
-                   
-            </div><br>
-        </div> 
+            </div>
+            <div id="respuesta" class="row deep-sm"></div>
+
+        </div><br>
+    </div> 
     <script>
-       function jumpto(){
-           document.getElementById("mes").focus();
-       }
-       function jumpto1(){
-           document.getElementById("year").focus();
-       }
+        function jumpto() {
+            document.getElementById("mes").focus();
+        }
+        function jumpto1() {
+            document.getElementById("year").focus();
+        }
         function nprograma() {
-            var lote ="";
-            lote=$('#lote').val();
-        var mes =$('#mes').val();
-        var year =$('#year').val();
-           if(lote===""){
-               
-           }else{
-               if( !(/^[\d]+$/i.test(lote))){
-                   //alert('Verifique Datos ingresados');
-                   return 0;
-               }else {
-               
-               var uso = "check";
+            var lote = "";
+            lote = $('#lote').val();
+            var mes = $('#mes').val();
+            var year = $('#year').val();
+            if (lote === "") {
+
+            } else {
+                if (!(/^[\d]+$/i.test(lote))) {
+                    //alert('Verifique Datos ingresados');
+                    return 0;
+                } else {
+
+                    var uso = "check";
+                    $.ajax({
+                        type: 'post',
+                        data: {f1: lote, uso: uso, mes: mes, year: year},
+                        url: '../Getregslote',
+                        success: function (result) {
+                            $('#respuesta').html(result);
+
+                        }
+                    });
+                }
+            }
+        }
+        function lotes() {
+            var prog = $('#lote').val();
+            var mes = $('#mes').val();
+            var year = $('#year').val();
+            window.location = "programadetallado.jsp?prog=" + prog + "&mes=" + mes + "&year=" + year;
+        }
+        function prea() {
+            var prog = $('#lote').val();
+            var mes = $('#mes').val();
+            var year = $('#year').val();
+            window.location = "programapreacabado.jsp?prog=" + prog + "&mes=" + mes + "&year=" + year;
+        }
+        function busqueda() {
+            var programa = '0';
+            var lote = $('#lote').val();
+            var estilo = '0';
+            var pares = '0';
+            var corrida = '0';
+            var combinacion = '0';
+            var mes = $("#mes").val();
+
+
+            var uso = "buscar";
             $.ajax({
                 type: 'post',
-                data: {f1: lote, uso: uso,mes:mes,year:year},
-                url: '../Getregslote',
+                data: {f: programa, f1: lote, f2: estilo, f3: pares, f4: corrida, f5: combinacion, f6: mes, uso: uso},
+                url: '../Getregs',
                 success: function (result) {
                     $('#respuesta').html(result);
-                   
+                    // document.location.reload();
+                    //document.forma1.lote.focus();
                 }
             });
-                }    
-           }
         }
-        function lotes(){
-            var prog =$('#lote').val();
-            var mes =$('#mes').val();
-            var year =$('#year').val();
-            window.location="programadetallado.jsp?prog="+prog+"&mes="+mes+"&year="+year;
-        }
-        function prea(){
-            var prog =$('#lote').val();
-            var mes =$('#mes').val();
-            var year =$('#year').val();
-            window.location="programapreacabado.jsp?prog="+prog+"&mes="+mes+"&year="+year;
-        }
-        function busqueda(){
-             var programa = '0';
-                var lote = $('#lote').val();
-                var estilo = '0';
-                var pares = '0';
-                var corrida = '0';
-                var combinacion = '0';
-                var mes =$("#mes").val();
-                
 
-                var uso = "buscar";
-                $.ajax({
-                    type: 'post',
-                    data: {f: programa, f1: lote, f2: estilo, f3: pares, f4: corrida, f5: combinacion, f6: mes, uso: uso},
-                    url: '../Getregs',
-                    success: function (result) {
-                        $('#respuesta').html(result);
-                        // document.location.reload();
-                        //document.forma1.lote.focus();
-                    }
-                });
-            }
-            
-        function saltok(){
+        function saltok() {
             document.getElementById("boton").focus();
-            
+
         }
     </script>
 </body>

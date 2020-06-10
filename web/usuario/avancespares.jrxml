@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5fc888d5-e5e2-45e7-b9f2-379eaad047f2">
-	<property name="ireport.zoom" value="1.4641000000000095"/>
-	<property name="ireport.x" value="124"/>
-	<property name="ireport.y" value="74"/>
+	<property name="ireport.zoom" value="1.1000000000000074"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="100"/>
 	<style name="table">
 		<box>
 			<pen lineWidth="1.0" lineColor="#000000"/>
@@ -34,15 +34,30 @@
 		<defaultValueExpression><![CDATA["C:\\Users\\gateway1\\Documents\\NetBeansProjects\\Avances\\web\\usuario\\"]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[select sum(npares) as pares from programa p join avance a on a.id_prog = p.id_prog
+		<![CDATA[select ISNULL(sum(npares) , 0) as pares from programa p join avance a on a.id_prog = p.id_prog
 where fechacor between $P{f1} and $P{f2}]]>
 	</queryString>
 	<field name="pares" class="java.lang.Integer"/>
+	<variable name="corte" class="java.lang.Integer"/>
+	<variable name="precorte" class="java.lang.Integer">
+		<variableExpression><![CDATA[]]></variableExpression>
+		<initialValueExpression><![CDATA[]]></initialValueExpression>
+	</variable>
+	<variable name="pespunte" class="java.lang.Integer"/>
+	<variable name="deshebrado" class="java.lang.Integer"/>
+	<variable name="ojillado" class="java.lang.Integer"/>
+	<variable name="inspeccion" class="java.lang.Integer"/>
+	<variable name="preacabado" class="java.lang.Integer"/>
+	<variable name="montado" class="java.lang.Integer"/>
+	<variable name="pt" class="java.lang.Integer"/>
+	<variable name="total" class="java.lang.Integer">
+		<variableExpression><![CDATA[$V{precorte}+$V{pespunte}]]></variableExpression>
+	</variable>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
 	<title>
-		<band height="75" splitType="Stretch">
+		<band height="114" splitType="Stretch">
 			<textField pattern="dd/MM/yyyy h.mm a">
 				<reportElement x="455" y="0" width="100" height="20" uuid="925a5b83-216c-40f2-a436-498191f7f31c"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
@@ -51,46 +66,49 @@ where fechacor between $P{f1} and $P{f2}]]>
 				<reportElement x="355" y="0" width="100" height="20" uuid="978cdb24-3e29-4065-a795-53c757315812"/>
 				<text><![CDATA[Fecha de Impresion :]]></text>
 			</staticText>
-		</band>
-	</title>
-	<pageHeader>
-		<band height="77" splitType="Stretch">
 			<staticText>
-				<reportElement x="94" y="0" width="397" height="23" uuid="378a7877-254a-4af9-94a0-7035804f4c7b"/>
+				<reportElement x="78" y="65" width="440" height="23" uuid="378a7877-254a-4af9-94a0-7035804f4c7b"/>
 				<textElement>
 					<font fontName="Serif" size="18"/>
 				</textElement>
-				<text><![CDATA[Reporte de pares producidos por departamento]]></text>
+				<text><![CDATA[Reporte de producción en proceso por Departamento]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="184" y="23" width="96" height="23" uuid="ccdf882b-55a5-4d66-abfc-5ba207cbd021"/>
+				<reportElement x="192" y="88" width="96" height="23" uuid="ccdf882b-55a5-4d66-abfc-5ba207cbd021"/>
 				<textElement>
 					<font fontName="Serif" size="18"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{f1}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="314" y="23" width="103" height="23" uuid="c54c52b7-c879-419a-bd27-9cea74a84aa2"/>
+				<reportElement x="322" y="88" width="103" height="23" uuid="c54c52b7-c879-419a-bd27-9cea74a84aa2"/>
 				<textElement>
 					<font fontName="Serif" size="18"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$P{f2}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="280" y="23" width="34" height="23" uuid="8e5a6546-d0a3-444f-a206-a94ac3997991"/>
+				<reportElement x="288" y="88" width="34" height="23" uuid="8e5a6546-d0a3-444f-a206-a94ac3997991"/>
 				<textElement>
 					<font fontName="Serif" size="18"/>
 				</textElement>
 				<text><![CDATA[Al dia ]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="146" y="23" width="38" height="23" uuid="40709511-5c7e-4e41-9b13-14ffa2d0f0e6"/>
+				<reportElement x="154" y="88" width="38" height="23" uuid="40709511-5c7e-4e41-9b13-14ffa2d0f0e6"/>
 				<textElement>
 					<font fontName="Serif" size="18"/>
 				</textElement>
 				<text><![CDATA[Del]]></text>
 			</staticText>
+			<image>
+				<reportElement x="0" y="0" width="123" height="35" uuid="0e7b04a8-759d-4bfe-be5e-fac7984ef954"/>
+				<imageExpression><![CDATA["C:\\af\\Avances\\images\\AF.jpg"]]></imageExpression>
+			</image>
 		</band>
+	</title>
+	<pageHeader>
+		<band height="5" splitType="Stretch"/>
 	</pageHeader>
 	<columnHeader>
 		<band height="29" splitType="Stretch">
@@ -117,7 +135,7 @@ where fechacor between $P{f1} and $P{f2}]]>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="405" splitType="Stretch">
+		<band height="266" splitType="Stretch">
 			<rectangle radius="5">
 				<reportElement x="152" y="11" width="249" height="231" forecolor="#C0B9B9" uuid="7498394d-ce66-4dea-9617-20c5aa12deab"/>
 			</rectangle>
@@ -188,7 +206,7 @@ where fechacor between $P{f1} and $P{f2}]]>
 			<line>
 				<reportElement x="152" y="240" width="249" height="1" uuid="e50a0e01-d6f5-4afd-8bc5-267afb8698b0"/>
 			</line>
-			<textField>
+			<textField pattern="#,##0" isBlankWhenNull="true">
 				<reportElement x="343" y="11" width="49" height="20" uuid="eaa6248c-a113-4762-a3de-cff9a3cf472f"/>
 				<textFieldExpression><![CDATA[$F{pares}]]></textFieldExpression>
 			</textField>
@@ -212,7 +230,8 @@ where fechacor between $P{f1} and $P{f2}]]>
 					<subreportParameterExpression><![CDATA[$P{f2}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "precorteavan.jasper"]]></subreportExpression>
+				<returnValue subreportVariable="precorte" toVariable="precorte" calculation="Sum"/>
+				<subreportExpression><![CDATA["C:\\af\\Avances\\Reportes\\precorteavan.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
 				<reportElement x="343" y="51" width="49" height="21" uuid="361ba83b-e526-4ab6-b540-31b0102a8793"/>
@@ -223,7 +242,8 @@ where fechacor between $P{f1} and $P{f2}]]>
 					<subreportParameterExpression><![CDATA[$P{f2}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "pespunteavan.jasper"]]></subreportExpression>
+				<returnValue subreportVariable="pespunte" toVariable="pespunte" calculation="Sum"/>
+				<subreportExpression><![CDATA["C:\\af\\Avances\\Reportes\\pespunteavan.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
 				<reportElement x="343" y="72" width="49" height="21" uuid="53ce96c8-15d7-48c7-94f4-326fe081172e"/>
@@ -234,7 +254,8 @@ where fechacor between $P{f1} and $P{f2}]]>
 					<subreportParameterExpression><![CDATA[$P{f2}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "deshebradoavan.jasper"]]></subreportExpression>
+				<returnValue subreportVariable="deshebrado" toVariable="deshebrado" calculation="Sum"/>
+				<subreportExpression><![CDATA["C:\\af\\Avances\\Reportes\\deshebradoavan.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
 				<reportElement x="345" y="94" width="47" height="20" uuid="c68c753c-933a-46a8-a27c-79b2b55c9bf5"/>
@@ -245,7 +266,8 @@ where fechacor between $P{f1} and $P{f2}]]>
 					<subreportParameterExpression><![CDATA[$P{f2}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ojilladoavan.jasper"]]></subreportExpression>
+				<returnValue subreportVariable="ojillado" toVariable="ojillado" calculation="Sum"/>
+				<subreportExpression><![CDATA["C:\\af\\Avances\\Reportes\\ojilladoavan.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
 				<reportElement x="343" y="140" width="49" height="16" uuid="379573af-951f-4e1e-a1b3-69a93cb5f798"/>
@@ -256,7 +278,8 @@ where fechacor between $P{f1} and $P{f2}]]>
 					<subreportParameterExpression><![CDATA[$P{f2}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "preaabadoavan.jasper"]]></subreportExpression>
+				<returnValue subreportVariable="preacabado" toVariable="preacabado" calculation="Sum"/>
+				<subreportExpression><![CDATA["C:\\af\\Avances\\Reportes\\preaabadoavan.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
 				<reportElement x="343" y="114" width="49" height="21" uuid="c5037585-ef2d-469b-9485-a6f270e375a6"/>
@@ -267,7 +290,8 @@ where fechacor between $P{f1} and $P{f2}]]>
 					<subreportParameterExpression><![CDATA[$P{f2}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "inspeccionavan.jasper"]]></subreportExpression>
+				<returnValue subreportVariable="inspeccion" toVariable="inspeccion" calculation="Sum"/>
+				<subreportExpression><![CDATA["C:\\af\\Avances\\Reportes\\inspeccionavan.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
 				<reportElement x="343" y="177" width="49" height="33" uuid="33f1f856-4af5-4f64-9cc5-174ccfd92661"/>
@@ -278,7 +302,8 @@ where fechacor between $P{f1} and $P{f2}]]>
 					<subreportParameterExpression><![CDATA[$P{f2}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "montadoavan.jasper"]]></subreportExpression>
+				<returnValue subreportVariable="montado" toVariable="montado" calculation="Sum"/>
+				<subreportExpression><![CDATA["C:\\af\\Avances\\Reportes\\montadoavan.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
 				<reportElement x="343" y="220" width="49" height="20" uuid="1d34a27e-c5ae-4709-9df9-47242856505c"/>
@@ -289,10 +314,11 @@ where fechacor between $P{f1} and $P{f2}]]>
 					<subreportParameterExpression><![CDATA[$P{f2}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "ptavan.jasper"]]></subreportExpression>
+				<returnValue subreportVariable="pt" toVariable="pt" calculation="Sum"/>
+				<subreportExpression><![CDATA["C:\\af\\Avances\\Reportes\\ptavan.jasper"]]></subreportExpression>
 			</subreport>
 			<subreport>
-				<reportElement x="213" y="180" width="82" height="40" uuid="de8cdebf-2715-4759-a949-0c67047aa7fb"/>
+				<reportElement x="206" y="177" width="82" height="40" uuid="de8cdebf-2715-4759-a949-0c67047aa7fb"/>
 				<subreportParameter name="f1">
 					<subreportParameterExpression><![CDATA[$P{f1}]]></subreportParameterExpression>
 				</subreportParameter>
@@ -300,7 +326,7 @@ where fechacor between $P{f1} and $P{f2}]]>
 					<subreportParameterExpression><![CDATA[$P{f2}]]></subreportParameterExpression>
 				</subreportParameter>
 				<connectionExpression><![CDATA[$P{REPORT_CONNECTION}]]></connectionExpression>
-				<subreportExpression><![CDATA[$P{SUBREPORT_DIR} + "banda.jasper"]]></subreportExpression>
+				<subreportExpression><![CDATA["C:\\af\\Avances\\Reportes\\banda.jasper"]]></subreportExpression>
 			</subreport>
 		</band>
 	</detail>
@@ -308,7 +334,7 @@ where fechacor between $P{f1} and $P{f2}]]>
 		<band height="20" splitType="Stretch"/>
 	</columnFooter>
 	<pageFooter>
-		<band height="54" splitType="Stretch"/>
+		<band height="55" splitType="Stretch"/>
 	</pageFooter>
 	<summary>
 		<band height="42" splitType="Stretch"/>

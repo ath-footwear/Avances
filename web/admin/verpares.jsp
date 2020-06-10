@@ -118,7 +118,7 @@ if(dia<10){
                         <div class="col-sm-offset-3" >
                             <form name="forma" >
                                 <div class="col-sm-3" align="center">
-                                    <label class="ln">Inicial</label><input class="form-control input-sm chat-input ln" type="text" name="f1" id="f1" value="<%=fechaca%>" onchange="okas()" maxlength="10"  required/>
+                                    <label class="ln">Inicial</label><input class="form-control input-sm chat-input ln" type="text" name="f1" id="f1" value="<%=fechac%>" onchange="okas()" maxlength="10"  required/>
                                 </div>
                                 <div class="col-sm-2">
                                     <br>
@@ -250,13 +250,13 @@ if(dia<10){
                 var f2 = $('#f2').val();
                 var d=$('#detallado').val();
                 if(document.getElementById("detallado").checked){
-                    d="detalle";
+                    d="_det";
                 }else{
-                    d="vacio";
+                    d="";
                 }
                 
                 var maq=$('#maq').val();
-                location = 'avancespares.jsp?f1=' + f1 + '&f2=' + f2+'&maq='+maq;
+                location = 'avancespares.jsp?f1=' + f1 + '&f2=' + f2+'&maq='+maq+'&det='+d;
             }
             
             function mostrarVentanas(dep)

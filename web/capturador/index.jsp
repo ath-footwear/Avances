@@ -12,49 +12,48 @@
     String usuario = (String) objSesion.getAttribute("usuario");
     String tipos = (String) objSesion.getAttribute("tipo");
     String ids = String.valueOf(objSesion.getAttribute("i_d"));
-try{
+    try {
 
-    if (usuario == null) {
-       // System.out.println("zom");
-        response.sendRedirect("../index.jsp");
-    } else {
-       // System.out.println("inter");
-        if (tipos.equals("INTERMEDIO")) {
-        } else {
+        if (usuario == null) {
+            // System.out.println("zom");
             response.sendRedirect("../index.jsp");
+        } else {
+            // System.out.println("inter");
+            if (tipos.equals("INTERMEDIO")) {
+            } else {
+                response.sendRedirect("../index.jsp");
+            }
         }
-    }
-    Programa pro = new Programa();
-    ArrayList<String> lista;
-    lista = (ArrayList<String>) objSesion.getAttribute("cap");
-    Calendar fecha = Calendar.getInstance();
-    int año = fecha.get(Calendar.YEAR);
-    int mes = fecha.get(Calendar.MONTH) + 1;
-    int dia = fecha.get(Calendar.DAY_OF_MONTH);
-    String fechac = dia + "-" + mes + "-" + año;
-    if (lista.isEmpty()) {// validar si la lista de el programa esta vacio
-        pro.setMes(mes);
-    } else {//utilizarel objeto de programa para usar los datos de la consulta
-        pro.setPrograma(Integer.parseInt(lista.get(0)));
-        pro.setEstilo(Integer.parseInt(lista.get(1)));
-        pro.setPares(Integer.parseInt(lista.get(2)));
-        pro.setCombinacion(lista.get(3));
-        pro.setCorrida(lista.get(4));
-        pro.setMes(Integer.parseInt(lista.get(5)));
-        pro.setFechae(lista.get(6));
-        pro.setStatus(lista.get(7));
-        pro.setLote(Integer.parseInt(lista.get(8)));
-        pro.setId(Integer.parseInt(lista.get(9)));
-    }
-    Avances bd = new Avances();
-    ArrayList<String> array = array = bd.getcoms();// obtener todas las combinaciones agregadas
+        Programa pro = new Programa();
+        ArrayList<String> lista;
+        lista = (ArrayList<String>) objSesion.getAttribute("cap");
+        Calendar fecha = Calendar.getInstance();
+        int año = fecha.get(Calendar.YEAR);
+        int mes = fecha.get(Calendar.MONTH) + 1;
+        int dia = fecha.get(Calendar.DAY_OF_MONTH);
+        String fechac = dia + "-" + mes + "-" + año;
+        if (lista.isEmpty()) {// validar si la lista de el programa esta vacio
+            pro.setMes(mes);
+        } else {//utilizarel objeto de programa para usar los datos de la consulta
+            pro.setPrograma(Integer.parseInt(lista.get(0)));
+            pro.setEstilo(Integer.parseInt(lista.get(1)));
+            pro.setPares(Integer.parseInt(lista.get(2)));
+            pro.setCombinacion(lista.get(3));
+            pro.setCorrida(lista.get(4));
+            pro.setMes(Integer.parseInt(lista.get(5)));
+            pro.setFechae(lista.get(6));
+            pro.setStatus(lista.get(7));
+            pro.setLote(Integer.parseInt(lista.get(8)));
+            pro.setId(Integer.parseInt(lista.get(9)));
+        }
+        Avances bd = new Avances();
+        ArrayList<String> array = array = bd.getcoms();// obtener todas las combinaciones agregadas
 
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html >
     <head>
-        <meta http-equiv="refresh" content="500">
         <link rel="icon"  href="../images/aff.png" sizes="32x32"/>
         <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0" />
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -142,10 +141,10 @@ try{
         <div class="container-fluid">
             <nav class="navbar navbar-default">
                 <ul class="nav navbar-nav nav-pills">
-                    <li class="active"><a class="navbar-brand" href="index.jsp"><img src="../images/home.png" class="" width="25"></a></li>
-
+                    <li class="active"><a class="navbar-brand" href="index.jsp"><img src="../images/home.png" class="" width="25"></a></li> 
                     <li class="ln"><a href="buscalote.jsp">Reporte Programa</a></li>
                     <li class="ln"><a href="avancegeneral.jsp">Avance General</a></li>
+                    <li class="ln"><a href="verpares.jsp">Ver Pares</a></li>
                     <li class="ln"><a href="../Cierresesion">Salir</a></li>
                 </ul>
                 <div style="float:right" class="nav nav-pills">
@@ -180,17 +179,15 @@ try{
                                             } else {
                                                 out.print("<option>" + i + "</option>");
                                             }
-
                                         }
                                     %>
                                 </select>
                             </div>
-                                <div class="col-sm-2">
+                            <div class="col-sm-2">
                                 <label class="ln">Lote</label><input class="form-control" type="text" name="lote" id="lote" onchange="salto()" maxlength="6" required value="<%=pro.getLote()%>">
                             </div>
                         </div>
                         <div class="row"><br>
-                            
                             <div class="col-sm-2">
                                 <label class="ln">Estilo</label><input class="form-control" type="text" name="estilo" id="estilo" onchange="salto1()" maxlength="6" required value="<%=pro.getEstilo()%>">
                             </div>
@@ -211,11 +208,13 @@ try{
                                             <option value="31">31/94(25/30)</option>
                                             <option value="32">32/96(30/33)</option>
                                             <option value="24">24/98(23/27)</option>
+                                            <option value="25">25/88(22/27)</option>
+                                            <option value="26">22(22/26)</option>
                                         </select>
                                     </div>
                                 </div>
                             </div>
-                                    <div class="col-sm-2">
+                            <div class="col-sm-2">
                                 <label class="ln">Suela</label><input class="form-control" type="text" name="suela" id="suela" onchange="salto7()" maxlength="15" required value="">
                             </div>
                             <div class="col-sm-4">
@@ -272,7 +271,7 @@ try{
             }
             function saltoa() {
                 document.forma1.mes.focus();
-               // validar();
+                // validar();
             }
             function salto() {
                 document.forma1.estilo.focus();
@@ -290,7 +289,7 @@ try{
                 document.getElementById("corrida").value = $('#corri').val();
                 document.forma1.corrida.focus();
             }
-             function salto31() {
+            function salto31() {
                 document.forma1.suela.focus();
             }
             function salto4() {
@@ -316,11 +315,11 @@ try{
                     var pares = $('#pares').val();
                     var corrida = $('#corrida').val();
                     var combinacion = $('#combinacion').val();
-                    var suela=$('#suela').val();
+                    var suela = $('#suela').val();
                     var mes = $('#mes').val();
                     var fechae = $('#fechae').val();
                     var uso = "nuevo";
-                    combinacion=suela+'-'+combinacion;
+                    combinacion = suela + '-' + combinacion;
                     $.ajax({
                         type: 'post',
                         data: {f: programa, f1: lote, f2: estilo, f3: pares, f4: corrida, f5: combinacion, f6: mes, f7: fechae, uso: uso},
@@ -332,15 +331,15 @@ try{
                             document.getElementById("pares").value = "";
                             document.getElementById("corrida").value = "";
                             document.getElementById("combinacion").value = "";
-                           uso="combupdate";
-                                        $.ajax({
-                                        type: 'post',
-                                        data: {f: programa, f1: lote, f2: estilo, f3: pares, f4: corrida, f5: combinacion, f6: mes, f7: fechae, uso: uso},
-                                        url: '../Getregs',
-                                        success: function (result1) {
-                                            $('#comb').html(result1);
-                                        }
-                                        });
+                            uso = "combupdate";
+                            $.ajax({
+                                type: 'post',
+                                data: {f: programa, f1: lote, f2: estilo, f3: pares, f4: corrida, f5: combinacion, f6: mes, f7: fechae, uso: uso},
+                                url: '../Getregs',
+                                success: function (result1) {
+                                    $('#comb').html(result1);
+                                }
+                            });
                             $('#respuesta').html(result);
                             document.forma1.programa.focus();
                         }
@@ -363,8 +362,8 @@ try{
                     url: '../Getregs',
                     success: function (result) {
                         $('#respuesta').html(result);
-                        
-                        document.getElementById("getsmes").innerHTML=mess;
+
+                        document.getElementById("getsmes").innerHTML = mess;
                         // document.location.reload();
                         //document.forma1.lote.focus();
                     }
@@ -400,9 +399,9 @@ try{
                     var mes = $('#mes').val();
                     var fechae = $('#fechae').val();
                     var uso = "modificar";
-                    var suela =$('#suela').val();
+                    var suela = $('#suela').val();
                     var idprod = $('#idprod').val();
-                    combinacion=suela+'-'+combinacion;
+                    combinacion = suela + '-' + combinacion;
                     $.ajax({
                         type: 'post',
                         data: {f: programa, f1: lote, f2: estilo, f3: pares, f4: corrida, f5: combinacion, f6: mes, f7: fechae, uso: uso, idprod: idprod},
@@ -431,7 +430,7 @@ try{
                 document.getElementById("corrida").value = "";
                 document.getElementById("combinacion").value = "";
                 document.getElementById("programa").focus();
-                document.getElementById("mes").value=<%=mes%>;
+                document.getElementById("mes").value =<%=mes%>;
             }
             function searchprog() {
                 var valida = validar();
@@ -455,17 +454,17 @@ try{
                                 searchprogm(programa);
                             } else {
                                 var d = new Date();
-                                var mess='<label class="ln">Mes</label><br><select id="mes" name="mes" onclick="presalto1()" class="form-control">';
-                                for(var i =1;i<= 12;i++){//llenar de nuevo el select del mes
-                                    if(i==(d.getMonth()+1)){
-                                        mess +=' <option selected>'+i+'</option>'; 
-                                    }else{
-                                        mess +=' <option>'+i+'</option>';
+                                var mess = '<label class="ln">Mes</label><br><select id="mes" name="mes" onclick="presalto1()" class="form-control">';
+                                for (var i = 1; i <= 12; i++) {//llenar de nuevo el select del mes
+                                    if (i == (d.getMonth() + 1)) {
+                                        mess += ' <option selected>' + i + '</option>';
+                                    } else {
+                                        mess += ' <option>' + i + '</option>';
                                     }
                                 }
-                                mess +=' </select>'; 
-                                document.getElementById("programa").value=programa;
-                                document.getElementById("getsmes").innerHTML=mess;
+                                mess += ' </select>';
+                                document.getElementById("programa").value = programa;
+                                document.getElementById("getsmes").innerHTML = mess;
                                 document.getElementById("mes").disabled = false;
                                 document.getElementById("mes").focus();
                             }
@@ -496,9 +495,9 @@ try{
     </body>
 </html>
 <%
-}catch(Exception e){
-out.println("<script type=\"text/javascript\">");
-                    out.println("location='../index.jsp';");
-                    out.println("</script>");
-}
+    } catch (Exception e) {
+        out.println("<script type=\"text/javascript\">");
+        out.println("location='../index.jsp';");
+        out.println("</script>");
+    }
 %>

@@ -77,7 +77,7 @@ public class Getregspares extends HttpServlet {
             String tiposs = (String) objSesion.getAttribute("tipo");
             String ids = String.valueOf(objSesion.getAttribute("i_d"));
 
-            if (usuario != null && tiposs != null && (tiposs.equals("USUARIO") || tiposs.equals("ADMIN"))) {
+            if (usuario != null && tiposs != null && (tiposs.equals("USUARIO") || tiposs.equals("ADMIN") ||tiposs.equals("INTERMEDIO"))) {
 
             } else {
                 response.sendRedirect("../index.jsp");

@@ -3,11 +3,20 @@
     Author     : mich
 --%>
 <%
+    try{
     HttpSession objSesion = request.getSession(false);
     String usuario = (String) objSesion.getAttribute("usuario");
     String tipos = (String) objSesion.getAttribute("tipo");
     String ids = String.valueOf(objSesion.getAttribute("i_d"));
     String tipo = "";
+    if(tipos!=null){
+        if(tipos.equals("INTERMEDIO")){
+            out.print("<script>window.location='capturador/index.jsp';</script>");
+        }else if(tipos.equals("ADMIN") ){
+            out.print("<script>window.location='admin/index.jsp';</script>");
+        }
+    }
+
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -73,7 +82,7 @@
                         <div class="col-sm-offset-4 col-sm-4" >
                             <div style="padding-top: 20%">
                                 <div class="form-login" >
-                                    <h3 class="h3" >Ingreso</h3>
+                                    <h3 class="h3" >Ingreso Avances</h3>
                                     <form id="form" name="form" action="Validar" method="POST" class="form-login " onsubmit="valida_envia()">
                                         <input  type="text" id="nombrelog" class="form-control input-sm chat-input" name="nombrelog" placeholder="username" onkeypress="valida_envia()" required/>
                                         <br>
@@ -128,3 +137,6 @@
         </footer>
     </body>
 </html>
+<%
+}catch(Exception e){}
+%>

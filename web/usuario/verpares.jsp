@@ -239,13 +239,13 @@
                 var f2 = $('#f2').val();
                 var d=$('#detallado').val();
                 if(document.getElementById("detallado").checked){
-                    d="detalle";
+                    d="_det";
                 }else{
-                    d="vacio";
+                    d="";
                 }
                 
                 var maq=$('#maq').val();
-                location = 'avancespares.jsp?f1=' + f1 + '&f2=' + f2+'&maq='+maq;
+                location = 'avancespares.jsp?f1=' + f1 + '&f2=' + f2+'&maq='+maq+'&det='+d;
             }
             
             function mostrarVentanas(dep)

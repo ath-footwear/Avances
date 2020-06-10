@@ -20,7 +20,7 @@
     }
  Avances bd = new Avances();
     ArrayList<String> array = array = bd.getmaquila();
-    ArrayList<String> list = bd.getlogs();
+    //ArrayList<String> list = bd.getlogs();
     
     
     
@@ -85,21 +85,7 @@
                     <div class="col-md-12">
                         <div class="col-md-5 tablasize" style="overflow: auto;">
                     <%
-                    if(list.isEmpty()){
-        System.out.println("vacio");
-    }else{
-    int cont =0;
-    out.print("<table class=table table-hover table-responsive table-condensed >");
-    for(int i=0; i<list.size();i++){
-        if(cont==6){
-           out.print("<tr tablasize><td >"+list.get(i-5)+"</td><td>"+list.get(i-4)+"</td><td>"+list.get(i-3)+"</td><td>"+list.get(i-2)+"</td><td>"+list.get(i-1)+"</td><td>"+list.get(i).toLowerCase()+"</td><td><a onclick=savelote("+list.get(i-6)+")><button class= btn-success >Ok</button></a></td><tr>");
-           cont=0;
-        }else{
-         cont++;   
-        }
-    }
-     out.print("</table>");
-    }
+                    
                     %>
                 </div>
                 <div class=" col-xs-7" >
