@@ -1006,6 +1006,7 @@ public class Avances {
                 conexion.setAutoCommit(false);
                 //si el lote aun no tiene avance se acualiza el registro con los datos dados usando el id
                 String s = "update avance set " + arr.get(0) + "=1, " + arr.get(1) + "='" + fecha + "', " + arr.get(2) + "='" + m + "' where id_prog=" + a;
+                System.out.println(s);
                 st = conexion.prepareStatement(s);
                 st.executeUpdate();
                 conexion.commit();
@@ -1038,7 +1039,7 @@ public class Avances {
                 st.executeUpdate();
                 conexion.commit();
             } else {
-                modiavancestatus(arr, k, a, f, m.charAt(0));
+                modiavancestatus(arr, k, a, f, String.valueOf(m.charAt(0)));
             }
             st.close();
         } catch (Exception e) {
@@ -1051,7 +1052,7 @@ public class Avances {
         }
     }
 
-    public void modiavancestatus(ArrayList<String> arr, int k, String a, String fechas, char maq) {
+    public void modiavancestatus(ArrayList<String> arr, int k, String a, String fechas, String maq) {
         PreparedStatement st = null;
         try {//modificar status de programa
             abrir();

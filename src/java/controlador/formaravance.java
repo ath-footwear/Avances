@@ -213,7 +213,7 @@ public class formaravance extends HttpServlet {
                     if (array2.get(0).equals(usuario)) {
                         respuesta = av.avanceprimerdep(a, fechac, charmaquila, array, array2);
                         if (respuesta) {
-                            av.modiavancestatus(array, k, a, fechac, charmaquila.charAt(0));
+                            av.modiavancestatus(array, k, a, fechac, charmaquila);
                             out.println("<label style=color:green>Avance Completo Exitosamente:)</label>");
                         } else {
                             out.println("<label>Ya existe Avance de este departamento</label>");
@@ -256,7 +256,7 @@ public class formaravance extends HttpServlet {
                                     if (array.get(k).equals(array.get(array.size() - 3))) {
                                         av.modiavancestatus(a);
                                     } else {
-                                        av.modiavancestatus(array, k, a, fechac, charmaquila.charAt(0));
+                                        av.modiavancestatus(array, k, a, fechac, charmaquila);
                                     }
                                 }
                             } else {
@@ -304,7 +304,9 @@ public class formaravance extends HttpServlet {
                 ArrayList<String> loadprog = new ArrayList<>();
                 Avances av = new Avances();
                 String autofill = av.check_autofill_m();
-                charmaquila = String.valueOf(maquilas.charAt(0));
+                System.out.println(maquilas+"-"+depmaquila);
+                charmaquila = String.valueOf(maquilas.charAt(0)+String.valueOf(maquilas.charAt(1)));
+                System.out.println(charmaquila);
                 // carga de datos sobre listas
                 array = alldepcharge(array);
                 array2 = depaload(array2);
@@ -322,7 +324,7 @@ public class formaravance extends HttpServlet {
                     if (array2.get(0).equals(depmaquila)) { // avance solo para corte ya que es el inicio
                         respuesta = av.avanceprimerdep(a, fechac, charmaquila, array, array2);
                         if (respuesta) {
-                            av.modiavancestatus(array, k, a, fechac, charmaquila.charAt(0));// si el avance no existe modifica el registro
+                            av.modiavancestatus(array, k, a, fechac, charmaquila);// si el avance no existe modifica el registro
                             out.println("<label>Avance Completo Exitosamente :)</label>");
                         } else {// si ya existe solo manda un mensaje
                             out.println("<label>Ya existe Avance de este departamento</label>");
@@ -349,7 +351,7 @@ public class formaravance extends HttpServlet {
                                 } else if (depmaquila.equals("montado")) {//entra a usuariomontado
                                     if (av.checkpremontado(array, k, a)) {//verifica inspeccion de calidad
                                         av.avancesmontado(a, fechac, charmaquila, array, k, banda);
-                                        av.modiavancestatus(array, k, a, fechac, charmaquila.charAt(0));
+                                        av.modiavancestatus(array, k, a, fechac, charmaquila);
                                         out.println("<label>Avance Completo Exitosamente:)</label>");
                                     } else {// si aun no se tiene avance de inspeccion   
                                         av.loglote(String.valueOf(pr.getLote()), String.valueOf(pr.getPrograma()), fechac, usuario + banda, a);
@@ -364,7 +366,7 @@ public class formaravance extends HttpServlet {
                                     if (array.get(k).equals(array.get(array.size() - 3))) {
                                         av.modiavancestatus(a);
                                     } else {
-                                        av.modiavancestatus(array, k, a, fechac, charmaquila.charAt(0));
+                                        av.modiavancestatus(array, k, a, fechac, charmaquila);
                                     }
                                 }
                             } else {
