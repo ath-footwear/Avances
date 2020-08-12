@@ -15,7 +15,7 @@ try{
     String usuario = (String) objSesion.getAttribute("usuario");
     String tipos = (String) objSesion.getAttribute("tipo");
     String ids = String.valueOf(objSesion.getAttribute("i_d"));
-    if (usuario != null && tipos != null && tipos.equals("ADMIN")) {
+    if (usuario != null && tipos != null && tipos.equals("INTERMEDIO")) {
 
     } else {
         response.sendRedirect("../index.jsp");
@@ -143,8 +143,10 @@ if(dia<10){
                                             <option class="form-control">CRUZ</option>
                                             <option class="form-control">INOCENCIO</option>
                                             <option class="form-control">LEON</option>
+                                            <option class="form-control">LALO</option>
                                             <option class="form-control">ESTEBAN</option>
                                             <option class="form-control">PLANTA</option>
+                                            <option class="form-control">COMONFORT</option>
                                         </select>
                                         <div class="col-sm-2">
                                             

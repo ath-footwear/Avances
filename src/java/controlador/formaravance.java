@@ -194,7 +194,7 @@ public class formaravance extends HttpServlet {
                 ArrayList<String> loadprog = new ArrayList<>();
                 Avances av = new Avances();
                 String autofill = av.check_autofill();// autoavance
-                charmaquila = "P";
+                charmaquila = "PL";
                 Programa pr = new Programa();
                 // carga de datos sobre listas
                 array = alldepcharge(array); // carga en un arreglo las columnas de la bd de avance

@@ -107,7 +107,7 @@ public class Getregspares extends HttpServlet {
                         banda = a.getbanda(f1, f2);
                     } else {
                         System.out.println(maq);
-                        maq = String.valueOf(maq.charAt(0));
+                        maq = String.valueOf(maq.charAt(0)+String.valueOf(maq.charAt(1)));
                         banda = a.getbanda(f1, f2, maq);
                         arr = a.searchfecha(f1, f2, maq);
                     }

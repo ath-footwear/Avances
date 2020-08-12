@@ -10,12 +10,12 @@
 <%@page import="java.util.Calendar"%>
 <% HttpSession objSesion = request.getSession(false);
 //i_d
+try{
     boolean estado;
     String usuario = (String) objSesion.getAttribute("usuario");
     String tipos = (String) objSesion.getAttribute("tipo");
     String ids = String.valueOf(objSesion.getAttribute("i_d"));
-
-    if (usuario != null && tipos != null && tipos.equals("USUARIO")) {
+    if (usuario != null && tipos != null && tipos.equals("INTERMEDIO")) {
 
     } else {
         response.sendRedirect("../index.jsp");
@@ -26,7 +26,7 @@
     int dia = fecha.get(Calendar.DAY_OF_MONTH);
     String fechac = "" ;
     String fechaca= "";
-    if(dia<10){
+if(dia<10){
          fechac = "0" + dia;    
          fechaca ="0" + (dia - 1);
     }else{
@@ -40,7 +40,6 @@
         fechac =fechac + "-" + mes+"-"+año;    
      fechaca = fechaca+ "-" + (mes - 1)+"-"+año ;
     }
-
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -91,14 +90,26 @@
             <nav class="navbar navbar-default">
 
                 <ul class="nav navbar-nav nav-pills">
+                    <li><a class="navbar-brand" href="index.jsp"><img src="../images/home.png" class="" width="25"></a></li>
+                    <li class="dropdown ln active">
+                        <a  class="dropdown-toggle" data-toggle="dropdown" href="#80">
+                            Usuario<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" id="#90" role="menu">
 
-                    <li>
-                        <a class="navbar-brand" href="index.jsp"><img src="../images/home.png" class="" width="25"></a>
+                            <li class="ln"><a href="buscalote.jsp">Busqueda</a></li>
+                            <li class="ln"><a href="lote_detenido.jsp">Lotes detenidos</a></li>
+                            <li class="ln active"><a href="">Ver pares</a></li>
+                            
+                        </ul>
                     </li>
-                   <li class="ln"><a href="lote_detenido.jsp">Lotes detenidos</a></li>
-                    <li class="active ln"><a href="verpares.jsp">Ver Pares</a></li>  
+                    <!--<li class="ln"><a  href="../Dateupdate">actualizar fechas</a></li>-->
                     <li class="ln"><a href="../Cierresesion">Salir</a></li>
                 </ul>
+                <div style="float:right" class="nav nav-pills">
+                    <li > <label class="ln">Online: <%=usuario%></label></li>
+                    <li class="ln btnmy-2 my-sm-0"><a href="opciones.jsp"><img src="../images/opciones.png" width="5" height="20" alt=""></a></li>
+                </div>
 
             </nav>
             <div class="container">
@@ -132,8 +143,10 @@
                                             <option class="form-control">CRUZ</option>
                                             <option class="form-control">INOCENCIO</option>
                                             <option class="form-control">LEON</option>
+                                            <option class="form-control">LALO</option>
                                             <option class="form-control">ESTEBAN</option>
                                             <option class="form-control">PLANTA</option>
+                                            <option class="form-control">COMONFORT</option>
                                         </select>
                                         <div class="col-sm-2">
                                             
@@ -303,3 +316,8 @@
         </div>
     </body>
 </html>
+<%
+}catch(Exception e){
+    out.print("location = ../index.");
+}
+%>

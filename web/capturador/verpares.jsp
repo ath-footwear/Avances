@@ -10,36 +10,36 @@
 <%@page import="java.util.Calendar"%>
 <% HttpSession objSesion = request.getSession(false);
 //i_d
-    try {
-        boolean estado;
-        String usuario = (String) objSesion.getAttribute("usuario");
-        String tipos = (String) objSesion.getAttribute("tipo");
-        String ids = String.valueOf(objSesion.getAttribute("i_d"));
-        if (usuario != null && tipos != null && tipos.equals("INTERMEDIO")) {
+try{
+    boolean estado;
+    String usuario = (String) objSesion.getAttribute("usuario");
+    String tipos = (String) objSesion.getAttribute("tipo");
+    String ids = String.valueOf(objSesion.getAttribute("i_d"));
+    if (usuario != null && tipos != null && tipos.equals("INTERMEDIO")) {
 
-        } else {
-            response.sendRedirect("../index.jsp");
-        }
-        Calendar fecha = Calendar.getInstance();
-        int año = fecha.get(Calendar.YEAR);
-        int mes = fecha.get(Calendar.MONTH) + 1;
-        int dia = fecha.get(Calendar.DAY_OF_MONTH);
-        String fechac = "";
-        String fechaca = "";
-        if (dia < 10) {
-            fechac = "0" + dia;
-            fechaca = "0" + (dia - 1);
-        } else {
-            fechac = dia + "";
-            fechaca = dia + "";
-        }
-        if (mes < 10) {
-            fechac = fechac + "-0" + mes + "-" + año;
-            fechaca = fechaca + "-0" + (mes - 1) + "-" + año;
-        } else {
-            fechac = fechac + "-" + mes + "-" + año;
-            fechaca = fechaca + "-" + (mes - 1) + "-" + año;
-        }
+    } else {
+        response.sendRedirect("../index.jsp");
+    }
+    Calendar fecha = Calendar.getInstance();
+    int año = fecha.get(Calendar.YEAR);
+    int mes = fecha.get(Calendar.MONTH) + 1;
+    int dia = fecha.get(Calendar.DAY_OF_MONTH);
+    String fechac = "" ;
+    String fechaca= "";
+if(dia<10){
+         fechac = "0" + dia;    
+         fechaca ="0" + (dia - 1);
+    }else{
+         fechac  = dia+"";    
+         fechaca = dia+"";
+    }
+        if(mes<10){
+     fechac =fechac + "-0" + mes+"-"+año;    
+     fechaca = fechaca+ "-0" + (mes - 1)+"-"+año;
+    }else {
+        fechac =fechac + "-" + mes+"-"+año;    
+     fechaca = fechaca+ "-" + (mes - 1)+"-"+año ;
+    }
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -61,7 +61,7 @@
         <script type="text/javascript" src="../js/bootstrap.min.js"></script>
         <script type="text/javascript" src="../js/dhtmlgoodies_calendar.js?random=20171118"></script>
         <link type="text/css" rel="stylesheet" href="../css/dhtmlgoodies_calendar.css?random=20171118" media="screen"></link>
-
+		
 
     </head>
     <body class="body1">
@@ -91,9 +91,18 @@
 
                 <ul class="nav navbar-nav nav-pills">
                     <li><a class="navbar-brand" href="index.jsp"><img src="../images/home.png" class="" width="25"></a></li>
-                    <li class="ln"><a href="buscalote.jsp">Reporte Programa</a></li>
-                    <li class="ln"><a href="avancegeneral.jsp">Avance General</a></li>
-                    <li class="ln active"><a href="">Ver pares</a></li>
+                    <li class="dropdown ln active">
+                        <a  class="dropdown-toggle" data-toggle="dropdown" href="#80">
+                            Usuario<span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" id="#90" role="menu">
+
+                            <li class="ln"><a href="buscalote.jsp">Busqueda</a></li>
+                            <li class="ln"><a href="lote_detenido.jsp">Lotes detenidos</a></li>
+                            <li class="ln active"><a href="">Ver pares</a></li>
+                            
+                        </ul>
+                    </li>
                     <!--<li class="ln"><a  href="../Dateupdate">actualizar fechas</a></li>-->
                     <li class="ln"><a href="../Cierresesion">Salir</a></li>
                 </ul>
@@ -122,27 +131,29 @@
                                     <br>
                                     <input type="button" value="Cal" class="btn btn-toolbar alert-success ln" onclick="displayCalendar(document.forms[0].f2, 'dd-mm-yyyy', this)"/>
                                 </div>
-
+                               
                             </form>
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <br><div class="col-sm-offset-5 col-sm-2">
-                        <select class="form-control" name="maq" id="maq" onclick="okas()">
-                            <option class="form-control">TODOS</option>
-                            <option class="form-control">CRUZ</option>
-                            <option class="form-control">INOCENCIO</option>
-                            <option class="form-control">LEON</option>
-                            <option class="form-control">ESTEBAN</option>
-                            <option class="form-control">PLANTA</option>
-                        </select>
-                        <div class="col-sm-2">
-
-                        </div>
-                    </div>
-
-                </div>
+                                 <div class="row">
+                                    <br><div class="col-sm-offset-5 col-sm-2">
+                                        <select class="form-control" name="maq" id="maq" onclick="okas()">
+                                            <option class="form-control">TODOS</option>
+                                            <option class="form-control">CRUZ</option>
+                                            <option class="form-control">INOCENCIO</option>
+                                            <option class="form-control">LEON</option>
+                                            <option class="form-control">LALO</option>
+                                            <option class="form-control">ESTEBAN</option>
+                                            <option class="form-control">PLANTA</option>
+                                            <option class="form-control">COMONFORT</option>
+                                        </select>
+                                        <div class="col-sm-2">
+                                            
+                                    </div>
+                                    </div>
+                                    
+                                </div>
                 <div class="row">
                     <div class=" esp1 ln" align="center">
                         <br><button type="submit" name="envio" class="btn btn-success ln" id="envio" value="Ver Pares" onclick="okas()">Ver Pares</button>
@@ -162,19 +173,19 @@
                     </div> -->    
                 <div class="container-fluid" style="overflow: auto;">
                     <div class=" tablewidth-sm col-md-offset-3"  style="overflow: auto" >
-                        <div class="col-md-12" style="overflow: auto;">
-                            <table  id="tablesorter-demo" class="table table-hover table-responsive table-condensed table-hover jumbis" style="overflow: auto;">
-                                <thead class="redondeado jumbis bodyheadpares fondos " style="overflow: auto;">
-                                <td class="ln">Departamento</td>
-                                <td class="ln">Pares Reportados</td>
-                                </thead>
-                                <tbody id="llenar" class="bodypares" style="overflow: auto;">
-                                </tbody> 
-                            </table>
-                        </div>
+                    <div class="col-md-12" style="overflow: auto;">
+                        <table  id="tablesorter-demo" class="table table-hover table-responsive table-condensed table-hover jumbis" style="overflow: auto;">
+                            <thead class="redondeado jumbis bodyheadpares fondos " style="overflow: auto;">
+                            <td class="ln">Departamento</td>
+                            <td class="ln">Pares Reportados</td>
+                            </thead>
+                            <tbody id="llenar" class="bodypares" style="overflow: auto;">
+                            </tbody> 
+                        </table>
                     </div>
                 </div>
-
+                </div>
+                
                 <div class="row" id="contener">                
                 </div>
 
@@ -193,24 +204,24 @@
                 } else {
                     var pro = $('#f1').val();
                     var pro1 = $('#f2').val();
-                    var maq = $('#maq').val();
+                    var maq=$('#maq').val();
                     var uso = "fechas";
                     $.ajax({
                         type: 'post',
-                        data: {f1: pro, f2: pro1, maq: maq, uso: uso},
+                        data: {f1: pro, f2: pro1,maq:maq, uso: uso},
                         url: '../Getregspares',
                         success: function (result) {
                             $('#llenar').html(result);
                             var pro = $('#f1').val();
-                            var pro1 = $('#f2').val();
-                            var maq = $('#maq').val();
-                            var uso = "completo";
-
+                    var pro1 = $('#f2').val();
+                    var maq=$('#maq').val();
+                    var uso = "completo";
+                                
                         }
                     });
                 }
             }
-            function okas1() {
+             function okas1() {
                 var valor = $('#f1').val();
                 var valor1 = $('#f2').val();
                 if (!(/^\d{2}|\d{1}\-\d{2}\-\d{4}\$/i.test(valor)) && !(/^\d{2}|\d{1}\-\d{2}\-\d{4}\$/i.test(valor1))) {
@@ -222,14 +233,14 @@
                 } else {
                     var pro = $('#f1').val();
                     var pro1 = $('#f2').val();
-                    var maq = $('#maq').val();
+                    var maq=$('#maq').val();
                     var uso = "completo";
                     $.ajax({
                         type: 'post',
-                        data: {f1: pro, f2: pro1, maq: maq, uso: uso},
+                        data: {f1: pro, f2: pro1,maq:maq, uso: uso},
                         url: '../Getregspares',
                         success: function (result1) {
-                            document.getElementById("contener").innerHTML = result1;
+                            document.getElementById("contener").innerHTML=result1;
                             //$('#contener').html(result1);
                         }
                     });
@@ -239,39 +250,39 @@
             function avances() {
                 var f1 = $('#f1').val();
                 var f2 = $('#f2').val();
-                var d = $('#detallado').val();
-                if (document.getElementById("detallado").checked) {
-                    d = "detalle";
-                } else {
-                    d = "vacio";
+                var d=$('#detallado').val();
+                if(document.getElementById("detallado").checked){
+                    d="_det";
+                }else{
+                    d="";
                 }
-
-                var maq = $('#maq').val();
-                location = 'avancespares.jsp?f1=' + f1 + '&f2=' + f2 + '&maq=' + maq;
+                
+                var maq=$('#maq').val();
+                location = 'avancespares.jsp?f1=' + f1 + '&f2=' + f2+'&maq='+maq+'&det='+d;
             }
-
+            
             function mostrarVentanas(dep)
             {
-                var depo = dep;
+                var depo=dep;
                 var f1 = $('#f1').val();
                 var f2 = $('#f2').val();
-                var maq = $('#maq').val();
+                var maq= $('#maq').val();
                 var ventana = document.getElementById("miVentana");
                 //ventana.style.marginTop = "100px";
                 //ventana.style.left = ((document.body.clientWidth) / 2) +  "px";
                 ventana.style.display = "block";
                 ventana.style.left = 10 + "%";
-                var uso = "detalle";
+                var uso="detalle";
                 $.ajax({
                     type: 'post',
-                    data: {f1: f1, f2: f2, uso: uso, dep: depo, maq: maq},
+                    data: {f1: f1, f2: f2,uso:uso,dep:depo,maq:maq},
                     url: '../Getregspares',
                     success: function (result) {
                         $('#llenadodetalle').html(result);
                     }
                 });
             }
-
+                   
             function ocultarVentanas()
             {
                 var ventana = document.getElementById("miVentana");
@@ -279,34 +290,34 @@
             }
         </script>
         <div class="container" style="">
-            <div id="miVentana" style="width: 80%;height: 100%; position: fixed;top: 0%; left: 10%; font-family:Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: normal; color: black; display:none;overflow: scroll;background-color:rgb(248,191,22);">
-                <div class=" " style="">
-                    <a class="btn" onclick="ocultarVentanas()"><img src="../images/right.png" width="50" height="50"></a>
-                    <h4 class="h4">Detalle de Departamento</h4>
-                    <table  id="tablesorter-demo" class="table table-hover table-responsive table-condensed table-bordered" style="overflow: scroll">
-                        <thead class="redondeado" style="background-color:white; ">
-                            <tr>
-                                <td>Programa</td>
-                                <td>Lote</td>
-                                <td>Estilo</td>
-                                <td>Pares</td>
-                                <td>Corrida</td>
-                                <td>Mes</td>
-                                <td>Combinacion</td>
-                                <td>Status</td>
-                            </tr>
-                        </thead>
-                        <tbody id="llenadodetalle">
-
-                        </tbody> 
-                    </table>
-                </div>
-            </div>
+           <div id="miVentana" style="width: 80%;height: 100%; position: fixed;top: 0%; left: 10%; font-family:Verdana, Arial, Helvetica, sans-serif; font-size: 12px; font-weight: normal; color: black; display:none;overflow: scroll;background-color:rgb(248,191,22);">
+            <div class=" " style="">
+                <a class="btn" onclick="ocultarVentanas()"><img src="../images/right.png" width="50" height="50"></a>
+                <h4 class="h4">Detalle de Departamento</h4>
+                <table  id="tablesorter-demo" class="table table-hover table-responsive table-condensed table-bordered" style="overflow: scroll">
+                    <thead class="redondeado" style="background-color:white; ">
+                        <tr>
+                            <td>Programa</td>
+                            <td>Lote</td>
+                            <td>Estilo</td>
+                            <td>Pares</td>
+                            <td>Corrida</td>
+                            <td>Mes</td>
+                            <td>Combinacion</td>
+                            <td>Status</td>
+                        </tr>
+                    </thead>
+                    <tbody id="llenadodetalle">
+                       
+                    </tbody> 
+                </table>
+        </div>
+    </div>
         </div>
     </body>
 </html>
 <%
-    } catch (Exception e) {
-        out.print("location = ../index.");
-    }
+}catch(Exception e){
+    out.print("location = ../index.");
+}
 %>
