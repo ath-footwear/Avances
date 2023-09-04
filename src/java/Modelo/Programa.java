@@ -19,7 +19,15 @@ public class Programa {
     public void setYear(int year) {
         this.year = year;
     }
-    private String fecha;
+    private String fecha,pedido;
+
+    public String getPedido() {
+        return pedido;
+    }
+
+    public void setPedido(String pedido) {
+        this.pedido = pedido;
+    }
 
     public String getFecha() {
         return fecha;

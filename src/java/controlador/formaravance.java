@@ -9,8 +9,10 @@ import Modelo.Programa;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -164,16 +166,19 @@ public class formaravance extends HttpServlet {
         } else {
             response.sendRedirect("index.jsp");
         }
-        Calendar fecha = Calendar.getInstance();
-        int año = fecha.get(Calendar.YEAR);
-        int mes = fecha.get(Calendar.MONTH) + 1;
-        int dia = fecha.get(Calendar.DAY_OF_MONTH);
-        int hora = fecha.get(Calendar.HOUR_OF_DAY);
-        int minuto = fecha.get(Calendar.MINUTE);
-        int segundo = fecha.get(Calendar.SECOND);
-        String fechac = año + "/" + mes + "/" + dia;
-        String horas = hora + ":" + minuto;
-
+//        Calendar fecha = Calendar.getInstance();
+//        int año = fecha.get(Calendar.YEAR);
+//        int mes = fecha.get(Calendar.MONTH) + 1;
+//        int dia = fecha.get(Calendar.DAY_OF_MONTH);
+//        int hora = fecha.get(Calendar.HOUR_OF_DAY);
+//        int minuto = fecha.get(Calendar.MINUTE);
+//        int segundo = fecha.get(Calendar.SECOND);
+//        String horas = hora + ":" + minuto;
+//        String fechac = año + "/" + mes + "/" + dia + "T" + horas + ":" + segundo;
+        //String fechac = año + "/" + mes + "/" + dia;
+        java.util.Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        String fechac = sdf.format(date);
         String charmaquila = null;
         String maquila = request.getParameter("marcas");
         String codigo = request.getParameter("codigo");
@@ -304,8 +309,8 @@ public class formaravance extends HttpServlet {
                 ArrayList<String> loadprog = new ArrayList<>();
                 Avances av = new Avances();
                 String autofill = av.check_autofill_m();
-                System.out.println(maquilas+"-"+depmaquila);
-                charmaquila = String.valueOf(maquilas.charAt(0)+String.valueOf(maquilas.charAt(1)));
+                System.out.println(maquilas + "-" + depmaquila);
+                charmaquila = String.valueOf(maquilas.charAt(0) + String.valueOf(maquilas.charAt(1)));
                 System.out.println(charmaquila);
                 // carga de datos sobre listas
                 array = alldepcharge(array);

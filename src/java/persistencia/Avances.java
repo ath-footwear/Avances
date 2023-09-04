@@ -25,16 +25,14 @@ import java.util.logging.Logger;
 public class Avances {
 
     //servidor local de pruebas
-//String url = "jdbc:sqlserver://192.168.6.75\\SQLEXPRESS:9205;" + "databaseName=avances;user=mich; password=mich;";
-//    String url = "jdbc:sqlserver://192.168.6.75:9205;"
-//            + "databaseName=avances;user=mich; password=mich;";
-//    jdbc:sqlserver://192.168.6.75\SQLEXPRESS:9205;databaseName=avances
+//    String url = "jdbc:sqlserver://192.168.6.75\\SQLEXPRESS:9205;databaseName=Avances;";
+
     String url = "jdbc:sqlserver://192.168.6.8\\datos65:9205;databaseName=Avances;";
     String drive = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     // Declaramos los sioguientes objetos
-    Connection conexion = null;
+    static Connection conexion = null;
     Statement stmt = null;
-    ResultSet rs = null;
+//    ResultSet rs = null;
 
     public Connection getConexion() {
         return conexion;
@@ -48,10 +46,12 @@ public class Avances {
         Class.forName(drive);
 //        conexion = DriverManager.getConnection(url, "mich", "mich");
         conexion = DriverManager.getConnection(url, "sa", "Prok2001");
+        System.out.println("abrir");
     }
 
     public void cerrar() throws SQLException {
         conexion.close();
+        System.out.println("cerrar");
     }
 
     // Busquedas--------------
@@ -61,7 +61,7 @@ public class Avances {
         //System.out.println(query);
         Statement smt;
         ResultSet df;
-        abrir();
+////        abrir();
         smt = conexion.createStatement();
         df = smt.executeQuery(query);
         while (df.next()) {
@@ -78,7 +78,7 @@ public class Avances {
         //System.out.println(query);
         Statement smt;
         ResultSet df;
-        abrir();
+////        abrir();
         smt = conexion.createStatement();
         df = smt.executeQuery(query);
         while (df.next()) {
@@ -92,7 +92,7 @@ public class Avances {
     public void modiautofillstatus(String status) {
         PreparedStatement st = null;
         try {//modificar status de programa
-            abrir();
+////            abrir();
             conexion.setAutoCommit(false);
             String s = "update opciones set switch_autosolucionador='" + status + "'";
             //System.out.println(s);
@@ -113,7 +113,7 @@ public class Avances {
     public void modiautofillstatus_m(String status) {
         PreparedStatement st = null;
         try {//modificar status de programa
-            abrir();
+////            abrir();
             conexion.setAutoCommit(false);
             String s = "update opciones set switch_autosolucionador_m='" + status + "'";
             //System.out.println(s);
@@ -137,7 +137,7 @@ public class Avances {
         //System.out.println(query);
         Statement smt;
         ResultSet df;
-        abrir();
+////        abrir();
         smt = conexion.createStatement();
         df = smt.executeQuery(query);
         while (df.next()) {
@@ -176,14 +176,14 @@ public class Avances {
                 + " and mes=" + p.getMes() + " and lote =" + p.getLote() + " and years=" + p.getYear();
         Statement smt;
         ResultSet df;
-        abrir();
+////        abrir();
         smt = conexion.createStatement();
         df = smt.executeQuery(query);
         while (df.next()) {
             u = true;
         }
         query = "select lote from programa where lote =" + p.getLote() + " and years=" + p.getYear();
-        abrir();
+////        abrir();
         smt = conexion.createStatement();
         df = smt.executeQuery(query);
         while (df.next()) {
@@ -199,7 +199,7 @@ public class Avances {
         String query = "select id_prog from programa where ultima_fecha is NULL";
         Statement smt;
         ResultSet df;
-        abrir();
+////        abrir();
         smt = conexion.createStatement();
         df = smt.executeQuery(query);
         while (df.next()) {
@@ -232,7 +232,7 @@ public class Avances {
         //System.out.println(query);
         Statement smt;
         ResultSet st;
-        abrir();
+////        abrir();
         smt = conexion.createStatement();
         st = smt.executeQuery(query);
         while (st.next()) {
@@ -252,7 +252,7 @@ public class Avances {
                 + "ORDER BY fecha ";
         Statement smt;
         ResultSet df;
-        abrir();
+////        abrir();
         smt = conexion.createStatement();
         df = smt.executeQuery(query);
         while (df.next()) {
@@ -273,7 +273,7 @@ public class Avances {
         String query = "select id_prog from programa where statuto !='COMPLETO' and prog=" + Integer.parseInt(prog) + " and mes=" + mes;
         Statement smt;
         ResultSet df;
-        abrir();
+////        abrir();
         smt = conexion.createStatement();
         df = smt.executeQuery(query);
         while (df.next()) {
@@ -289,7 +289,7 @@ public class Avances {
         String query = "select max(mes) as 'mes' from programa where statuto != 'COMPLETO' and prog=" + Integer.parseInt(prog);
         Statement smt;
         ResultSet df;
-        abrir();
+////        abrir();
         smt = conexion.createStatement();
         df = smt.executeQuery(query);
         while (df.next()) {
@@ -305,7 +305,7 @@ public class Avances {
         Statement st;
         ResultSet rs;
         String query = "SELECT departamentos FROM departamento order by proceso";
-        abrir();
+////        abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {
@@ -323,8 +323,9 @@ public class Avances {
         ResultSet rs;
         String query = " select SUM(p.npares) as 'corte'\n"
                 + " from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a.fechacor between '" + f1 + "' and '" + f2 + "'\n";
-        abrir();
+                + " where convert(date,fechacor) between '" + f1 + "' and '" + f2 + "'\n";
+        System.out.println("avances c " + query);
+////        abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {//corte
@@ -332,7 +333,7 @@ public class Avances {
         }//fin corte
         query = " select SUM(p.npares) as 'precorte'\n"
                 + " from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a.fechaprecor between '" + f1 + "' and '" + f2 + "'\n";
+                + " where convert(date,fechaprecor) between '" + f1 + "' and '" + f2 + "'\n";
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {//precorte
@@ -340,7 +341,7 @@ public class Avances {
         }//fin precorte
         query = " select SUM(p.npares) as 'pespunte'\n"
                 + " from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a.fechapes between '" + f1 + "' and '" + f2 + "'\n";
+                + " where convert(date,fechapes) between '" + f1 + "' and '" + f2 + "'\n";
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {//pespunte
@@ -348,7 +349,7 @@ public class Avances {
         }//fin pespunte
         query = " select SUM(p.npares) as 'deshebrado'\n"
                 + " from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a.fechades between '" + f1 + "' and '" + f2 + "'\n";
+                + " where convert(date,fechades) between '" + f1 + "' and '" + f2 + "'\n";
 
         st = conexion.createStatement();
         rs = st.executeQuery(query);
@@ -358,7 +359,7 @@ public class Avances {
         }//fin deshebrado
         query = " select SUM(p.npares) as 'ojillado'\n"
                 + " from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a.fechaoji between '" + f1 + "' and '" + f2 + "'\n";
+                + " where convert(date,fechaoji) between '" + f1 + "' and '" + f2 + "'\n";
 
         st = conexion.createStatement();
         rs = st.executeQuery(query);
@@ -366,28 +367,28 @@ public class Avances {
             oji += rs.getInt("ojillado");
         }//fin ojillado
         query = " select SUM(p.npares) as 'inspeccion' from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a.fechainsp between '" + f1 + "' and '" + f2 + "'\n";
+                + " where convert(date,fechainsp) between '" + f1 + "' and '" + f2 + "'\n";
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {//ojillado
             ins += rs.getInt("inspeccion");
         }//fin inspecion
         query = " select SUM(p.npares) as 'preacabado' from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a.fechaprea between '" + f1 + "' and '" + f2 + "'\n";
+                + " where convert(date,fechaprea) between '" + f1 + "' and '" + f2 + "'\n";
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {//preacabado
             prea += rs.getInt("preacabado");
         }//fin preacabado
         query = " select SUM(p.npares) as 'montado' from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a.fechamont between '" + f1 + "' and '" + f2 + "'\n";
+                + " where convert(date,fechamont) between '" + f1 + "' and '" + f2 + "'\n";
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {//montado
             mont += rs.getInt("montado");
         }//fin montado
         query = " select SUM(p.npares) as 'prodpt' from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a.fechapt between '" + f1 + "' and '" + f2 + "'\n";
+                + " where convert(date,fechapt) between '" + f1 + "' and '" + f2 + "'\n";
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {//pt
@@ -414,7 +415,7 @@ public class Avances {
         String query = "select p.prog,p.lote,p.estilo,p.npares,p.corrida,p.mes,p.combinacion \n"
                 + " from programa p join avance a on a.id_prog = p.id_prog\n"
                 + " where a.fechapt between '" + f1 + "' and '" + f2 + "' and a.prodt=1 order by p.prog";
-        abrir();
+////        abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {//corte
@@ -438,8 +439,8 @@ public class Avances {
         ResultSet rs;
         String query = " select SUM(p.npares) as 'corte'\n"
                 + " from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a.cormaq='" + maq + "' and a.fechacor between '" + f1 + "' and '" + f2 + "'\n";
-        abrir();
+                + " where a.cormaq='" + maq + "' and convert(date,fechacor) between '" + f1 + "' and '" + f2 + "'\n";
+////        abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {//corte
@@ -447,7 +448,7 @@ public class Avances {
         }//fin corte
         query = " select SUM(p.npares) as 'precorte'\n"
                 + " from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where  a.precormaq='" + maq + "' and a.fechaprecor between '" + f1 + "' and '" + f2 + "'\n";
+                + " where  a.precormaq='" + maq + "' and convert(date,fechaprecor) between '" + f1 + "' and '" + f2 + "'\n";
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {//precorte
@@ -455,7 +456,7 @@ public class Avances {
         }//fin precorte
         query = " select SUM(p.npares) as 'pespunte'\n"
                 + " from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a.pesmaq='" + maq + "' and a.fechapes between '" + f1 + "' and '" + f2 + "'\n";
+                + " where a.pesmaq='" + maq + "' and convert(date,fechapes) between '" + f1 + "' and '" + f2 + "'\n";
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {//pespunte
@@ -463,7 +464,7 @@ public class Avances {
         }//fin pespunte
         query = " select SUM(p.npares) as 'deshebrado'\n"
                 + " from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a.desmaq='" + maq + "' and a.fechades between '" + f1 + "' and '" + f2 + "'\n";
+                + " where a.desmaq='" + maq + "' and convert(date,fechades) between '" + f1 + "' and '" + f2 + "'\n";
 
         st = conexion.createStatement();
         rs = st.executeQuery(query);
@@ -472,35 +473,35 @@ public class Avances {
         }//fin deshebrado
         query = " select SUM(p.npares) as 'ojillado'\n"
                 + " from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a.ojimaq='" + maq + "' and a.fechaoji between '" + f1 + "' and '" + f2 + "'\n";
+                + " where a.ojimaq='" + maq + "' and convert(date,fechaoji) between '" + f1 + "' and '" + f2 + "'\n";
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {//ojillado
             oji += rs.getInt("ojillado");
         }//fin ojillado
         query = " select SUM(p.npares) as 'inspeccion' from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a.inspmaq='" + maq + "' and a.fechainsp between '" + f1 + "' and '" + f2 + "'\n";
+                + " where a.inspmaq='" + maq + "' and a.fechaconvert(date,fechainsp) between '" + f1 + "' and '" + f2 + "'\n";
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {//ojillado
             ins += rs.getInt("inspeccion");
         }//fin inspecion
         query = " select SUM(p.npares) as 'preacabado' from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a.preamaq='" + maq + "' and a.fechaprea between '" + f1 + "' and '" + f2 + "'\n";
+                + " where a.preamaq='" + maq + "' and convert(date,fechaprea) between '" + f1 + "' and '" + f2 + "'\n";
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {//preacabado
             prea += rs.getInt("preacabado");
         }//fin preacabado
         query = " select SUM(p.npares) as 'montado' from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a.montmaq='" + maq + "' and a.fechamont between '" + f1 + "' and '" + f2 + "'\n";
+                + " where a.montmaq='" + maq + "' and convert(date,fechamont) between '" + f1 + "' and '" + f2 + "'\n";
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {//montado
             mont += rs.getInt("montado");
         }//fin montado
         query = " select SUM(p.npares) as 'prodpt' from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a.ptmaq='" + maq + "' and a.fechapt between '" + f1 + "' and '" + f2 + "'\n";
+                + " where a.ptmaq='" + maq + "' and convert(date,fechapt) between '" + f1 + "' and '" + f2 + "'\n";
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {//pt
@@ -530,7 +531,7 @@ public class Avances {
         } else {
             query = "SELECT max(id_prog) as id_prog FROM programa where statuto != 'COMPLETO' and convert(int,codigo)=" + Integer.parseInt(ids);
         }
-        abrir();
+////        abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {
@@ -547,9 +548,10 @@ public class Avances {
         Statement st;
         ResultSet rs;
         String query = "select p.prog,p.lote,p.estilo,p.npares,p.corrida,p.mes,p.combinacion,p.statuto from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a." + arr.get(cont) + " between '" + f1 + "' and '" + f2 + "'\n"
+                + " where convert(date," + arr.get(cont) + ") between '" + f1 + "' and '" + f2 + "'\n"
                 + " order by prog";
-        abrir();
+        System.out.println("onclic detalle " + query);
+////        abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {
@@ -572,9 +574,9 @@ public class Avances {
         Statement st;
         ResultSet rs;
         String query = "select p.prog,p.lote,p.estilo,p.npares,p.corrida,p.mes,p.combinacion,p.statuto from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a." + arr.get(cont + 1) + "='" + maq + "' and a." + arr.get(cont) + " between '" + f1 + "' and '" + f2 + "'\n"
+                + " where a." + arr.get(cont + 1) + "='" + maq + "' and convert(date,fechacor" + arr.get(cont) + ") between '" + f1 + "' and '" + f2 + "'\n"
                 + " order by prog";
-        abrir();
+////        abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {
@@ -597,8 +599,8 @@ public class Avances {
         Statement st;
         ResultSet rs;
         String query = "select a.montado,SUM(p.npares) as 'pares' from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a.montado !=0 and a.fechamont between '" + f1 + "' and '" + f2 + "' group by a.montado order by a.montado";
-        abrir();
+                + " where a.montado !=0 and convert(date,fechamont) between '" + f1 + "' and '" + f2 + "' group by a.montado order by a.montado";
+////        abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {
@@ -615,8 +617,8 @@ public class Avances {
         Statement st;
         ResultSet rs;
         String query = "select a.montado,SUM(p.npares) as 'pares' from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a.montado !=0 and a.fechamont between '" + f1 + "' and '" + f2 + "' and a.montmaq='" + maq + "' group by a.montado order by a.montado";
-        abrir();
+                + " where a.montado !=0 and convert(date,fechamont) between '" + f1 + "' and '" + f2 + "' and a.montmaq='" + maq + "' group by a.montado order by a.montado";
+////        abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {
@@ -632,7 +634,7 @@ public class Avances {
         ArrayList<String> arr = new ArrayList<>();
         Statement st;
         ResultSet rs;
-        abrir();
+////        abrir();
         if (id.equals("")) {
         } else {
             String query = "select * from programa where id_prog=" + id;
@@ -659,7 +661,8 @@ public class Avances {
         ResultSet rs;
         int id = 0;
         String query = "SELECT max(id_prog) as id_prog FROM programa where mes=" + mes + " and lote=" + lote + " and years=" + year;
-        abrir();
+////        abrir();
+        System.out.println("busqueda prog " + query);
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {
@@ -668,6 +671,7 @@ public class Avances {
         if (id == 0) {
         } else {
             query = "select * from programa where mes=" + mes + " and id_prog=" + id;
+            System.out.println("busqueda prog2 " + query);
             st = conexion.createStatement();
             rs = st.executeQuery(query);
             while (rs.next()) {
@@ -682,8 +686,7 @@ public class Avances {
                 arr.add(rs.getString("lote"));
                 arr.add(rs.getString("id_prog"));
             }
-            for (int i = 0; i < arr.size(); i++) {
-            }
+
         }
         rs.close();
         st.close();
@@ -696,7 +699,7 @@ public class Avances {
         ResultSet rs;
         int id = 0;
         String query = "SELECT max(id_prog) as id_prog FROM programa where mes=" + mes + " and statuto != 'COMPLETO' and lote=" + lote;
-        abrir();
+////        abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {
@@ -732,7 +735,7 @@ public class Avances {
         ResultSet rs;
         boolean flag = false;
         String query = "SELECT * FROM programa where id_prog=" + code + "";
-        abrir();
+////        abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {
@@ -760,7 +763,7 @@ public class Avances {
                     + "a.cormaq,a.precormaq,a.pesmaq,a.desmaq,a.ojimaq, a.inspmaq, a.preamaq, a.montmaq, a.ptmaq"
                     + " from programa p join avance a on a.id_prog =p.id_prog "
                     + "where p.id_prog=" + arr.get(9);
-            abrir();
+////            abrir();
             st = conexion.createStatement();
             rs = st.executeQuery(query);
             while (rs.next()) {
@@ -787,7 +790,7 @@ public class Avances {
         Statement st;
         ResultSet rs;
         String query = "SELECT id_prog FROM avance where " + arr.get(k) + "=0 and id_prog=" + id;
-        abrir();
+//        abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {
@@ -804,7 +807,7 @@ public class Avances {
         Statement st;
         ResultSet rs;
         String query = "select id_prog from avance where " + arr.get(k2) + " !=0 and id_prog=" + id;
-        abrir();
+//        abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {
@@ -821,7 +824,7 @@ public class Avances {
         Statement st;
         ResultSet rs;
         String query = "select id_prog from avance where " + arr.get(k2) + " !=0 and id_prog=" + id;
-        abrir();
+//        abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {
@@ -838,7 +841,7 @@ public class Avances {
         Statement st;
         ResultSet rs;
         String query = "select id_prog from avance where " + arr.get(k2) + " !=0 and id_prog=" + id;
-        abrir();
+//        abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {
@@ -854,7 +857,7 @@ public class Avances {
         Statement st;
         ResultSet rs;
         String query = "select prog from programa where mes=" + mes + " and statuto !='COMPLETO' and lote =" + Integer.parseInt(lote);
-        abrir();
+//        abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {
@@ -887,7 +890,7 @@ public class Avances {
         ResultSet rs;
         String query = "select estilo,prog,lote,npares,combinacion,corrida,mes,statuto,years from programa where estilo =" + Integer.parseInt(estilo) + " and years =" + Integer.parseInt(years) + " and mes =" + Integer.parseInt(mes) + " order by corrida DESC";
         //System.out.println(query);
-        abrir();
+//        abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {
@@ -911,10 +914,40 @@ public class Avances {
     public Programa nuevoprog(Programa p) throws ClassNotFoundException, SQLException {
         PreparedStatement st = null;
         int a = 0, lote = p.getLote();
+        int cor = 0;
         try {
-            abrir();
+            switch (p.getCorrida()) {
+                case "21":
+                    cor = 92;
+                    break;
+                case "31":
+                    cor = 94;
+                    break;
+                case "32":
+                    cor = 96;
+                    break;
+                case "24":
+                    cor = 98;
+                    break;
+                case "25":
+                    cor = 88;
+                    break;
+                case "22":
+                    cor = 93;
+                    break;
+                case "23":
+                    cor = 95;
+                    break;
+                default:
+                    break;
+            }
+//            abrir();
             conexion.setAutoCommit(false);
-            String s = "insert into programa(prog,lote,estilo,npares,combinacion,corrida,mes,fechaentrega,statuto,codigo,ultima_fecha,years) values(" + p.getPrograma() + "," + p.getLote() + "," + p.getEstilo() + "," + p.getPares() + ",'" + p.getCombinacion() + "','" + p.getCorrida() + "'," + p.getMes() + ",'" + p.getFechae() + "','NO TERMINADO','" + p.getCodigo() + "','" + p.getFecha() + "'," + p.getYear() + ")";
+            String s = "insert into programa(prog,lote,estilo,npares,combinacion,corrida,mes,fechaentrega,statuto,"
+                    + "codigo,ultima_fecha,years,pedido,corridacpt) "
+                    + "values(" + p.getPrograma() + "," + p.getLote() + "," + p.getEstilo() + "," + p.getPares() + ",'"
+                    + p.getCombinacion() + "','" + p.getCorrida() + "'," + p.getMes() + ",'" + p.getFechae() + "','NO TERMINADO','"
+                    + p.getCodigo() + "','" + p.getFecha() + "'," + p.getYear() + ",'" + p.getPedido() + "'," + cor + ")";
             st = conexion.prepareStatement(s);
             st.executeUpdate();
             System.out.println(s);
@@ -957,7 +990,7 @@ public class Avances {
             Statement st;
             ResultSet rs;
             String query = "select statuto from programa where id_prog=" + id;
-            abrir();
+////            abrir();
             st = conexion.createStatement();
             rs = st.executeQuery(query);
             while (rs.next()) {
@@ -966,7 +999,7 @@ public class Avances {
         }
         PreparedStatement smt = null;
         try {
-            abrir();
+////            abrir();
             conexion.setAutoCommit(false);
             String s = "insert into log_lote values('" + lote + "','" + prog + "','" + fecha + "','1','" + depar + "','" + oldstatus + "')";
             smt = conexion.prepareStatement(s);
@@ -991,7 +1024,7 @@ public class Avances {
         String query = "select " + arr.get(0) + " from avance where id_prog=" + a + " and " + arr.get(0) + "=0";
         Statement smt;
         ResultSet df;
-        abrir();
+//        abrir();
         smt = conexion.createStatement();
         df = smt.executeQuery(query);
         while (df.next()) {
@@ -1002,7 +1035,7 @@ public class Avances {
         if (flag) {
             PreparedStatement st = null;
             try {
-                abrir();
+//                abrir();
                 conexion.setAutoCommit(false);
                 //si el lote aun no tiene avance se acualiza el registro con los datos dados usando el id
                 String s = "update avance set " + arr.get(0) + "=1, " + arr.get(1) + "='" + fecha + "', " + arr.get(2) + "='" + m + "' where id_prog=" + a;
@@ -1027,7 +1060,7 @@ public class Avances {
     public void avances(String a, String fecha, String m, ArrayList<String> arr, int k, int tamano, String f) throws SQLException {
         PreparedStatement st = null;
         try {// realizar avances
-            abrir();
+//            abrir();
             conexion.setAutoCommit(false);
             String s = "update avance set " + arr.get(k) + "=1, " + arr.get(k + 1) + "='" + fecha + "', " + arr.get(k + 2) + "='" + m + "' where id_prog=" + a;
             st = conexion.prepareStatement(s);
@@ -1055,7 +1088,8 @@ public class Avances {
     public void modiavancestatus(ArrayList<String> arr, int k, String a, String fechas, String maq) {
         PreparedStatement st = null;
         try {//modificar status de programa
-            abrir();
+////            abrir();
+
             conexion.setAutoCommit(false);
             String s = "update programa set statuto='" + arr.get(k).toUpperCase() + " " + maq + "', ultima_fecha='" + fechas + "' where id_prog=" + a;
             st = conexion.prepareStatement(s);
@@ -1075,7 +1109,7 @@ public class Avances {
     public void modiavancestatus(ArrayList<String> arr, int k, String a, String fechas, String banda, String maqbanda) {
         PreparedStatement st = null;
         try {//modificar status de programa
-            abrir();
+//            abrir();
             conexion.setAutoCommit(false);
             String s = "";
             if (arr.get(k).equals("montado")) {// si es montado añadira la banda ademas de la maquila
@@ -1100,7 +1134,7 @@ public class Avances {
     public void modiprogram(Programa p) {
         PreparedStatement st = null;
         try {//modificar programa y avance
-            abrir();
+//            abrir();
             conexion.setAutoCommit(false);
             String s = "update programa set prog=" + p.getPrograma() + ",lote=" + p.getLote() + ",estilo=" + p.getEstilo()
                     + ",npares=" + p.getPares() + ",combinacion='" + p.getCombinacion() + "',corrida='" + p.getCorrida() + "',mes="
@@ -1125,7 +1159,7 @@ public class Avances {
     public void Updatedate(int id, String fecha) throws ClassNotFoundException, SQLException {
         PreparedStatement st = null;
         try {
-            abrir();
+//            abrir();
             conexion.setAutoCommit(false);
             String s = "update programa set ultima_fecha='" + fecha + "' where id_prog=" + id;
             st = conexion.prepareStatement(s);
@@ -1146,7 +1180,7 @@ public class Avances {
     public void modiavancestatus(String a) {
         PreparedStatement st = null;
         try {//modificar status de programa ultimo departamento
-            abrir();
+//            abrir();
             conexion.setAutoCommit(false);
             String s = "update programa set statuto='COMPLETO' where id_prog=" + a;
             st = conexion.prepareStatement(s);
@@ -1166,7 +1200,7 @@ public class Avances {
     public void avancespreaca(String a, String fecha, String m, ArrayList<String> arr, int k) throws SQLException {
         PreparedStatement st = null;
         try {
-            abrir();
+//            abrir();
             conexion.setAutoCommit(false);
             String s = "update avance set " + arr.get(k) + "=1, " + arr.get(k + 1) + "='" + fecha + "', " + arr.get(k + 2) + "='" + m + "' where id_prog=" + a;
             st = conexion.prepareStatement(s);
@@ -1186,7 +1220,7 @@ public class Avances {
     public void avancesmontado(String a, String fecha, String m, ArrayList<String> arr, int k, String banda) throws SQLException {
         PreparedStatement st = null;
         try {
-            abrir();
+//            abrir();
             conexion.setAutoCommit(false);
             String s = "update avance set " + arr.get(k) + "=" + banda + ", " + arr.get(k + 1) + "='" + fecha + "', " + arr.get(k + 2) + "='" + m + "' where id_prog=" + a;
             st = conexion.prepareStatement(s);
@@ -1206,7 +1240,7 @@ public class Avances {
     public void lotesupdate(int a) throws SQLException {
         PreparedStatement st = null;
         try {
-            abrir();
+//            abrir();
             conexion.setAutoCommit(false);
             String s = "update log_lote set statuto=0 where id=" + a;
             st = conexion.prepareStatement(s);
@@ -1228,7 +1262,7 @@ public class Avances {
         String query = "select distinct combinacion from programa order by combinacion";
         ResultSet rs;
         Statement st;
-        abrir();
+//        abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {
@@ -1245,7 +1279,7 @@ public class Avances {
         String query = "select distinct maquilas from maquila";
         ResultSet rs;
         Statement st;
-        abrir();
+//        abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {
@@ -1262,7 +1296,7 @@ public class Avances {
         String query = "select * from log_lote where statuto='1'";
         ResultSet rs;
         Statement st;
-        abrir();
+//        abrir();
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {
@@ -1283,13 +1317,11 @@ public class Avances {
         Avances a = new Avances();
         try {
             a.abrir();
-     
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(Avances.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
             Logger.getLogger(Avances.class.getName()).log(Level.SEVERE, null, ex);
         }
-
     }
 
     private String codigo(String estilo) {
@@ -1316,7 +1348,7 @@ public class Avances {
         PreparedStatement st = null;
         String s = "";
         try {// realizar avances
-            abrir();
+//            abrir();
             conexion.setAutoCommit(false);
             if (arr.get(i).equals("montado")) {
                 s = "update avance set " + arr.get(i) + "=" + banda + "," + arr.get(i + 1) + "='" + fecha + "'," + arr.get(i + 2) + "='" + charmaquila + "' where id_prog=" + a;
@@ -1342,7 +1374,7 @@ public class Avances {
         PreparedStatement st = null;
         String s = "";
         try {// realizar avances
-            abrir();
+//            abrir();
             conexion.setAutoCommit(false);
             if (arr.get(i).equals("montado")) {
                 s = "update avance set " + arr.get(i) + "=" + banda + "," + arr.get(i + 1) + "='" + fecha + "'," + arr.get(i + 2) + "='" + charmaquila + "' where id_prog=" + a;

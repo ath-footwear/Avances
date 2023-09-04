@@ -50,12 +50,15 @@ public class Cierresesion extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-            try{
+        try {
+//            Se cierra sesion en el navegador y la conexion a la bd
             HttpSession objSesion = request.getSession(false);
-objSesion.invalidate();
-response.sendRedirect("index.jsp");
-        }catch(Exception e){
-        response.sendRedirect("index.jsp");
+            objSesion.invalidate();
+            Avances a = new Avances();
+            a.cerrar();
+            response.sendRedirect("index.jsp");
+        } catch (Exception e) {
+            response.sendRedirect("index.jsp");
         }
     }
 
@@ -71,12 +74,12 @@ response.sendRedirect("index.jsp");
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
-                        try{
+        try {
             HttpSession objSesion = request.getSession(false);
-objSesion.invalidate();
-response.sendRedirect("index.jsp");
-        }catch(Exception e){
-        response.sendRedirect("index.jsp");
+            objSesion.invalidate();
+            response.sendRedirect("index.jsp");
+        } catch (Exception e) {
+            response.sendRedirect("index.jsp");
         }
     }
 

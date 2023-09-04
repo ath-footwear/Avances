@@ -95,6 +95,7 @@ public class Validar extends HttpServlet {
                         objSesion.setAttribute("usuario", nombre);// asignar sesiones con su objeto.
                         objSesion.setAttribute("tipo", tipo);
                         objSesion.setAttribute("i_d", u.getId_usuario());
+                        objSesion.setAttribute("conexion", a.getConexion());
                         request.setAttribute("usuario1", u);
                         response.sendRedirect("admin/index.jsp");// redirecciona pagina de inicio por tipo de usuario
                         break;
@@ -107,6 +108,7 @@ public class Validar extends HttpServlet {
                         objSesion.setAttribute("usuario", nombre);
                         objSesion.setAttribute("tipo", tipo);
                         objSesion.setAttribute("i_d", u.getId_usuario());
+                        objSesion.setAttribute("conexion", a.getConexion());
                         response.sendRedirect("planta/index.jsp");
                         break;
                     case "USUARIO":
@@ -117,6 +119,7 @@ public class Validar extends HttpServlet {
                         objSesion.setAttribute("tipo", tipo);
                         objSesion.setAttribute("i_d", u.getId_usuario());
                         objSesion.setAttribute("cap",array1);
+                        objSesion.setAttribute("conexion", a.getConexion());
                         request.setAttribute("usuario1", u);
                         response.sendRedirect("usuario/index.jsp");
                         break;
@@ -128,6 +131,7 @@ public class Validar extends HttpServlet {
                         objSesion.setAttribute("tipo", tipo);
                         objSesion.setAttribute("i_d", u.getId_usuario());
                         objSesion.setAttribute("cap",array);
+                        objSesion.setAttribute("conexion", a.getConexion());
                         request.setAttribute("usuario1", u);
                         response.sendRedirect("capturador/index.jsp");
                         break;

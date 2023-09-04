@@ -101,7 +101,6 @@ public class Getregspares extends HttpServlet {
                 if (uso.equals("fechas")) {
 
                     int con = 0;
-                    
                     if (maq.equals("TODOS")) {
                         arr = a.searchfecha(f1, f2);
                         banda = a.getbanda(f1, f2);
