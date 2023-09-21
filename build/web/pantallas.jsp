@@ -15,29 +15,35 @@
 <%
     try {
         HttpSession sesion = request.getSession(false);
+        //Se obtiene la cockie de la conexion, si es que existe alguna
         Connection c = (Connection) sesion.getAttribute("con");
+        //Array que contiene o contendra todas las pantallas dadas de alta
         List<pantalla> arr = new ArrayList<pantalla>();
         Cookie[] galleta = request.getCookies();
         java.util.Date date = new Date();
+        //fecha a mostrar 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        //Variable utilizada para saber si volver a abrir una conexion o no
         boolean band = true;
+// Se revisa cada cockie encontrada mediante el for y se busca especificamente la llamada pantalla
         for (int i = 0; i < galleta.length; i++) {
             System.out.println(i + " " + galleta[i].getName());
             if (galleta[i].getName().equals("pantalla")) {
-                System.out.println("ejecuta consulta " + galleta[i].getValue());
+                //System.out.println("ejecuta consulta " + galleta[i].getValue());
                 band = false;
                 i = galleta.length;
             }
         }
         if (c != null) {
-            System.out.println("Hola");
+            //System.out.println("Hola");
             sqlpantallas s = new sqlpantallas();
             arr = s.getpantalla(c);
         } else {
-            System.out.println("nel");
+            //Solo es para mostrar que aqui entro
+            //System.out.println("nel");
         }
         if (band) {
-            System.out.println("no avance");
+            //System.out.println("no avance");
             Avances a = new Avances();
             a.abrir();
             sqlpantallas s = new sqlpantallas();
@@ -112,6 +118,7 @@
                         out.println("<script type=text/javascript>setTimeout(reload, 50000);</script>");
                         System.out.println("ejecuta consulta " + galleta[i].getValue());
                         sqlpantallas a = new sqlpantallas();
+                        //Obtiene los departamentos de la pantalla seleccionada de los cuales se usará su nombre y tipo de orden
                         ArrayList<pantalla> arrpant = a.getpantallaindividual(c, Integer.parseInt(galleta[i].getValue()));
                         for (int j = 0; j < arrpant.size(); j++) {
 //                          Clase para funciones extra, para formatear u obtener datos mas concretos               
@@ -155,7 +162,6 @@
                                         </thead>
                                         <tbody id="lenado">
                                             <tr class="alineartabla rowtablaprsdia">
-
                                                 <td colspan="11" class="alineartabla tamanoparesxhr espaciado-sm">Pares x Hora: <%=arrmeta.get(0).getCantxhr()%></td>   
                                                 <td class="fondocolnaranja tamanoparesxhr"><%=arrmeta.get(0).getCantxdia()%></td>
                                             </tr>
@@ -177,11 +183,8 @@
                                                         out.print("<td class=fondocolrojo>" + total + "</td>");
                                                     }
                                                 %>
-
                                             </tr>
-
                                         </tbody>
-
                                     </table>
                                 </div><br>
                             </div>

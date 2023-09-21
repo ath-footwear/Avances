@@ -105,6 +105,7 @@ public class sqlpantallas {
         Funciones f = new Funciones();
         String dep=f.getnfechadep(depaanterior);
         String departamento=f.getndepa(depaanterior);
+        String maq=f.getmaqdep(depaanterior);
         try {
             ResultSet rs;
             PreparedStatement st;
@@ -122,7 +123,7 @@ public class sqlpantallas {
                     + " h18=case when convert(int,substring(convert(varchar,"+dep+",8),0,3))>=18 and convert(int,substring(convert(varchar,"+dep+",8),0,3))<19 then sum(npares) else 0 end\n"
                     + "from programa p\n"
                     + "join avance a on a.id_prog=p.id_prog\n"
-                    + "where convert(date,"+dep+") = '"+fecha+"' and "+departamento+"="+orders+"\n"
+                    + "where convert(date,"+dep+") = '"+fecha+"' and "+departamento+"="+orders+" and "+maq+"='PL'\n"
                     + "group by "+dep+","+departamento+"\n"
                     + "order by "+dep+"";
             System.out.println("npant " + sql);

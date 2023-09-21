@@ -480,7 +480,7 @@ public class Avances {
             oji += rs.getInt("ojillado");
         }//fin ojillado
         query = " select SUM(p.npares) as 'inspeccion' from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a.inspmaq='" + maq + "' and a.fechaconvert(date,fechainsp) between '" + f1 + "' and '" + f2 + "'\n";
+                + " where a.inspmaq='" + maq + "' and convert(date,fechainsp) between '" + f1 + "' and '" + f2 + "'\n";
         st = conexion.createStatement();
         rs = st.executeQuery(query);
         while (rs.next()) {//ojillado

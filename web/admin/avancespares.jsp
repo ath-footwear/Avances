@@ -82,7 +82,7 @@
                     
                 } finally {
                     if (db.getConexion() != null) {
-                        db.cerrar();
+                        //db.cerrar();
                        // response.sendRedirect("verpares.jsp");
                     }
                 }

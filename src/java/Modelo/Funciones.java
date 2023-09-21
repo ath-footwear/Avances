@@ -13,6 +13,41 @@ import java.util.ArrayList;
  */
 public class Funciones {
 
+    public String getmaqdep(String departamento) {
+        String depa = "";
+        switch (departamento) {
+            case "corte":
+                depa = "cormaq";
+                break;
+            case "precorte":
+                depa = "precormaq";
+                break;
+            case "pespunte":
+                depa = "pesmaq";
+                break;
+            case "deshebrado":
+                depa = "desmaq";
+                break;
+            case "ojillado":
+                depa = "ojimaq";
+                break;
+            case "inspeccion":
+                depa = "inspmaq";
+                break;
+            case "preacabado":
+                depa = "preamaq";
+                break;
+            case "montado":
+            case "montado2":
+                depa = "montmaq";
+                break;
+            case "pt":
+                depa = "ptmaq";
+                break;
+        }
+        return depa;
+    }
+
     /**
      * Obtiene el nombre de la columna de la fecha de acuerdo al departamento
      *
@@ -53,11 +88,14 @@ public class Funciones {
         }
         return depa;
     }
-/**
- * Obtiene el departamento adecuado por si es que hay mas de un numero de registro en el departamento
- * @param departamento
- * @return 
- */
+
+    /**
+     * Obtiene el departamento adecuado por si es que hay mas de un numero de
+     * registro en el departamento
+     *
+     * @param departamento
+     * @return
+     */
     public String getndepa(String departamento) {
         String depa;
         switch (departamento) {
@@ -75,9 +113,10 @@ public class Funciones {
 
         int puntero = 0;
         int arrsuma[] = new int[11];
+        int canttotal = 0;
         for (int i = 0; i < arrpantalla.size(); i++) {
             int cantidad = 0;
-            System.out.println(cantidad +" puntero "+puntero);
+            System.out.println(cantidad + " puntero " + puntero);
             switch (puntero) {
                 case 0:
                     cantidad = arrpantalla.get(i).getH8();
@@ -117,10 +156,13 @@ public class Funciones {
                 arrsuma[puntero] += cantidad;
             } else {
                 puntero++;
-                if(arrpantalla.size()>1){
-                    i--;
+                i--;
+//                if (arrpantalla.size() > 1) {
+//                    i--;
+//                }
+                if(puntero==11){
+                i=arrpantalla.size();
                 }
-                
             }
         }
         pantalla p = new pantalla();
