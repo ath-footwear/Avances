@@ -571,14 +571,15 @@ public class Avances {
 
     public ArrayList<String> getdetalledep(String f1, String f2, ArrayList<String> arr, int cont, String maq) throws ClassNotFoundException, SQLException {
         ArrayList<String> array = new ArrayList<>();
-        Statement st;
+//        Statement st;
         ResultSet rs;
+        PreparedStatement st;
         String query = "select p.prog,p.lote,p.estilo,p.npares,p.corrida,p.mes,p.combinacion,p.statuto from programa p join avance a on a.id_prog = p.id_prog\n"
-                + " where a." + arr.get(cont + 1) + "='" + maq + "' and convert(date,fechacor" + arr.get(cont) + ") between '" + f1 + "' and '" + f2 + "'\n"
+                + " where a." + arr.get(cont + 1) + "='" + maq + "' and convert(date," + arr.get(cont) + ") between '" + f1 + "' and '" + f2 + "'\n"
                 + " order by prog";
-////        abrir();
-        st = conexion.createStatement();
-        rs = st.executeQuery(query);
+        System.out.println("detalle "+query);
+        st = conexion.prepareStatement(query);
+        rs = st.executeQuery();
         while (rs.next()) {
             array.add((rs.getString("prog")));
             array.add((rs.getString("lote")));

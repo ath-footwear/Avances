@@ -77,7 +77,7 @@ public class Getregspares extends HttpServlet {
             String tiposs = (String) objSesion.getAttribute("tipo");
             String ids = String.valueOf(objSesion.getAttribute("i_d"));
 
-            if (usuario != null && tiposs != null && (tiposs.equals("USUARIO") || tiposs.equals("ADMIN") ||tiposs.equals("INTERMEDIO"))) {
+            if (usuario != null && tiposs != null && (tiposs.equals("USUARIO") || tiposs.equals("ADMIN") || tiposs.equals("INTERMEDIO"))) {
 
             } else {
                 response.sendRedirect("../index.jsp");
@@ -106,114 +106,114 @@ public class Getregspares extends HttpServlet {
                         banda = a.getbanda(f1, f2);
                     } else {
                         System.out.println(maq);
-                        maq = String.valueOf(maq.charAt(0)+String.valueOf(maq.charAt(1)));
+                        maq = String.valueOf(maq.charAt(0) + String.valueOf(maq.charAt(1)));
                         banda = a.getbanda(f1, f2, maq);
                         arr = a.searchfecha(f1, f2, maq);
                     }
                     depa = avan.depaload(depa);
 
-                   // System.out.println("mmmm " + arr.size() + "/ banda " + banda.size());
+                    // System.out.println("mmmm " + arr.size() + "/ banda " + banda.size());
                     while (con < 9) {
-                       // System.out.println("mmmmta " + con);
+                        // System.out.println("mmmmta " + con);
                         if (depa.get(con).equals("montado")) {
                             switch (banda.size()) {
                                 case 6:
-                                    out.print("<tr onclick=mostrarVentanas('"+depa.get(con)+"') class=ttd><td ><div class=col-sm-6>" + depa.get(con) + "</div><div class=col-sm-6>banda " + banda.get(0) + "->" + banda.get(1) + "<br>banda " + banda.get(2) + "->" + banda.get(3) + "<br>banda " + banda.get(4) + "->" + banda.get(5) + "</div> </td><td>" + arr.get(con) + "</td></tr>");
+                                    out.print("<tr onclick=mostrarVentanas('" + depa.get(con) + "') class=ttd><td ><div class=col-sm-6>" + depa.get(con) + "</div><div class=col-sm-6>banda " + banda.get(0) + "->" + banda.get(1) + "<br>banda " + banda.get(2) + "->" + banda.get(3) + "<br>banda " + banda.get(4) + "->" + banda.get(5) + "</div> </td><td>" + arr.get(con) + "</td></tr>");
                                     break;
                                 case 4:
-                                    out.print("<tr onclick=mostrarVentanas('"+depa.get(con)+"') class=ttd><td><div class=col-sm-6>" + depa.get(con) + "</div><div class=col-sm-6>banda " + banda.get(0) + "->" + banda.get(1) + "<br>banda " + banda.get(2) + "->" + banda.get(3) + "</td><td>" + arr.get(con) + "</div></td></tr>");
+                                    out.print("<tr onclick=mostrarVentanas('" + depa.get(con) + "') class=ttd><td><div class=col-sm-6>" + depa.get(con) + "</div><div class=col-sm-6>banda " + banda.get(0) + "->" + banda.get(1) + "<br>banda " + banda.get(2) + "->" + banda.get(3) + "</td><td>" + arr.get(con) + "</div></td></tr>");
                                     break;
                                 case 2:
-                                    out.print("<tr onclick=mostrarVentanas('"+depa.get(con)+"') class=ttd><td><div class=col-sm-6>" + depa.get(con) + "</div><div class=col-sm-6>banda " + banda.get(0) + "->" + banda.get(1) + "</td><td>" + arr.get(con) + "</div></td></tr>");
+                                    out.print("<tr onclick=mostrarVentanas('" + depa.get(con) + "') class=ttd><td><div class=col-sm-6>" + depa.get(con) + "</div><div class=col-sm-6>banda " + banda.get(0) + "->" + banda.get(1) + "</td><td>" + arr.get(con) + "</div></td></tr>");
                                     break;
 
                                 default:
-                                    out.print("<tr onclick=mostrarVentanas('"+depa.get(con)+"') class=ttd><td>" + depa.get(con) + "</td><td>" + arr.get(con) + "</td></tr>");
+                                    out.print("<tr onclick=mostrarVentanas('" + depa.get(con) + "') class=ttd><td>" + depa.get(con) + "</td><td>" + arr.get(con) + "</td></tr>");
                                     break;
                             }
                         } else {
-                            out.print("<tr onclick=mostrarVentanas('"+depa.get(con)+"') class=ttd><a> <td >" + depa.get(con) + "</td><td>" + arr.get(con) + "</td></a></tr>");
+                            out.print("<tr onclick=mostrarVentanas('" + depa.get(con) + "') class=ttd><a> <td >" + depa.get(con) + "</td><td>" + arr.get(con) + "</td></a></tr>");
                         }
                         con++;
                     }
-                    
+
                     //System.out.println("hecho e.e");
-                }else if(uso.equals("detalle")){
+                } else if (uso.equals("detalle")) {
                     //System.out.println("Detalle");
-                    int cont =0;
+                    int cont = 0;
                     String maquila = request.getParameter("maq");
-                String dep = request.getParameter("dep");
-                depa=avan.alldepcharge(arr);
-                for(int i =0;i<depa.size();i++){
-                    if(depa.get(i).equals(dep)){
-                        cont =i;
-                        i=depa.size();
+                    String dep = request.getParameter("dep");
+                    depa = avan.alldepcharge(arr);
+                    for (int i = 0; i < depa.size(); i++) {
+                        if (depa.get(i).equals(dep)) {
+                            cont = i;
+                            i = depa.size();
+                        }
                     }
-                }
-                if(maquila.equals("TODOS")){
-                arr=a.getdetalledep(f1, f2, arr, (cont+1));
-                }else{
-                arr=a.getdetalledep(f1, f2, arr, (cont+1),String.valueOf(maquila.charAt(0)));
-                }
-                
-                cont=0;
-                int pares =0;
-                for(int i =0;i<arr.size();i++){
-                    if(cont==7){
-                        out.print("<tr class=ttd style=overflow:auto><td>"+arr.get(i-7)+"</td><td>"+arr.get(i-6)+"</td><td>"
-                             +arr.get(i-5)+"</td><td>"+arr.get(i-4)+"</td><td>"+arr.get(i-3)+"</td><td>"
-                             +arr.get(i-2)+"</td><td>"+arr.get(i-1)+"</td><td>"+arr.get(i)+"</td></tr>");
-                        pares+=Integer.parseInt(arr.get(i-4));
-                    cont =0;
-                    }else{
-                    cont++;
+                    if (maquila.equals("TODOS")) {
+                        arr = a.getdetalledep(f1, f2, arr, (cont + 1));
+                    } else {
+                        String maqui = maquila.charAt(0) + "" + maquila.charAt(1);
+                        arr = a.getdetalledep(f1, f2, arr, (cont + 1), maqui);
                     }
-                }
-                out.print("<tr><td>Total de pares</td><td></td><td></td><td>"+pares+"</td></tr>");
-                }else if(uso.equals("completo")){
+
+                    cont = 0;
+                    int pares = 0;
+                    for (int i = 0; i < arr.size(); i++) {
+                        if (cont == 7) {
+                            out.print("<tr class=ttd style=overflow:auto><td>" + arr.get(i - 7) + "</td><td>" + arr.get(i - 6) + "</td><td>"
+                                    + arr.get(i - 5) + "</td><td>" + arr.get(i - 4) + "</td><td>" + arr.get(i - 3) + "</td><td>"
+                                    + arr.get(i - 2) + "</td><td>" + arr.get(i - 1) + "</td><td>" + arr.get(i) + "</td></tr>");
+                            pares += Integer.parseInt(arr.get(i - 4));
+                            cont = 0;
+                        } else {
+                            cont++;
+                        }
+                    }
+                    out.print("<tr><td>Total de pares</td><td></td><td></td><td>" + pares + "</td></tr>");
+                } else if (uso.equals("completo")) {
                     System.out.println("completos");
                     ArrayList<String> ar = new ArrayList<>();
-                           ar= a.searchfechacompleto(f1, f2);
-           int cont=0;
-           int pares =0;
-            out.print("<div class=\"container\" style=\"\">\n" +          
-"            <div class=\" \" style=\"\">\n" +
-"                <h4 class=\"h4\">Lotes completos</h4>\n" +
-"                <table  id=\"tablesorter-demo\" class=\"table table-hover table-responsive table-condensed table-bordered\" style=\"overflow: scroll\">\n" +
-"                    <thead class=\"redondeado\" style=\"background-color:white; \">\n" +
-"                        <tr>\n" +
-"                            <td>Programa</td>\n" +
-"                            <td>Lote</td>\n" +
-"                            <td>Estilo</td>\n" +
-"                            <td>Pares</td>\n" +
-"                            <td>Corrida</td>\n" +
-"                            <td>Mes</td>\n" +
-"                            <td>Combinacion</td>\n" +
-"                        </tr>\n" +
-"                    </thead>\n" +
-"                    <tbody >");
-                for(int i =0;i<ar.size();i++){
-                    if(cont==6){
-                        out.print("<tr class=ttd style=overflow:auto><td>"+ar.get(i-6)+"</td><td>"+ar.get(i-5)+"</td><td>"
-                             +ar.get(i-4)+"</td><td>"+ar.get(i-3)+"</td><td>"+ar.get(i-2)+"</td><td>"
-                             +ar.get(i-1)+"</td><td>"+ar.get(i)+"</td></tr>");
-                        pares+=Integer.parseInt(ar.get(i-3));
-                    cont =0;
-                    }else{
-                    cont++;
+                    ar = a.searchfechacompleto(f1, f2);
+                    int cont = 0;
+                    int pares = 0;
+                    out.print("<div class=\"container\" style=\"\">\n"
+                            + "            <div class=\" \" style=\"\">\n"
+                            + "                <h4 class=\"h4\">Lotes completos</h4>\n"
+                            + "                <table  id=\"tablesorter-demo\" class=\"table table-hover table-responsive table-condensed table-bordered\" style=\"overflow: scroll\">\n"
+                            + "                    <thead class=\"redondeado\" style=\"background-color:white; \">\n"
+                            + "                        <tr>\n"
+                            + "                            <td>Programa</td>\n"
+                            + "                            <td>Lote</td>\n"
+                            + "                            <td>Estilo</td>\n"
+                            + "                            <td>Pares</td>\n"
+                            + "                            <td>Corrida</td>\n"
+                            + "                            <td>Mes</td>\n"
+                            + "                            <td>Combinacion</td>\n"
+                            + "                        </tr>\n"
+                            + "                    </thead>\n"
+                            + "                    <tbody >");
+                    for (int i = 0; i < ar.size(); i++) {
+                        if (cont == 6) {
+                            out.print("<tr class=ttd style=overflow:auto><td>" + ar.get(i - 6) + "</td><td>" + ar.get(i - 5) + "</td><td>"
+                                    + ar.get(i - 4) + "</td><td>" + ar.get(i - 3) + "</td><td>" + ar.get(i - 2) + "</td><td>"
+                                    + ar.get(i - 1) + "</td><td>" + ar.get(i) + "</td></tr>");
+                            pares += Integer.parseInt(ar.get(i - 3));
+                            cont = 0;
+                        } else {
+                            cont++;
+                        }
                     }
+                    out.print("<tr><td>Total de pares</td><td></td><td></td><td>" + pares + "</td></tr>");
+                    out.print("</tbody> \n"
+                            + "                </table>\n"
+                            + "        </div>\n"
+                            + "    </div>\n"
+                            + "       ");
                 }
-                out.print("<tr><td>Total de pares</td><td></td><td></td><td>"+pares+"</td></tr>");
-            out.print("</tbody> \n" +
-            "                </table>\n" +
-            "        </div>\n" +
-            "    </div>\n" +
-            "       ");
-            }
             } else {
                 System.out.println("No es fecha");
             }// lotes completos
-            
 
 //                
         } catch (NullPointerException ex) {
