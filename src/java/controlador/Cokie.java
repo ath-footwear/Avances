@@ -72,6 +72,7 @@ public class Cokie extends HttpServlet {
             Cookie Galleta = new Cookie("pantalla", val);
 //            El tiempo activo que durará la cookie
 //            Galleta.setMaxAge(1*24*60*60);
+            Galleta.setMaxAge(-1);              
             response.addCookie(Galleta);
             PrintWriter out = response.getWriter();
             Avances a = new Avances();
@@ -82,6 +83,7 @@ public class Cokie extends HttpServlet {
                 //System.out.println("No activaaaaaaaaaaaaaaaaaaa");
                 a.abrir();
                 sesion.setAttribute("con", a.getConexion());
+                sesion.setMaxInactiveInterval(-1);
 //                sesion.setMaxInactiveInterval(1*24*60*60);
             }            
         } catch (ClassNotFoundException ex) {

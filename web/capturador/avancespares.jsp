@@ -81,10 +81,10 @@
                   //  response.sendRedirect("verpares.jsp");
                     
                 } finally {
-                    if (db.getConexion() != null) {
-                        db.cerrar();
+                    //if (db.getConexion() != null) {
+                    //    db.cerrar();
                        // response.sendRedirect("verpares.jsp");
-                    }
+                    //}
                 }
             } else {
                 System.out.println("NO ES FECHA");

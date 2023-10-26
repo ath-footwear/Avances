@@ -28,6 +28,10 @@ hr{
     font-size: 25px;
     letter-spacing: 0.2em;
 }
+.combos65{
+    font-size: 40px;
+    letter-spacing: 0.2em;
+}
 
 .alineartabla{
     text-align: center;
@@ -35,6 +39,9 @@ hr{
 
 .tamanoparesxhr{
     font-size: 30px;
+}
+.tamanoparesxhr65{
+    font-size: 70px;
 }
 .espaciado-sm{
     letter-spacing: 0.1em;
@@ -44,18 +51,33 @@ hr{
 .encabezado{
     font-size: 40px
 }
+
+.encabezado65{
+    font-size: 50px
+}
+
+.encabezadoTpantalla{
+    font-size: 85px
+}
+
+.encabezadothead{
+    font-size: 70px
+}
+
 .fondoencdep{
     color: whitesmoke;
     background-color: rgb(0,80,229);
     border-radius: 5px;
     letter-spacing: 0.2em;
-    font: oblique 280%  fantasy;
+   <!-- font: oblique 280%  fantasy;-->
 }
 
 .rowtabla{
     font-size: 32px
 }
-
+.rowtabla65{
+    font-size: 55px
+}
 .rowtablaprsdia{
     font-size: 20px
 }

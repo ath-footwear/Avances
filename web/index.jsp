@@ -97,7 +97,7 @@
                                                 ${error}                      
                                             </label>
                                         </div> </form>
-                                </div><br><br><br><br>
+                                </div><br><br><br><br><br><br><br><br>
                             </div>
                         </div>
                     </div>    
@@ -130,7 +130,9 @@
                 </div>
                 <div class="col-sm-3 espacio">
                     <a class="" href="http://192.168.6.75:86/fichast"><label class="shiro titulos" >Fichas Tecnicas</label></a>
-                    <br><img class="img-responsive jumbismini" src="images/QR.png" width="75px" height="75px"><br>
+                    <br><img class="img-responsive jumbismini" src="images/QR.png" width="75px" height="75px"><hr>
+                    <a class="" href="pantallas.jsp"><label class="shiro">Pantallas</label></a><br>
+                    <a class="" href="pantallas65.jsp"><label class="shiro">PantallasHD</label></a><br>
                     
                 </div>
             </div>

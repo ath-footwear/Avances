@@ -70,9 +70,9 @@
         out.print("<script>location='pedido.jsp';</script>");
 
     } finally {
-        if (db.getConexion() != null) {
-            db.cerrar();
+        //if (db.getConexion() != null) {
+        //    db.cerrar();
             // response.sendRedirect("verpares.jsp");
-        }
+        //}
     }
 %>

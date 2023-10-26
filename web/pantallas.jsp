@@ -139,7 +139,7 @@
             %>
 
             <div class="container-fluid" align="center">
-                <div class="container " >
+                <div class=" " >
                     <div class="row" >
                         <div class="col-sm-12" >
                             <div >
