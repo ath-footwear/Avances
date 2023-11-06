@@ -2,6 +2,9 @@
     Document   : Log
     Author     : mich
 --%>
+<%@page import="Modelo.Falla"%>
+<%@page import="Modelo.Anuncio"%>
+<%@page import="Modelo.Tiempospantalla"%>
 <%@page import="java.util.Date"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="Modelo.Funciones"%>
@@ -13,8 +16,8 @@
 <%@page import="Modelo.pantalla"%>
 <%@page import="java.util.ArrayList"%>
 <%
+    HttpSession sesion = request.getSession(false);
     try {
-        HttpSession sesion = request.getSession(false);
         //Se obtiene la cockie de la conexion, si es que existe alguna
         Connection c = (Connection) sesion.getAttribute("con");
         //Array que contiene o contendra todas las pantallas dadas de alta
@@ -34,6 +37,7 @@
                 i = galleta.length;
             }
         }
+
         if (c != null) {
             //System.out.println("Hola");
             sqlpantallas s = new sqlpantallas();
@@ -49,6 +53,7 @@
             sqlpantallas s = new sqlpantallas();
             arr = s.getpantalla(a.getConexion());
         }
+        int anuncio = Integer.parseInt(sesion.getAttribute("anuncio").toString());// forzar el catch para asigna el primer valor
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -104,8 +109,9 @@
                     <p class="combos65">Iniciar</p>
                 </button>
             </div>
-
         </div>
+
+
 
 
 
@@ -115,29 +121,33 @@
                     System.out.println("--------------------" + galleta[i].getName());
 //                  Entra solo si la cokie es la indicada, sino no hace toda esta parte de carga                    
                     if (galleta[i].getName().equals("pantalla")) {
-                        out.println("<script type=text/javascript>setTimeout(reload, 50000);</script>");
-                        System.out.println("ejecuta consulta " + galleta[i].getValue());
-                        sqlpantallas a = new sqlpantallas();
-                        //Obtiene los departamentos de la pantalla seleccionada de los cuales se usará su nombre y tipo de orden
-                        ArrayList<pantalla> arrpant = a.getpantallaindividual(c, Integer.parseInt(galleta[i].getValue()));
-                        for (int j = 0; j < arrpant.size(); j++) {
-//                          Clase para funciones extra, para formatear u obtener datos mas concretos               
-                            Funciones f = new Funciones();
-//                          Arraylist que obtiene los datos de pares de cada departamento  
-                            List<metadep> arrmeta = a.getmetas(c, f.getndepa(arrpant.get(j).getDepa()));
-//                          Almacenar en variables los datos de los arrays para que no sea tan grande la instruccion de el metodo a llamar  
-                            int pantallaarr = Integer.parseInt(galleta[i].getValue());
-                            int orders = arrpant.get(j).getOrders();
-                            String departamento = arrpant.get(j).getDepa();
-                            int total = 0;
-//                          Obtener los pares x hr mediante un query a la base de datos  
-                            ArrayList<pantalla> arrpares=a.getprsxhr(c,pantallaarr, sdf.format(date), departamento, orders);
-                            //ArrayList<pantalla> arrpares = a.getprsxhr(c, pantallaarr, "22/08/2023", departamento, orders);
-//                          Esta funcion formatea el numero de renglones a solo un renglon de tipo array normal  
-                            int[] arrprs = f.getprsxdepa(arrpares);
-                            //System.out.println("aaaaaaa "+arrpares.size()+" bbbbbbb "+arrprs.length);
-            %>
+                        out.println("<script type=text/javascript>setTimeout(reload, 60000);</script>");
+                        //System.out.println("ejecuta consulta " + galleta[i].getValue());
 
+                        sqlpantallas a = new sqlpantallas();
+                        Tiempospantalla tp = new Tiempospantalla();
+                        tp = a.getiempos(c);
+                        System.out.println("Anuncio " + anuncio + " " + tp.getPantsup());
+                        if (anuncio >= tp.getPantmin() && anuncio <= tp.getPantsup()) {// Despliegue de avances
+                            //Obtiene los departamentos de la pantalla seleccionada de los cuales se usará su nombre y tipo de orden
+                            ArrayList<pantalla> arrpant = a.getpantallaindividual(c, Integer.parseInt(galleta[i].getValue()));
+                            for (int j = 0; j < arrpant.size(); j++) {
+//                          Clase para funciones extra, para formatear u obtener datos mas concretos               
+                                Funciones f = new Funciones();
+//                          Arraylist que obtiene los datos de pares de cada departamento  
+                                List<metadep> arrmeta = a.getmetas(c, f.getndepa(arrpant.get(j).getDepa()));
+//                          Almacenar en variables los datos de los arrays para que no sea tan grande la instruccion de el metodo a llamar  
+                                int pantallaarr = Integer.parseInt(galleta[i].getValue());
+                                int orders = arrpant.get(j).getOrders();
+                                String departamento = arrpant.get(j).getDepa();
+                                int total = 0;
+//                          Obtener los pares x hr mediante un query a la base de datos  
+                                ArrayList<pantalla> arrpares = a.getprsxhr(c, pantallaarr, sdf.format(date), departamento, orders);
+                                //ArrayList<pantalla> arrpares = a.getprsxhr(c, pantallaarr, "04/11/2023", departamento, orders);
+//                          Esta funcion formatea el numero de renglones a solo un renglon de tipo array normal  
+                                int[] arrprs = f.getprsxdepa(arrpares);
+                                //System.out.println("aaaaaaa "+arrpares.size()+" bbbbbbb "+arrprs.length);
+%>
             <div class="container-fluid" align="center">
                 <div class=" " >
                     <div class="row" >
@@ -193,14 +203,84 @@
                 </div>   
             </div>
             <%
-                    //System.out.println("tamaño meta " + arrmeta.size());
+                }// for de pantallas
+                anuncio++;
+                System.out.println("Asignacion de anuncio " + anuncio);
+                sesion.setAttribute("anuncio", anuncio);
+            } else if (anuncio >= tp.getAnunmin() && anuncio <= tp.getAnunsup()) {// despliegue de anuncios
+                ArrayList<Anuncio> arranuncio = a.getanuncios(c, Integer.parseInt(galleta[i].getValue()));
+                if (arranuncio.isEmpty()) {
+                    anuncio = tp.getAnunsup();
+                    sesion.setAttribute("anuncio", anuncio + 1);
+                    response.sendRedirect("pantallas65.jsp");
+                } else {
+            %>
+            <div class="container-fluid">
+                <div>
+                    <h1 class="letraanuncio"><%=arranuncio.get(0).getCuerpo().toUpperCase()%></h1>
+                </div>
+                <img src="<%=arranuncio.get(0).getImagen()%>" class="img-responsive">
+            </div>
+            <%
+                    anuncio++;
+                    sesion.setAttribute("anuncio", anuncio);
+                }
+
+            } else if (anuncio >= tp.getFallamin() && anuncio <= tp.getFallasup()) {
+                ArrayList<Falla> arrfalla = a.getfallas(c, Integer.parseInt(galleta[i].getValue()));
+                if (arrfalla.isEmpty()) {
+                    anuncio = 0;
+                    sesion.setAttribute("anuncio", 0);
+                    response.sendRedirect("pantallas65.jsp");
+                } else {
+            %>
+            <div class="container-fluid">
+                <div class="letrafallaenc">
+                    <label class="letrafallaenc2"><%=arrfalla.get(0).getObservaciones()%></label>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 letrafallas">
+                        <label><%=arrfalla.get(0).getDescimag1()%></label>
+                        <a href="<%=arrfalla.get(0).getImagen1()%>"><img src="<%=arrfalla.get(0).getImagen1()%>" class="img-responsive imgfijopantalla"></a>
+                    </div>
+                    <div class="col-md-4 letrafallas">
+                        <label><%=arrfalla.get(0).getDescimag2()%></label>
+                        <a href="<%=arrfalla.get(0).getImagen2()%>"><img src="<%=arrfalla.get(0).getImagen2()%>" class="img-responsive imgfijopantalla" ></a>
+                    </div>
+                    <div class="col-md-4 letrafallas">
+                        <label><%=arrfalla.get(0).getDescimag3()%></label>
+                        <a href="<%=arrfalla.get(0).getImagen3()%>"><img src="<%=arrfalla.get(0).getImagen3()%>" class="img-responsive imgfijopantalla" </a>
+                    </div>
+                    <div class="col-md-4 letrafallas">
+                        <label><%=arrfalla.get(0).getDescimag4()%></label>
+                        <a href="<%=arrfalla.get(0).getImagen4()%>"><img src="<%=arrfalla.get(0).getImagen4()%>" class="img-responsive imgfijopantalla"></a>
+                    </div>
+                    <div class="col-md-4 letrafallas">
+                        <label><%=arrfalla.get(0).getDescimag5()%></label>
+                        <a href="<%=arrfalla.get(0).getImagen5()%>"><img src="<%=arrfalla.get(0).getImagen5()%>" class="img-responsive imgfijopantalla"></a>
+                    </div>
+                    <div class="col-md-4 letrafallas">
+                        <label><%=arrfalla.get(0).getDescimag6()%></label>
+                        <a href="<%=arrfalla.get(0).getImagen6()%>"><img src="<%=arrfalla.get(0).getImagen6()%>" class="img-responsive imgfijopantalla"></a>
+                    </div>
+
+                </div>
+            </div>
+            <%
+                        anuncio++;
+                        sesion.setAttribute("anuncio", anuncio);
+                    }
+                } else if (anuncio > tp.getFallasup()) {
+                    anuncio = 0;
+                    sesion.setAttribute("anuncio", 0);
+                    response.sendRedirect("pantallas65.jsp");
                 }
 
                 //List<metadep> arrmeta = a.getmetas(c, arrpant.get(i).getNombre());
                 //System.out.println("tamaño meta " + arrmeta.size());
             %>
 
-            <%                    }
+            <%      }
                 }
             %>
 
@@ -208,5 +288,8 @@
     </body>
 </html>
 <%    } catch (Exception e) {
+        System.out.println("Excepcion " + e.getCause() + " " + e.getMessage());
+        sesion.setAttribute("anuncio", 0);
     }
+
 %>

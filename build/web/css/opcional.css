@@ -82,8 +82,26 @@ hr{
     font-size: 20px
 }
 
+.imgfijopantalla{
+    max-width: 840px;
+    max-height: 440px;
+}
+
+.letraanuncio{
+    font-size: 150px;
+    color: rgb(255,127,39)
+}
+.letrafallas{
+    font-size: 40px
+}
+.letrafallaenc{   
+    background-color: white;   
+}
+.letrafallaenc2{
+    color: rgb(228,14,46);
+    font-size: 65px;
+}
 .backgroundenc{
-    
     background-color: rgb(223,248,255);
 }
 

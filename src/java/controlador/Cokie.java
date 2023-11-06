@@ -79,11 +79,13 @@ public class Cokie extends HttpServlet {
 //            Se revisa que la conexion este activa para no abrir una nueva
             if (c != null) {
                 System.out.println("conexion activa");
+                sesion.setAttribute("anuncio", "0");
             } else {
                 //System.out.println("No activaaaaaaaaaaaaaaaaaaa");
                 a.abrir();
                 sesion.setAttribute("con", a.getConexion());
                 sesion.setMaxInactiveInterval(-1);
+                sesion.setAttribute("anuncio", "0");
 //                sesion.setMaxInactiveInterval(1*24*60*60);
             }            
         } catch (ClassNotFoundException ex) {

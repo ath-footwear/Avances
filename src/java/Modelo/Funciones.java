@@ -116,7 +116,7 @@ public class Funciones {
         int canttotal = 0;
         for (int i = 0; i < arrpantalla.size(); i++) {
             int cantidad = 0;
-            System.out.println(cantidad + " puntero " + puntero);
+//            System.out.println(cantidad + " puntero " + puntero);
             switch (puntero) {
                 case 0:
                     cantidad = arrpantalla.get(i).getH8();
