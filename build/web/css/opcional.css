@@ -87,8 +87,18 @@ hr{
     max-height: 440px;
 }
 
+.imgfijopantalla-md{
+    max-width: 1040px;
+    max-height: 640px;
+}
+
+.imgfijopantalla-lg{
+    max-width: 1240px;
+    max-height: 840px;
+}
+
 .letraanuncio{
-    font-size: 150px;
+    font-size: 115px;
     color: rgb(255,127,39)
 }
 .letrafallas{

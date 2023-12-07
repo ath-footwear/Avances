@@ -2,6 +2,7 @@
     Document   : Log
     Author     : mich
 --%>
+<%@page import="Modelo.formateodedatos"%>
 <%@page import="Modelo.Falla"%>
 <%@page import="Modelo.Anuncio"%>
 <%@page import="Modelo.Tiempospantalla"%>
@@ -216,8 +217,8 @@
                 } else {
             %>
             <div class="container-fluid">
-                <div>
-                    <h1 class="letraanuncio"><%=arranuncio.get(0).getCuerpo().toUpperCase()%></h1>
+                <div class="col-lg-12">
+                    <label class="letraanuncio"><%=arranuncio.get(0).getCuerpo().toUpperCase()%></label>
                 </div>
                 <img src="<%=arranuncio.get(0).getImagen()%>" class="img-responsive">
             </div>
@@ -239,6 +240,24 @@
                     <label class="letrafallaenc2"><%=arrfalla.get(0).getObservaciones()%></label>
                 </div>
                 <div class="row">
+                    <% formateodedatos format = new formateodedatos();
+                        if (format.getfalla1imagen(arrfalla)) {
+                            out.print("<div class=col-md-12 letrafallas>"
+                                    + "<label>" + arrfalla.get(0).getDescimag1() + "</label>"
+                                    + "<a href=\"" + arrfalla.get(0).getImagen1() + "\"><img src=" + arrfalla.get(0).getImagen1() + " class=\"img-responsive imgfijopantalla-lg\"></a>"
+                                    + "</div>");
+                        }else if (format.getfalla2imagen(arrfalla)) {
+                            out.print("<div class=col-md-6 letrafallas>"
+                                    + "<label>" + arrfalla.get(0).getDescimag1() + "</label>"
+                                    + "<a href=\"" + arrfalla.get(0).getImagen1() + "\"><img src=" + arrfalla.get(0).getImagen1() + " class=\"img-responsive imgfijopantalla-md\"></a>"
+                                    + "</div>");
+                            out.print("<div class=col-md-6 letrafallas>"
+                                    + "<label>" + arrfalla.get(0).getDescimag2() + "</label>"
+                                    + "<a href=\"" + arrfalla.get(0).getImagen2() + "\"><img src=" + arrfalla.get(0).getImagen2() + " class=\"img-responsive imgfijopantalla-md\"></a>"
+                                    + "</div>");
+                        }else{
+                        
+                    %>
                     <div class="col-md-4 letrafallas">
                         <label><%=arrfalla.get(0).getDescimag1()%></label>
                         <a href="<%=arrfalla.get(0).getImagen1()%>"><img src="<%=arrfalla.get(0).getImagen1()%>" class="img-responsive imgfijopantalla"></a>
@@ -266,7 +285,7 @@
 
                 </div>
             </div>
-            <%
+            <%          }
                         anuncio++;
                         sesion.setAttribute("anuncio", anuncio);
                     }

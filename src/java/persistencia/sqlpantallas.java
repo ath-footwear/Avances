@@ -112,8 +112,10 @@ public class sqlpantallas {
         try {
             ResultSet rs;
             PreparedStatement st;
+//            Se amplio la hora inicial y final por posibles fallos en el despliegue de las pantallas
+//            Mas que nada porque estan fuera de rango
             String sql = "select " + departamento + ", \n"
-                    + " h8=case when convert(int,substring(convert(varchar," + dep + ",8),0,3))>=8 and convert(int,substring(convert(varchar," + dep + ",8),0,3))<9 then sum(npares) else 0 end,\n"
+                    + " h8=case when convert(int,substring(convert(varchar," + dep + ",8),0,3))>=6 and convert(int,substring(convert(varchar," + dep + ",8),0,3))<9 then sum(npares) else 0 end,\n"
                     + " h9=case when convert(int,substring(convert(varchar," + dep + ",8),0,3))>=9 and convert(int,substring(convert(varchar," + dep + ",8),0,3))<10 then sum(npares) else 0 end,\n"
                     + " h10=case when convert(int,substring(convert(varchar," + dep + ",8),0,3))>=10 and convert(int,substring(convert(varchar," + dep + ",8),0,3))<11 then sum(npares) else 0 end,\n"
                     + " h11=case when convert(int,substring(convert(varchar," + dep + ",8),0,3))>=11 and convert(int,substring(convert(varchar," + dep + ",8),0,3))<12 then sum(npares) else 0 end,\n"
@@ -123,7 +125,7 @@ public class sqlpantallas {
                     + " h15=case when convert(int,substring(convert(varchar," + dep + ",8),0,3))>=15 and convert(int,substring(convert(varchar," + dep + ",8),0,3))<16 then sum(npares) else 0 end,\n"
                     + " h16=case when convert(int,substring(convert(varchar," + dep + ",8),0,3))>=16 and convert(int,substring(convert(varchar," + dep + ",8),0,3))<17 then sum(npares) else 0 end,\n"
                     + " h17=case when convert(int,substring(convert(varchar," + dep + ",8),0,3))>=17 and convert(int,substring(convert(varchar," + dep + ",8),0,3))<18 then sum(npares) else 0 end,\n"
-                    + " h18=case when convert(int,substring(convert(varchar," + dep + ",8),0,3))>=18 and convert(int,substring(convert(varchar," + dep + ",8),0,3))<19 then sum(npares) else 0 end\n"
+                    + " h18=case when convert(int,substring(convert(varchar," + dep + ",8),0,3))>=18 and convert(int,substring(convert(varchar," + dep + ",8),0,3))<20 then sum(npares) else 0 end\n"
                     + "from programa p\n"
                     + "join avance a on a.id_prog=p.id_prog\n"
                     + "where convert(date," + dep + ") = '" + fecha + "' and " + departamento + "=" + orders + " and " + maq + "='PL'\n"
