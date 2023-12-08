@@ -216,11 +216,13 @@
                     response.sendRedirect("pantallas65.jsp");
                 } else {
             %>
-            <div class="container-fluid">
+            <div class="container-fluid" >
                 <div class="col-lg-12">
                     <label class="letraanuncio"><%=arranuncio.get(0).getCuerpo().toUpperCase()%></label>
                 </div>
-                <img src="<%=arranuncio.get(0).getImagen()%>" class="img-responsive">
+                <div class=" col-lg-12 alinearimagen">
+                    <img src="<%=arranuncio.get(0).getImagen()%>" class="img-responsive" >
+                </div>
             </div>
             <%
                     anuncio++;
