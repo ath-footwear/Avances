@@ -50,11 +50,17 @@
         if (band) {
             //System.out.println("no avance");
             Avances a = new Avances();
-            a.abrir();
+            if (c == null) {
+                a.abrir();
+                c = a.getConexion();
+                session.setAttribute("con", c);
+            }
             sqlpantallas s = new sqlpantallas();
-            arr = s.getpantalla(a.getConexion());
+            arr = s.getpantalla(c);
+
         }
         int anuncio = Integer.parseInt(sesion.getAttribute("anuncio").toString());// forzar el catch para asigna el primer valor
+        System.out.println("anuncios " + anuncio + " " + c);
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -89,6 +95,16 @@
         </script>
     </head>
     <body class="" >
+        <%
+//  Condicional solo para mostrar y no mostrar el menu de los avances, logo y departamentos
+//  fuera de los resultados de los avances, ocultandolos solo si hay anuncios o fallas
+// No funciono porque en las pantallas no funcionaba de manera adecuadas
+//            sqlpantallas a = new sqlpantallas();
+//            Tiempospantalla tp = new Tiempospantalla();
+//            tp = a.getiempos(c);
+ //           if (anuncio <= tp.getPantsup() || anuncio == 0 || c == null) {
+        %>
+        <!--Div que incluye el logo y los departamentos disponibles a seleccionar-->
         <div class="col-md-12">
             <div align="left" class="col-md-2"><a href="index.jsp"><img src="images/AF.png" width="250px" height="180px" class="img-responsive"/></a></div>
             <div align="right" class="col-md-10 combos65" >
@@ -100,7 +116,7 @@
                 </select>
             </div>
         </div>
-
+        <!--Div que incluye la fecha actual y el boton para la seleccion de departamento-->
         <div class="col-md-12">
             <div align="left" class="col-md-4" style="">
                 <h3 class="encabezado65">Fecha: <%=sdf.format(date)%></h3>
@@ -111,7 +127,10 @@
                 </button>
             </div>
         </div>
-
+        <%
+ //           }
+//  Fin de condicional para despliegue de menu para avances
+        %>
 
 
 
@@ -148,7 +167,7 @@
 //                          Esta funcion formatea el numero de renglones a solo un renglon de tipo array normal  
                                 int[] arrprs = f.getprsxdepa(arrpares);
                                 //System.out.println("aaaaaaa "+arrpares.size()+" bbbbbbb "+arrprs.length);
-%>
+            %>
             <div class="container-fluid" align="center">
                 <div class=" " >
                     <div class="row" >
@@ -221,7 +240,7 @@
                     <label class="letraanuncio"><%=arranuncio.get(0).getCuerpo().toUpperCase()%></label>
                 </div>
                 <div class=" col-lg-12 alinearimagen">
-                    <img src="<%=arranuncio.get(0).getImagen()%>" class="img-responsive" >
+                    <img src="<%=arranuncio.get(0).getImagen()%>" class="img-responsive maxtamanoimagenanuncio" >
                 </div>
             </div>
             <%
@@ -248,7 +267,7 @@
                                     + "<label>" + arrfalla.get(0).getDescimag1() + "</label>"
                                     + "<a href=\"" + arrfalla.get(0).getImagen1() + "\"><img src=" + arrfalla.get(0).getImagen1() + " class=\"img-responsive imgfijopantalla-lg\"></a>"
                                     + "</div>");
-                        }else if (format.getfalla2imagen(arrfalla)) {
+                        } else if (format.getfalla2imagen(arrfalla)) {
                             out.print("<div class=col-md-6 letrafallas>"
                                     + "<label>" + arrfalla.get(0).getDescimag1() + "</label>"
                                     + "<a href=\"" + arrfalla.get(0).getImagen1() + "\"><img src=" + arrfalla.get(0).getImagen1() + " class=\"img-responsive imgfijopantalla-md\"></a>"
@@ -257,8 +276,8 @@
                                     + "<label>" + arrfalla.get(0).getDescimag2() + "</label>"
                                     + "<a href=\"" + arrfalla.get(0).getImagen2() + "\"><img src=" + arrfalla.get(0).getImagen2() + " class=\"img-responsive imgfijopantalla-md\"></a>"
                                     + "</div>");
-                        }else{
-                        
+                        } else {
+
                     %>
                     <div class="col-md-4 letrafallas">
                         <label><%=arrfalla.get(0).getDescimag1()%></label>

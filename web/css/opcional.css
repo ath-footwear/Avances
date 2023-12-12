@@ -86,6 +86,10 @@ hr{
     position: absolute;
     z-index: 1
 }
+.maxtamanoimagenanuncio{
+    max-width: 1920px;
+    max-height: 1080px    
+}
 .fondopantallafondo{
     position: absolute;
     z-index: -1;
