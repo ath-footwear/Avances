@@ -47,9 +47,12 @@
             //Solo es para mostrar que aqui entro
             //System.out.println("nel");
         }
+// Entra solo si no hay una cokie de pantallas        
         if (band) {
             //System.out.println("no avance");
             Avances a = new Avances();
+// Condicional por si no elige departamento no abra n veces la conexion a la bd
+// Ademas que asigna de una ves la conexion a la cokie
             if (c == null) {
                 a.abrir();
                 c = a.getConexion();
@@ -57,9 +60,9 @@
             }
             sqlpantallas s = new sqlpantallas();
             arr = s.getpantalla(c);
-
         }
         int anuncio = Integer.parseInt(sesion.getAttribute("anuncio").toString());// forzar el catch para asigna el primer valor
+        int nAnuncio = Integer.parseInt(sesion.getAttribute("nanuncios").toString());// forzar el catch para asigna el primer valor
         System.out.println("anuncios " + anuncio + " " + c);
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -75,7 +78,6 @@
         <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
         <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
         <script type="text/javascript">
-
             function creacockie() {
                 var uso = $('#pant').val();
                 //alert(uso);
@@ -89,6 +91,7 @@
                     }
                 });
             }
+// Recarga para ejecucion inmediata        
             function reload() {
                 window.location.reload();
             }
@@ -102,7 +105,7 @@
 //            sqlpantallas a = new sqlpantallas();
 //            Tiempospantalla tp = new Tiempospantalla();
 //            tp = a.getiempos(c);
- //           if (anuncio <= tp.getPantsup() || anuncio == 0 || c == null) {
+            //           if (anuncio <= tp.getPantsup() || anuncio == 0 || c == null) {
         %>
         <!--Div que incluye el logo y los departamentos disponibles a seleccionar-->
         <div class="col-md-12">
@@ -128,7 +131,7 @@
             </div>
         </div>
         <%
- //           }
+            //           }
 //  Fin de condicional para despliegue de menu para avances
         %>
 
@@ -227,25 +230,44 @@
                 anuncio++;
                 System.out.println("Asignacion de anuncio " + anuncio);
                 sesion.setAttribute("anuncio", anuncio);
-            } else if (anuncio >= tp.getAnunmin() && anuncio <= tp.getAnunsup()) {// despliegue de anuncios
-                ArrayList<Anuncio> arranuncio = a.getanuncios(c, Integer.parseInt(galleta[i].getValue()));
+// DEspliegue de anuncios
+            } else if (anuncio >= tp.getAnunmin() && anuncio <= tp.getAnunsup()) {
+                ArrayList<Anuncio> arranuncio = a.getanuncios(c, Integer.parseInt(galleta[i].getValue()),sdf.format(date));
                 if (arranuncio.isEmpty()) {
                     anuncio = tp.getAnunsup();
                     sesion.setAttribute("anuncio", anuncio + 1);
                     response.sendRedirect("pantallas65.jsp");
                 } else {
+//Verifica el indice del anuncio y desplegar mas de uno activo en distinto ciclo
+//pero despliega mas de uno sin tener que estar moviendo estatus
+                    if (nAnuncio < arranuncio.size()) {
             %>
             <div class="container-fluid" >
                 <div class="col-lg-12">
-                    <label class="letraanuncio"><%=arranuncio.get(0).getCuerpo().toUpperCase()%></label>
+                    <label class="letraanuncio"><%=arranuncio.get(nAnuncio).getCuerpo().toUpperCase()%></label>
                 </div>
                 <div class=" col-lg-12 alinearimagen">
-                    <img src="<%=arranuncio.get(0).getImagen()%>" class="img-responsive maxtamanoimagenanuncio" >
+                    <img src="<%=arranuncio.get(nAnuncio).getImagen()%>" class="img-responsive maxtamanoimagenanuncio" >
                 </div>
             </div>
             <%
+                        nAnuncio++;
+                    } else {
+                        nAnuncio = 0;
+            %>
+            <div class="container-fluid" >
+                <div class="col-lg-12">
+                    <label class="letraanuncio"><%=arranuncio.get(nAnuncio).getCuerpo().toUpperCase()%></label>
+                </div>
+                <div class=" col-lg-12 alinearimagen">
+                    <img src="<%=arranuncio.get(nAnuncio).getImagen()%>" class="img-responsive maxtamanoimagenanuncio" >
+                </div>
+            </div>
+            <%
+                    }
                     anuncio++;
                     sesion.setAttribute("anuncio", anuncio);
+                    sesion.setAttribute("nanuncios", nAnuncio);
                 }
 
             } else if (anuncio >= tp.getFallamin() && anuncio <= tp.getFallasup()) {
@@ -330,6 +352,7 @@
 <%    } catch (Exception e) {
         System.out.println("Excepcion " + e.getCause() + " " + e.getMessage());
         sesion.setAttribute("anuncio", 0);
+        sesion.setAttribute("nanuncios", 0);
     }
 
 %>

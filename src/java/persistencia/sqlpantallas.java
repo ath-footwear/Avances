@@ -158,14 +158,14 @@ public class sqlpantallas {
         return arr;
     }
 
-    public ArrayList<Anuncio> getanuncios(Connection c, int pantalla) {
+    public ArrayList<Anuncio> getanuncios(Connection c, int pantalla, String fechav) {
         ArrayList<Anuncio> arr = new ArrayList<>();
         try {
             PreparedStatement st;
             ResultSet rs;
-            String sql = "select * from anuncios\n"
-                    + "where estatus='1' and pantalla=" + pantalla +" "
-                    + "order by fecha desc";
+            String sql = "select top(3) * from anuncios\n" +
+"                    where estatus='1' and pantalla="+pantalla+" and convert(date,fechav)>='14/12/2023'\n" +
+"                    order by fecha desc";
             st = c.prepareStatement(sql);
             rs = st.executeQuery();
             while (rs.next()) {
