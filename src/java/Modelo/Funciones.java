@@ -39,11 +39,16 @@ public class Funciones {
                 break;
             case "montado":
             case "montado2":
+            case "montado4":
                 depa = "montmaq";
                 break;
             case "pt":
                 depa = "ptmaq";
                 break;
+            case "prodt":
+            case "prodt2":    
+                depa = "ptmaq";
+                break;    
         }
         return depa;
     }
@@ -80,11 +85,15 @@ public class Funciones {
                 break;
             case "montado":
             case "montado2":
+            case "montado4":
                 depa = "fechamont";
                 break;
             case "pt":
                 depa = "fechapt";
                 break;
+            case "prodt":
+            case "prodt2":
+                depa = "fechapt";
         }
         return depa;
     }
@@ -100,7 +109,11 @@ public class Funciones {
         String depa;
         switch (departamento) {
             case "montado2":
+            case "montado4":
                 depa = "montado";
+                break;
+            case "prodt2":
+                depa = "prodt";
                 break;
             default:
                 depa = departamento;
@@ -160,8 +173,8 @@ public class Funciones {
 //                if (arrpantalla.size() > 1) {
 //                    i--;
 //                }
-                if(puntero==11){
-                i=arrpantalla.size();
+                if (puntero == 11) {
+                    i = arrpantalla.size();
                 }
             }
         }

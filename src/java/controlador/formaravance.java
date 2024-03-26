@@ -226,6 +226,7 @@ public class formaravance extends HttpServlet {
                     } else {
                         // de precorte en adelante esto es lo que prosigue\
                         //Establecer punto donde se encuentra el departamento en la lista
+                        //k = indice de donde se encuentra el departamento
                         for (int i = 0; i < array.size(); i++) {
                             if (array.get(i).equals(usuario)) {
                                 k = i;
@@ -256,7 +257,13 @@ public class formaravance extends HttpServlet {
                                         out.println("<label style=color:red>Falta Captura de Inspeccion de calidad o Preacabado</label>");
                                     }
                                 } else {
-                                    av.avances(a, fechac, charmaquila, array, k, (array.size() - 1), fechac);
+                                    if(usuario.equals("prodt")){
+//  Ir preparando la funcion por si en algun momento todos los departamentos tienen mas de una banda                                      
+                                        av.avanceswithbanda(a, fechac, charmaquila, array, k, (array.size() - 1), fechac,banda);
+                                    }else{
+                                        av.avances(a, fechac, charmaquila, array, k, (array.size() - 1), fechac);
+                                    }
+                                    
                                     out.println("<label style=color:green>Avance Completo Exitosamente:)</label>");
                                     if (array.get(k).equals(array.get(array.size() - 3))) {
                                         av.modiavancestatus(a);

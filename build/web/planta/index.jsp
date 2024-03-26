@@ -96,10 +96,10 @@
                         <div class="col-md-8" align="center">
                             <div class="col-md-offset-6" align="center">
                                 <div style=" <% if (usuario.equals("leon")) {
-                                    out.print("display: block");
-                                } else {
-                                    out.print("display: none");
-                                }%>">
+                                        out.print("display: block");
+                                    } else {
+                                        out.print("display: none");
+                                    }%>">
                                     DEPARTAMENTO : <select style="color:black" name="depar" id="depar" onchange="salto()">
                                         <option>corte</option>
                                         <option>precorte</option>
@@ -107,25 +107,37 @@
                                     </select><br><br>
                                 </div>
                                 <div style=" <% if (!usuario.equals("leon") && !usuario.equals("avancemaquila")) {
-                                    out.print("display: block");
-                                } else {
-                                    out.print("display: none");
-                                }%>">
+                                        out.print("display: block");
+                                    } else {
+                                        out.print("display: none");
+                                    }%>">
                                     <label  style="color:black" class="l1" onchange="salto()" disabled >ORIGEN:&nbsp;&nbsp;&nbsp;&nbsp;PLANTA</label>
                                     <div class="stealth"><input name="marcas" id="marcas" value="PLANTA"></div>
                                     <br><br>
                                 </div>
-                                <div style=" <% if (usuario.equals("montado")) {
-                                    out.print("display: block");
-                                } else {
-                                    out.print("display: none");
-                                }%>">
+                                <% if (usuario.equals("montado")) {
+                                        //out.print("display: block");
+                                %>
+                                <div style=" ">
                                     BANDA: <select style="color:black" name="banda" id="banda" onchange="salto()">
                                         <option>1</option>
                                         <option>2</option>
                                         <option>3</option>
                                     </select><br><br>
                                 </div>
+                                <%
+                                    }%>
+
+                                <div style=" <% if (usuario.equals("prodt")) {
+                                        out.print("display: block");
+                                    } else {
+                                        out.print("display: none");
+                                    }%>">
+                                    PT: <select style="color:black" name="banda" id="banda" onchange="salto()">
+                                        <option>1</option>
+                                        <option>2</option>
+                                    </select><br><br>
+                                </div>    
                                 <br><br>
                                 <label class="ln">Codigo:</label>
                                 <input type="text" name="codigo" id="codigo" class="form-control" onchange="okas()" required><br>

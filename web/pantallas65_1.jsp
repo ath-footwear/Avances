@@ -146,7 +146,6 @@
                     if (galleta[i].getName().equals("pantalla")) {
                         out.println("<script type=text/javascript>setTimeout(reload, 60000);</script>");
                         //System.out.println("ejecuta consulta " + galleta[i].getValue());
-
                         sqlpantallas a = new sqlpantallas();
                         Tiempospantalla tp = new Tiempospantalla();
                         tp = a.getiempos(c);
@@ -236,7 +235,7 @@
                 if (arranuncio.isEmpty()) {
                     anuncio = tp.getAnunsup();
                     sesion.setAttribute("anuncio", anuncio + 1);
-                    response.sendRedirect("pantallas65.jsp");
+                    response.sendRedirect("pantallas65_1.jsp");
                 } else {
 //Verifica el indice del anuncio y desplegar mas de uno activo en distinto ciclo
 //pero despliega mas de uno sin tener que estar moviendo estatus
@@ -269,13 +268,12 @@
                     sesion.setAttribute("anuncio", anuncio);
                     sesion.setAttribute("nanuncios", nAnuncio);
                 }
-
             } else if (anuncio >= tp.getFallamin() && anuncio <= tp.getFallasup()) {
                 ArrayList<Falla> arrfalla = a.getfallas(c, Integer.parseInt(galleta[i].getValue()));
                 if (arrfalla.isEmpty()) {
                     anuncio = 0;
                     sesion.setAttribute("anuncio", 0);
-                    response.sendRedirect("pantallas65.jsp");
+                    response.sendRedirect("pantallas65_1.jsp");
                 } else {
             %>
             <div class="container-fluid">
@@ -333,12 +331,12 @@
                 } else if (anuncio > tp.getFallasup()) {
                     anuncio = 0;
                     sesion.setAttribute("anuncio", 0);
-                    response.sendRedirect("pantallas65.jsp");
+                    response.sendRedirect("pantallas65_1.jsp");
                 }
                 //List<metadep> arrmeta = a.getmetas(c, arrpant.get(i).getNombre());
                 //System.out.println("tamaño meta " + arrmeta.size());
             %>
-            <%      }
+            <%      }// cockie de la pantalla
                 }
             %>
         </div>
@@ -347,7 +345,7 @@
         System.out.println("Excepcion " + e.getCause() + " " + e.getMessage());
         sesion.setAttribute("anuncio", 0);
         sesion.setAttribute("nanuncios", 0);
-        //response.sendRedirect("pantallas65.jsp");
+        response.sendRedirect("pantallas65_1.jsp");
     }
 
 %>

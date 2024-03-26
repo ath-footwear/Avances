@@ -80,7 +80,7 @@ public class sqlpantallas {
                     + "from pantallas\n"
                     + "unpivot\n"
                     + "(\n"
-                    + " orders for depa in(corte,precorte,pespunte,deshebrado,ojillado,inspeccion,preacabado,montado,montado2,pt) \n"
+                    + " orders for depa in(corte,precorte,pespunte,deshebrado,ojillado,inspeccion,preacabado,montado,montado2,montado4,pt,prodt,prodt2) \n"
                     + ") as p\n"
                     + "where orders!=0 and pantalla=" + pantalla;
             //System.out.println("npant " + sql);
@@ -131,7 +131,7 @@ public class sqlpantallas {
                     + "where convert(date," + dep + ") = '" + fecha + "' and " + departamento + "=" + orders + " and " + maq + "='PL'\n"
                     + "group by " + dep + "," + departamento + "\n"
                     + "order by " + dep + "";
-            //System.out.println("npant " + sql);
+//            System.out.println("npant " + sql);
             st = c.prepareStatement(sql);
             rs = st.executeQuery();
             while (rs.next()) {
@@ -158,14 +158,70 @@ public class sqlpantallas {
         return arr;
     }
 
+    /**
+     * Se obtienen todos los registros con datos agrupados por hr, asi que
+     * saldrian n numero de registros
+     *
+     * @param c
+     * @param fecha
+     * @return
+     */
+    public ArrayList<pantalla> getprsxhrinyeccion(Connection c, String fecha) {
+        ArrayList<pantalla> arr = new ArrayList<>();
+        try {
+            ResultSet rs;
+            PreparedStatement st;
+//            Se amplio la hora inicial y final por posibles fallos en el despliegue de las pantallas
+//            Mas que nada porque estan fuera de rango
+            String sql = "select\n"
+                    + " h8=case when convert(int,substring(convert(varchar,fecha,8),0,3))>=6 and convert(int,substring(convert(varchar,fecha,8),0,3))<9 then sum(pares) else 0 end,\n"
+                    + " h9=case when convert(int,substring(convert(varchar,fecha,8),0,3))>=9 and convert(int,substring(convert(varchar,fecha,8),0,3))<10 then sum(pares) else 0 end,\n"
+                    + " h10=case when convert(int,substring(convert(varchar,fecha,8),0,3))>=10 and convert(int,substring(convert(varchar,fecha,8),0,3))<11 then sum(pares) else 0 end,\n"
+                    + " h11=case when convert(int,substring(convert(varchar,fecha,8),0,3))>=11 and convert(int,substring(convert(varchar,fecha,8),0,3))<12 then sum(pares) else 0 end,\n"
+                    + " h12=case when convert(int,substring(convert(varchar,fecha,8),0,3))>=12 and convert(int,substring(convert(varchar,fecha,8),0,3))<13 then sum(pares) else 0 end,\n"
+                    + " h13=case when convert(int,substring(convert(varchar,fecha,8),0,3))>=13 and convert(int,substring(convert(varchar,fecha,8),0,3))<14 then sum(pares) else 0 end,\n"
+                    + " h14=case when convert(int,substring(convert(varchar,fecha,8),0,3))>=14 and convert(int,substring(convert(varchar,fecha,8),0,3))<15 then sum(pares) else 0 end,\n"
+                    + " h15=case when convert(int,substring(convert(varchar,fecha,8),0,3))>=15 and convert(int,substring(convert(varchar,fecha,8),0,3))<16 then sum(pares) else 0 end,\n"
+                    + " h16=case when convert(int,substring(convert(varchar,fecha,8),0,3))>=16 and convert(int,substring(convert(varchar,fecha,8),0,3))<17 then sum(pares) else 0 end,\n"
+                    + " h17=case when convert(int,substring(convert(varchar,fecha,8),0,3))>=17 and convert(int,substring(convert(varchar,fecha,8),0,3))<18 then sum(pares) else 0 end,\n"
+                    + " h18=case when convert(int,substring(convert(varchar,fecha,8),0,3))>=18 and convert(int,substring(convert(varchar,fecha,8),0,3))<20 then sum(pares) else 0 end\n"
+                    + "from inyeccion\n"
+                    + "where convert(date,fecha)='" + fecha + "'\n"
+                    + "group by fecha";
+//            System.out.println("npant " + sql);
+            st = c.prepareStatement(sql);
+            rs = st.executeQuery();
+            while (rs.next()) {
+                pantalla p = new pantalla();
+                p.setH8(rs.getInt("h8"));
+                p.setH9(rs.getInt("h9"));
+                p.setH10(rs.getInt("h10"));
+                p.setH11(rs.getInt("h11"));
+                p.setH12(rs.getInt("h12"));
+                p.setH13(rs.getInt("h13"));
+                p.setH14(rs.getInt("h14"));
+                p.setH15(rs.getInt("h15"));
+                p.setH16(rs.getInt("h16"));
+                p.setH17(rs.getInt("h17"));
+                p.setH18(rs.getInt("h18"));
+                arr.add(p);
+            }
+            rs.close();
+            st.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(sqlpantallas.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return arr;
+    }
+
     public ArrayList<Anuncio> getanuncios(Connection c, int pantalla, String fechav) {
         ArrayList<Anuncio> arr = new ArrayList<>();
         try {
             PreparedStatement st;
             ResultSet rs;
-            String sql = "select top(3) * from anuncios\n" +
-"                    where estatus='1' and pantalla="+pantalla+" and convert(date,fechav)>='14/12/2023'\n" +
-"                    order by fecha desc";
+            String sql = "select top(3) * from anuncios\n"
+                    + "                    where estatus='1' and pantalla=" + pantalla + " and convert(date,fechav)>='14/12/2023'\n"
+                    + "                    order by fecha desc";
             st = c.prepareStatement(sql);
             rs = st.executeQuery();
             while (rs.next()) {
@@ -189,7 +245,7 @@ public class sqlpantallas {
             PreparedStatement st;
             ResultSet rs;
             String sql = "select * from fallas\n"
-                    + "where estatus='1' and pantalla=" + pantalla+" "
+                    + "where estatus='1' and pantalla=" + pantalla + " "
                     + "order by fecha desc";
             st = c.prepareStatement(sql);
             rs = st.executeQuery();
@@ -219,9 +275,9 @@ public class sqlpantallas {
         }
         return arr;
     }
-    
-        public Tiempospantalla getiempos(Connection c) {
-         Tiempospantalla t = new Tiempospantalla();
+
+    public Tiempospantalla getiempos(Connection c) {
+        Tiempospantalla t = new Tiempospantalla();
         try {
             PreparedStatement st;
             ResultSet rs;

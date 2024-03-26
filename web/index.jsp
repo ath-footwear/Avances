@@ -133,6 +133,7 @@
                     <br><img class="img-responsive jumbismini" src="images/QR.png" width="75px" height="75px"><hr>
                     <a class="" href="pantallas.jsp"><label class="shiro">Pantallas</label></a><br>
                     <a class="" href="pantallas65.jsp"><label class="shiro">PantallasHD</label></a><br>
+                    <a class="" href="pantallas50.jsp"><label class="shiro">Pantallas50</label></a><br>
                     
                 </div>
             </div>

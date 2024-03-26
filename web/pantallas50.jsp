@@ -63,6 +63,8 @@
         }
         int anuncio = Integer.parseInt(sesion.getAttribute("anuncio").toString());// forzar el catch para asigna el primer valor
         int nAnuncio = Integer.parseInt(sesion.getAttribute("nanuncios").toString());// forzar el catch para asigna el primer valor
+        //variable para control de como se presentan los departamentos en forma de carrusel
+        int carrusel = Integer.parseInt(sesion.getAttribute("carrusel").toString());// forzar el catch para asigna el primer valor
         System.out.println("anuncios " + anuncio + " " + c);
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -109,8 +111,8 @@
         %>
         <!--Div que incluye el logo y los departamentos disponibles a seleccionar-->
         <div class="col-md-12">
-            <div align="left" class="col-md-2"><a href="index.jsp"><img src="images/AF.png" width="250px" height="180px" class="img-responsive"/></a></div>
-            <div align="right" class="col-md-10 combos65" >
+            <div align="left" class="col-lg-2"><a href="index.jsp"><img src="images/AF.png" width="250px" height="180px" class="img-responsive"/></a></div>
+            <div align="right" class="col-lg-10 combos" >
                 <select id="pant" name="pant">
                     <%  for (int i = 0; i < arr.size(); i++) {
                             out.println("<option selected value=" + arr.get(i).getPantalla() + "><h2 class=combos>" + arr.get(i).getNombre() + "</h2></option>");
@@ -121,12 +123,12 @@
         </div>
         <!--Div que incluye la fecha actual y el boton para la seleccion de departamento-->
         <div class="col-md-12">
-            <div align="left" class="col-md-4" style="">
-                <h3 class="encabezado65">Fecha: <%=sdf.format(date)%></h3>
+            <div align="left" class="col-lg-4" style="">
+                <h3 class="encabezado">Fecha: <%=sdf.format(date)%></h3>
             </div>
-            <div align="right" class="col-md-8" style="">
+            <div align="right" class="col-lg-8" style="">
                 <button class="btn-success btn"   onclick="creacockie()">
-                    <p class="combos65">Iniciar</p>
+                    <p class="combos">Iniciar</p>
                 </button>
             </div>
         </div>
@@ -134,10 +136,6 @@
             //           }
 //  Fin de condicional para despliegue de menu para avances
         %>
-
-
-
-
         <div align="center" style="padding-top: 1%">
 
             <%    for (int i = 0; i < galleta.length; i++) {
@@ -145,41 +143,66 @@
 //                  Entra solo si la cokie es la indicada, sino no hace toda esta parte de carga                    
                     if (galleta[i].getName().equals("pantalla")) {
                         out.println("<script type=text/javascript>setTimeout(reload, 60000);</script>");
-                        //System.out.println("ejecuta consulta " + galleta[i].getValue());
-
+                        //Ya no se utiliza el ciclo para recorrer todo lo que habia en la pantalla ya que serán independientes
                         sqlpantallas a = new sqlpantallas();
                         Tiempospantalla tp = new Tiempospantalla();
                         tp = a.getiempos(c);
-                        System.out.println("Anuncio " + anuncio + " " + tp.getPantsup());
+                        System.out.println("Anuncio " + anuncio + " " + tp.getPantsup() + " carrusel " + carrusel);
                         if (anuncio >= tp.getPantmin() && anuncio <= tp.getPantsup()) {// Despliegue de avances
-                            //Obtiene los departamentos de la pantalla seleccionada de los cuales se usará su nombre y tipo de orden
-                            ArrayList<pantalla> arrpant = a.getpantallaindividual(c, Integer.parseInt(galleta[i].getValue()));
-                            for (int j = 0; j < arrpant.size(); j++) {
-//                          Clase para funciones extra, para formatear u obtener datos mas concretos               
-                                Funciones f = new Funciones();
+                            ArrayList<pantalla> arrpant;
+                            List<metadep> arrmeta = new ArrayList<metadep>();
+                            ArrayList<pantalla> arrpares;
+                            Funciones f = new Funciones();
+                            int total = 0;
+                            //Variable para hacer uso de inyeccion y los demas departamentos, ya que se 
+                            //se utiliza una ves para el despliegue del departamento
+                            int carraux = 0;
+                            if (carrusel == 0) {
+                                //Datos predeterminados para el departamento de inyeccion ya que como no esta conformado de la misma manera
+                                //es necesario que sea independiente con sus propias reglas
+                                arrpant = new ArrayList<pantalla>();
+                                pantalla p = new pantalla();
+                                p.setDepa("INYECCION");
+                                arrpant.add(p);
+                                metadep met = new metadep();
+                                met.setCantxdia(1120);
+                                met.setCantxhr(120);
+                                arrmeta.add(met);
+                                arrpares = a.getprsxhrinyeccion(c, sdf.format(date));
+                                carraux = carrusel;
+                            } else {
+                                //Valor -1 a carrusel ya que como se utilizo el primer valor de cero para inyeccion es necesario
+                                //volver  tomar el valor de ese indice
+                                carraux = carrusel - 1;
+                                //Obtiene los departamentos de la pantalla seleccionada de los cuales se usará su nombre y tipo de orden
+                                arrpant = a.getpantallaindividual(c, Integer.parseInt(galleta[i].getValue()));
+                                //   for (int j = 0; j < arrpant.size(); j++) {
+//                          Clase para funciones extra, para formatear u obtener datos mas concretos     
 //                          Arraylist que obtiene los datos de pares de cada departamento  
-                                List<metadep> arrmeta = a.getmetas(c, f.getndepa(arrpant.get(j).getDepa()));
+                                arrmeta = a.getmetas(c, f.getndepa(arrpant.get(carrusel - 1).getDepa()));
 //                          Almacenar en variables los datos de los arrays para que no sea tan grande la instruccion de el metodo a llamar  
                                 int pantallaarr = Integer.parseInt(galleta[i].getValue());
-                                int orders = arrpant.get(j).getOrders();
-                                String departamento = arrpant.get(j).getDepa();
-                                int total = 0;
+                                int orders = arrpant.get(carrusel - 1).getOrders();
+                                String departamento = arrpant.get(carrusel - 1).getDepa();
+
 //                          Obtener los pares x hr mediante un query a la base de datos  
-                                ArrayList<pantalla> arrpares = a.getprsxhr(c, pantallaarr, sdf.format(date), departamento, orders);
+                                arrpares = a.getprsxhr(c, pantallaarr, sdf.format(date), departamento, orders);
                                 //ArrayList<pantalla> arrpares = a.getprsxhr(c, pantallaarr, "04/11/2023", departamento, orders);
 //                          Esta funcion formatea el numero de renglones a solo un renglon de tipo array normal  
-                                int[] arrprs = f.getprsxdepa(arrpares);
+
                                 //System.out.println("aaaaaaa "+arrpares.size()+" bbbbbbb "+arrprs.length);
+                            }
+                            int[] arrprs = f.getprsxdepa(arrpares);
             %>
             <div class="container-fluid" align="center">
                 <div class=" " >
                     <div class="row" >
-                        <div class="col-sm-12" >
+                        <div class="col-lg-12" >
                             <div >
                                 <div class="table-responsive" >
-                                    <h1 class="encabezadoTpantalla fondoencdep" ><%=arrpant.get(j).getDepa().toUpperCase()%></h1>
-                                    <table class="table table-striped table-hover col-sm-12" >
-                                        <thead class="encabezadothead">
+                                    <h1 class="encabezado fondoencdep" ><%=arrpant.get(carraux).getDepa().toUpperCase()%></h1>
+                                    <table class="table table-striped table-hover col-lg-12" >
+                                        <thead class="encabezado">
                                         <td scope="col" class="alineartabla">8</td>
                                         <td scope="col" class="alineartabla">9</td>
                                         <td scope="col" class="alineartabla">10</td>
@@ -195,10 +218,10 @@
                                         </thead>
                                         <tbody id="lenado">
                                             <tr class="alineartabla rowtablaprsdia">
-                                                <td colspan="11" class="alineartabla tamanoparesxhr65 espaciado-sm">Pares x Hora: <%=arrmeta.get(0).getCantxhr()%></td>   
-                                                <td class="fondocolnaranja tamanoparesxhr65"><%=arrmeta.get(0).getCantxdia()%></td>
+                                                <td colspan="11" class="alineartabla tamanoparesxhr espaciado-sm">Pares x Hora: <%=arrmeta.get(0).getCantxhr()%></td>   
+                                                <td class="fondocolnaranja tamanoparesxhr"><%=arrmeta.get(0).getCantxdia()%></td>
                                             </tr>
-                                            <tr class="alineartabla rowtabla65">
+                                            <tr class="alineartabla rowtabla">
                                                 <%
 //                                      Ciclo para el llenado de las lineas       
 //                                      Se verifica la cantidad con la cantidad de prs esimados por dia y hr
@@ -226,17 +249,23 @@
                 </div>   
             </div>
             <%
-                }// for de pantallas
+                //}// for de pantallas
+                //carrusel++;
+//Control del carrusel para los avances de prod de planta e inyeccion
+                carrusel = (carrusel >= 2) ? 0 : carrusel + 1;
                 anuncio++;
                 System.out.println("Asignacion de anuncio " + anuncio);
                 sesion.setAttribute("anuncio", anuncio);
+                sesion.setAttribute("carrusel", carrusel);
 // DEspliegue de anuncios
             } else if (anuncio >= tp.getAnunmin() && anuncio <= tp.getAnunsup()) {
-                ArrayList<Anuncio> arranuncio = a.getanuncios(c, Integer.parseInt(galleta[i].getValue()),sdf.format(date));
+                ArrayList<Anuncio> arranuncio = a.getanuncios(c, Integer.parseInt(galleta[i].getValue()), sdf.format(date));
                 if (arranuncio.isEmpty()) {
                     anuncio = tp.getAnunsup();
+                    carrusel = 0;
                     sesion.setAttribute("anuncio", anuncio + 1);
-                    response.sendRedirect("pantallas65.jsp");
+                    sesion.setAttribute("carrusel", 0);
+                    response.sendRedirect("pantallas50.jsp");
                 } else {
 //Verifica el indice del anuncio y desplegar mas de uno activo en distinto ciclo
 //pero despliega mas de uno sin tener que estar moviendo estatus
@@ -251,9 +280,9 @@
                 </div>
             </div>
             <%
-                        nAnuncio++;
-                    } else {
-                        nAnuncio = 0;
+                nAnuncio++;
+            } else {
+                nAnuncio = 0;
             %>
             <div class="container-fluid" >
                 <div class="col-lg-12">
@@ -274,8 +303,10 @@
                 ArrayList<Falla> arrfalla = a.getfallas(c, Integer.parseInt(galleta[i].getValue()));
                 if (arrfalla.isEmpty()) {
                     anuncio = 0;
+                    carrusel = 0;
                     sesion.setAttribute("anuncio", 0);
-                    response.sendRedirect("pantallas65.jsp");
+                    sesion.setAttribute("carrusel", 0);
+                    response.sendRedirect("pantallas50.jsp");
                 } else {
             %>
             <div class="container-fluid">
@@ -332,8 +363,10 @@
                     }
                 } else if (anuncio > tp.getFallasup()) {
                     anuncio = 0;
+                    carrusel = 0;
                     sesion.setAttribute("anuncio", 0);
-                    response.sendRedirect("pantallas65.jsp");
+                    sesion.setAttribute("carrusel", 0);
+                    response.sendRedirect("pantallas50.jsp");
                 }
                 //List<metadep> arrmeta = a.getmetas(c, arrpant.get(i).getNombre());
                 //System.out.println("tamaño meta " + arrmeta.size());
@@ -344,11 +377,12 @@
         </div>
     </body>
     <%    } catch (Exception e) {
-        System.out.println("Excepcion " + e.getCause() + " " + e.getMessage());
-        sesion.setAttribute("anuncio", 0);
-        sesion.setAttribute("nanuncios", 0);
-        //response.sendRedirect("pantallas65.jsp");
-    }
+            System.out.println("Excepcion " + e.getCause() + " " + e.getMessage());
+            sesion.setAttribute("anuncio", 0);
+            sesion.setAttribute("nanuncios", 0);
+            sesion.setAttribute("carrusel", 0);
+            //response.sendRedirect("pantallas65.jsp");
+        }
 
-%>
+    %>
 </html>

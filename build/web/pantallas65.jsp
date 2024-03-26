@@ -299,7 +299,6 @@
                                     + "<a href=\"" + arrfalla.get(0).getImagen2() + "\"><img src=" + arrfalla.get(0).getImagen2() + " class=\"img-responsive imgfijopantalla-md\"></a>"
                                     + "</div>");
                         } else {
-
                     %>
                     <div class="col-md-4 letrafallas">
                         <label><%=arrfalla.get(0).getDescimag1()%></label>
@@ -325,7 +324,6 @@
                         <label><%=arrfalla.get(0).getDescimag6()%></label>
                         <a href="<%=arrfalla.get(0).getImagen6()%>"><img src="<%=arrfalla.get(0).getImagen6()%>" class="img-responsive imgfijopantalla"></a>
                     </div>
-
                 </div>
             </div>
             <%          }
@@ -337,22 +335,20 @@
                     sesion.setAttribute("anuncio", 0);
                     response.sendRedirect("pantallas65.jsp");
                 }
-
                 //List<metadep> arrmeta = a.getmetas(c, arrpant.get(i).getNombre());
                 //System.out.println("tamaño meta " + arrmeta.size());
             %>
-
             <%      }
                 }
             %>
-
         </div>
     </body>
-</html>
-<%    } catch (Exception e) {
+    <%    } catch (Exception e) {
         System.out.println("Excepcion " + e.getCause() + " " + e.getMessage());
         sesion.setAttribute("anuncio", 0);
         sesion.setAttribute("nanuncios", 0);
+        //response.sendRedirect("pantallas65.jsp");
     }
 
 %>
+</html>

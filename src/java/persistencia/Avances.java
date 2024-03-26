@@ -25,9 +25,9 @@ import java.util.logging.Logger;
 public class Avances {
 
     //servidor local de pruebas
-//    String url = "jdbc:sqlserver://192.168.6.75\\SQLEXPRESS:9205;databaseName=Avances;";
+    String url = "jdbc:sqlserver://192.168.6.75\\SQLEXPRESS:9205;databaseName=Avances;";
 
-    String url = "jdbc:sqlserver://192.168.6.8\\datos65:9205;databaseName=Avances;";
+//    String url = "jdbc:sqlserver://192.168.6.8\\datos65:9205;databaseName=Avances;";
     String drive = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     // Declaramos los sioguientes objetos
     static Connection conexion = null;
@@ -44,8 +44,8 @@ public class Avances {
 
     public void abrir() throws ClassNotFoundException, SQLException {
         Class.forName(drive);
-//        conexion = DriverManager.getConnection(url, "mich", "mich");
-        conexion = DriverManager.getConnection(url, "sa", "Prok2001");
+        conexion = DriverManager.getConnection(url, "mich", "mich");
+//        conexion = DriverManager.getConnection(url, "sa", "Prok2001");
         System.out.println("abrir");
     }
 
@@ -577,7 +577,7 @@ public class Avances {
         String query = "select p.prog,p.lote,p.estilo,p.npares,p.corrida,p.mes,p.combinacion,p.statuto from programa p join avance a on a.id_prog = p.id_prog\n"
                 + " where a." + arr.get(cont + 1) + "='" + maq + "' and convert(date," + arr.get(cont) + ") between '" + f1 + "' and '" + f2 + "'\n"
                 + " order by prog";
-        System.out.println("detalle "+query);
+        System.out.println("detalle " + query);
         st = conexion.prepareStatement(query);
         rs = st.executeQuery();
         while (rs.next()) {
@@ -1086,6 +1086,34 @@ public class Avances {
         }
     }
 
+    public void avanceswithbanda(String a, String fecha, String m, ArrayList<String> arr, int k, int tamano, String f, String banda) throws SQLException {
+        PreparedStatement st = null;
+        try {// realizar avances
+//            abrir();
+            conexion.setAutoCommit(false);
+            String s = "update avance set " + arr.get(k) + "=" + banda + ", " + arr.get(k + 1) + "='" + fecha + "', " + arr.get(k + 2) + "='" + m + "' where id_prog=" + a;
+            st = conexion.prepareStatement(s);
+            st.executeUpdate();
+            conexion.commit();
+            if (arr.get(k).equals(arr.get(tamano - 2))) {
+                s = "update programa set statuto ='COMPLETO' where id_prog=" + a;
+                st = conexion.prepareStatement(s);
+                st.executeUpdate();
+                conexion.commit();
+            } else {
+                modiavancestatus(arr, k, a, f, String.valueOf(m.charAt(0)));
+            }
+            st.close();
+        } catch (Exception e) {
+            Logger.getLogger(Avances.class.getName()).log(Level.SEVERE, null, e);
+            try {
+                conexion.rollback();
+            } catch (Exception o) {
+                System.out.println(o.getMessage());
+            }
+        }
+    }
+
     public void modiavancestatus(ArrayList<String> arr, int k, String a, String fechas, String maq) {
         PreparedStatement st = null;
         try {//modificar status de programa
@@ -1351,7 +1379,7 @@ public class Avances {
         try {// realizar avances
 //            abrir();
             conexion.setAutoCommit(false);
-            if (arr.get(i).equals("montado")) {
+            if (arr.get(i).equals("montado") || arr.get(i).equals("prodt")) {
                 s = "update avance set " + arr.get(i) + "=" + banda + "," + arr.get(i + 1) + "='" + fecha + "'," + arr.get(i + 2) + "='" + charmaquila + "' where id_prog=" + a;
             } else {
                 s = "update avance set " + arr.get(i) + "=1," + arr.get(i + 1) + "='" + fecha + "'," + arr.get(i + 2) + "='" + charmaquila + "' where id_prog=" + a;
